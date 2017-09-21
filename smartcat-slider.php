@@ -9,7 +9,7 @@
  * License: GPL2
 */
 
-namespace scslide;
+namespace scslider;
 
 /**
  * Include constants and Options definitions
@@ -36,7 +36,7 @@ function init() {
 
 }
 
-add_action( 'plugins_loaded', 'scslide\init' );
+add_action( 'plugins_loaded', 'scslider\init' );
 
 function make_admin_notice( $message, $type = 'error', $dismissible = true ) {
 
@@ -61,4 +61,59 @@ function activate() {
 
 }
 
-register_activation_hook( __FILE__, 'scslide\activate' );
+register_activation_hook( __FILE__, 'scslider\activate' );
+
+/**
+ * Registers scripts that are only needed on admin pages
+ * @since 1.0.0
+ */
+function register_admin_scripts() {
+
+        wp_enqueue_style( 'scslider-common', asset( 'admin/css/common.css' ), null, VERSION );
+        
+        wp_enqueue_script( 'scslider_admin_script', asset( 'admin/js/script.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion' ), VERSION );
+
+}
+
+add_action( 'admin_enqueue_scripts', 'scslider\register_admin_scripts' );
+
+/**
+ * Get the URL of an asset from the assets folder.
+ *
+ * @param string $path
+ * @return string
+ * @since 1.0.0
+ */
+function asset( $path = '', $url = true ) {
+
+    if( $url ) {
+        $file = trailingslashit( plugin_dir_url( __FILE__ ) );
+    } else {
+        $file =  trailingslashit( plugin_dir_path( __FILE__ ) );
+    }
+
+    return $file . 'assets/' . ltrim( $path, '/' );
+
+}
+/**
+ * Get the path of a template file.
+ *
+ * @param  string      $template The file name in the format of file.php.
+ * @return bool|string           False if the file does not exist, the path if it does.
+ */
+function template_path( $template ) {
+
+    $template = trim( $template, '/' );
+    $template = rtrim( $template, '.php' );
+
+    $base = trailingslashit( dirname( __FILE__ ) . '/templates' );
+
+    $file = $base . $template . '.php';
+
+    if( file_exists( $file ) ) {
+        return $file;
+    }
+
+    return false;
+
+}

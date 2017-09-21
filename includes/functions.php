@@ -1,7 +1,11 @@
 <?php
 
-namespace scslide;
+namespace scslider;
 
+/**
+ * Creates slide custom post type
+ * @since 1.0.0
+ */
 function register_slide_post_type() {
     
     // Register Custom Post Type
@@ -51,6 +55,7 @@ function register_slide_post_type() {
 		'has_archive'           => false,		
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => false,
+                'supports'              => array('title','author','thumbnail','excerpt','comments'),
 		'capability_type'       => 'page',
 		'show_in_rest'          => true,
 	);
@@ -58,12 +63,15 @@ function register_slide_post_type() {
 
 }
 
-add_action( 'init', 'scslide\register_slide_post_type', 0 );
-
+add_action( 'init', 'scslider\register_slide_post_type', 0 );
+/**
+ * Creates slider custom category
+ * @since 1.0.0
+ */
 function create_slider_tax() {
-	// create a new taxonomy
+    
 	register_taxonomy(
-		'slider_categories',
+		'slider',
 		'slide',
 		array(
                     'label' => __( 'Slider Group' ),
@@ -73,4 +81,34 @@ function create_slider_tax() {
 		
 	);
 }
-add_action( 'init', 'scslide\create_slider_tax' );
+add_action( 'init', 'scslider\create_slider_tax' );  
+
+/**
+ * Register a custom submenu page for slider.
+ * @since 1.0.0
+ */
+function custom_submenu_page() {
+    
+    add_submenu_page(
+        'edit.php?post_type=slide',
+        __( 'Reorder Slides', 'scslider' ),
+        'Reorder Slides',
+        'manage_options',
+        'smartcat-slider',
+        'scslider\load_submenu_page',
+        '',
+        null
+    );
+    
+}
+add_action( 'admin_menu', 'scslider\custom_submenu_page' );
+
+/**
+ * Includes the view for the submenu page
+ * @since 1.0.0
+ */
+function load_submenu_page() {
+    
+    include dirname(__FILE__).'../menupage.php';
+    
+}

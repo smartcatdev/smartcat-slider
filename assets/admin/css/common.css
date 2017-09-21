@@ -1,0 +1,41 @@
+.scslider-admin-page h1 {
+    text-align: center;
+}
+.ui-accordion-header {
+    background-color: #23282d;
+    color: #c6c6c6;
+    padding: 15px;
+    margin: 0px;
+    text-transform: capitalize; 
+}
+.ui-accordion-header:not(:last-of-type) {
+    border-bottom: 1px solid #979797;
+}
+.ui-accordion-header-active {
+    background-color: #3c4044;
+    color: white;
+}
+.slider-slides {
+    margin: 15px;
+}
+.single-slide {
+    padding: 15px;
+    background-color: #c9c9c9;
+}
+.ui-sortable-helper {
+    transform: rotate(7deg) scale(1.05);
+    -webkit-transform: rotate(1.5deg) scale(1.05);
+    box-shadow: 10px 10px 20px #a7a7a7;
+    -webkit-box-shadow: 10px 10px 20px #a7a7a7;
+}
+.single-slide-img {
+    min-height: 150px;
+    width: 50%;
+    background-size: cover;
+    background-position: 50% 50%;
+    display: inline-block;
+}
+.single-slide-title {
+    width: 50%;
+    display: inline-block;
+}
