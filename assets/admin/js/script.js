@@ -2,13 +2,12 @@ jQuery( document ).ready( function ( $ ) {
 
     $( '#slide-accordion' ).accordion({
         animate: 200,
-        autoHeight: false
+        heightStyle: "content",
+        active: 'none',
+        collapsible: false
     });
-    $( '.slides-list' ).sortable({
-        update: function() {
-            console.log("Dropped");
-        }
-    });
-
+    
+    $( '.slides-list' ).sortable();
+    
 });
 

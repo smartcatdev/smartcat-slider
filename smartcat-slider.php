@@ -72,6 +72,10 @@ function register_admin_scripts() {
         wp_enqueue_style( 'scslider-common', asset( 'admin/css/common.css' ), null, VERSION );
         
         wp_enqueue_script( 'scslider_admin_script', asset( 'admin/js/script.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion' ), VERSION );
+        wp_enqueue_script( 'scslider_admin_ajax_script', asset( 'admin/js/ajax_script.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion' ), VERSION );
+        
+        wp_localize_script( 'scslider_admin_ajax_script', 'ajaxObject',
+            array( 'ajaxUrl' => admin_url( 'admin-ajax.php' ) ) );
 
 }
 
