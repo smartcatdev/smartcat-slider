@@ -1,0 +1,49 @@
+/*.slide-content {
+    text-align: center;
+    position: absolute;
+    top: 40%;
+    left: 15%;
+     bottom: 50%; 
+    width: 70%;
+    color: white;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.86);
+}*/
+.camera_caption {
+    
+}
+.slide-content-wrapper {
+    display: table;
+    height: 100%;
+    color: white;
+}
+.slide-title-wrapper {
+    display: table-cell;
+    font-size: 30px;
+    width: 50%;
+    vertical-align: middle;
+    text-align: center;
+}
+.slide-title {
+    text-transform: capitalize;
+    margin: 0 60px;
+    background-color: rgba(0, 0, 0, 0.80);
+}
+.slide-subtitle {
+    background-color: rgba(0, 0, 0, 0.80);
+    margin: 0 60px;
+}
+.slide-content {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+    text-align: left;
+}
+.slide-content p {
+    background-color: rgba(0, 0, 0, 0.80);
+    padding: 15px;
+    margin: 0 15px;
+}
+ul.camera_pag_ul {
+    text-align: center;
+}

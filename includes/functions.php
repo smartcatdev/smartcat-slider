@@ -43,7 +43,7 @@ function register_slide_post_type() {
 		'label'                 => __( 'Slides', 'karma' ),
 		'description'           => __( 'List of Slides', 'karma' ),
 		'labels'                => $labels,
-		'supports'              => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' ),
+		'supports'              => array( 'title' ),
 		'hierarchical'          => false,
 		'public'                => true,
 		'show_ui'               => true,
@@ -167,21 +167,26 @@ class scslider_metabox {
 	}
 
 	public function add_metabox() {
-
-            $all_posts = get_all_post_types();
             
-            foreach ( $all_posts as $single_post ) {             
-                
-                add_meta_box(
-                    'scslider_selector',
-                    __( 'Select Slider', 'scslider' ),
-                    array( $this, 'render_scslider_metabox' ),
-                    $single_post,
-                    'side',
-                    'default'
-                );
 
-            }  
+            if ( get_terms( array( 'taxonomy' => 'slider' ) ) ) {
+            
+                $checked_posts = get_option( Options::ACTIVE_POST_TYPES );
+            
+                foreach ( $checked_posts as $checked_post ) {                      
+
+                    add_meta_box(
+                        'scslider_selector',
+                        __( 'Select Slider', 'scslider' ),
+                        array( $this, 'render_scslider_metabox' ),
+                        $checked_post,
+                        'normal',
+                        'high'
+                    );
+
+                }
+
+            }
             
 	}
         
@@ -200,19 +205,28 @@ class scslider_metabox {
             // Form fields. 
             echo '<table class="form-table">';
             
-             echo    '<div>';
+             echo    '<div></br>';
              
-                echo    '<select id="scslider_selected">';
+                echo '<label>Display Slider?  </label>';
+                echo ' <label class="switch">
+                            <input id="scslider_toggle"
+                                   name="scslider_toggle"
+                                   value="on"
+                                   type="checkbox"' . checked( 'on', $scslider_toggle, false ) . '/>
+                            <span class="slider round"></span>
+                        </label></br></br>';
+                
+                echo    '<select id="scslider_selected" name="scslider_selected">';
                 
                             $terms = get_terms( array( 
                                 'taxonomy' => 'slider'
                             ) ); // Get all terms of a taxonomy
-                            
-
                             foreach ( $terms as $term ) {
-
-                                echo '<option name="scslider_selected" value="' . $term . '" >'
-                                    . $term .
+                                
+                                echo '<option value="' . $term->slug . '" ';
+                                echo $term->slug == $scslider_selected ? 'selected="selected"' : '';
+                                echo ' >'
+                                    . $term->name .
                                 '</option>';
 
                             }
@@ -227,7 +241,7 @@ class scslider_metabox {
 	public function save_metabox( $post_id, $post ) {       
             
             $nonce_name   = isset( $_POST[ 'scslider_selector_nonce' ] ) ? $_POST[ 'scslider_selector_nonce' ] : '';
-            $nonce_action = 'scslider_selector_action';
+            $nonce_action = 'scslider_selector_nonce_action';
 
             // Check if a nonce is set.
             if ( ! isset( $nonce_name ) )
@@ -236,7 +250,6 @@ class scslider_metabox {
             // Check if a nonce is valid.
             if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
                     return;
-
             // Sanitize user input.
             $scslider_selected_new = isset( $_POST[ 'scslider_selected' ] ) ?  $_POST[ 'scslider_selected' ] : '';
             $scslider_toggle_new = isset( $_POST[ 'scslider_toggle' ] ) ?  $_POST[ 'scslider_toggle' ] : '';
@@ -249,6 +262,179 @@ class scslider_metabox {
 
 }
 new scslider_metabox;
+
+class scslider_info_metabox {
+
+	public function __construct() {
+
+		if ( is_admin() ) {
+			add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
+			add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
+		}
+
+	}
+
+	public function init_metabox() {
+
+		add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
+		add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
+
+	}
+
+	public function add_metabox() {
+            
+
+            if ( get_terms( array( 'taxonomy' => 'slider' ) ) ) {              
+
+                    add_meta_box(
+                        'scslider_add_info',
+                        __( 'Additional Info', 'scslider' ),
+                        array( $this, 'render_scslider_info_metabox' ),
+                        'slide',
+                        'normal',
+                        'high'
+                    );
+
+            }
+            
+	}
+        
+        public function render_scslider_info_metabox( $post ) {
+            // Add nonce for security and authentication.
+            wp_nonce_field( 'scslider_add_info_nonce_action', 'scslider_add_info_nonce' );
+
+            // Retrieve an existing value from the database.
+            $scslider_subtitle = get_post_meta( $post->ID, 'scslider_subtitle', true );
+            $scslider_content = get_post_meta( $post->ID, 'scslider_content', true );
+            
+            // Set default values.
+            if( empty( $scslider_subtitle ) ) $scslider_subtitle = '';
+            if( empty( $scslider_content ) ) $scslider_content = '';
+            
+            // Form fields. 
+            echo '<table class="form-table">';
+            
+             echo    '<div></br>';
+             
+                echo '<label for="scslider_subtitle">Subtitle</label>';
+                echo '<input type="text" id="scslider_subtitle" name="scslider_subtitle" value="' . esc_attr( $scslider_subtitle ) . '" />';
+                
+                echo '<label for="scslider_content">Content</label>';
+                echo '<textarea id="scslider_content" name="scslider_content">' . esc_attr( $scslider_content ) . '</textarea>';
+                
+                echo '</div>';
+
+            echo '</table>';
+        }
+                
+	public function save_metabox( $post_id, $post ) {       
+            
+            $nonce_name   = isset( $_POST[ 'scslider_add_info_nonce' ] ) ? $_POST[ 'scslider_add_info_nonce' ] : '';
+            $nonce_action = 'scslider_add_info_nonce_action';
+
+            // Check if a nonce is set.
+            if ( ! isset( $nonce_name ) )
+                    return;
+
+            // Check if a nonce is valid.
+            if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
+                    return;
+            // Sanitize user input.
+            $scslider_subtitle_new = isset( $_POST[ 'scslider_subtitle' ] ) ?  $_POST[ 'scslider_subtitle' ] : '';
+            $scslider_content_new = isset( $_POST[ 'scslider_content' ] ) ?  $_POST[ 'scslider_content' ] : 'true';
+
+            // Update the meta field in the database.
+            update_post_meta( $post_id, 'scslider_subtitle', $scslider_subtitle_new );
+            update_post_meta( $post_id, 'scslider_content', $scslider_content_new );
+
+	}
+
+}
+new scslider_info_metabox;
+
+class scslider_template_metabox {
+
+	public function __construct() {
+
+		if ( is_admin() ) {
+			add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
+			add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
+		}
+
+	}
+
+	public function init_metabox() {
+
+		add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
+		add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
+
+	}
+
+	public function add_metabox() {
+            
+            add_meta_box(
+                'scslider_template',
+                __( 'Select Slide Template', 'scslider' ),
+                array( $this, 'render_scslider_metabox' ),
+                'slide',
+                'normal',
+                'default'
+            );
+
+	}
+        
+        public function render_scslider_metabox( $post ) {
+            // Add nonce for security and authentication.
+            wp_nonce_field( 'scslider_template_nonce_action', 'scslider_template_nonce' );
+
+            // Retrieve an existing value from the database.
+            $scslider_template = get_post_meta( $post->ID, 'scslider_template', true );
+            
+            // Set default values.
+            if( empty( $scslider_template ) ) $scslider_template = '';
+            
+            // Form fields. 
+            echo '<table class="form-table">';
+            
+             echo    '<div></br>';
+                    
+                echo    '<label for="scslider_template">Template</label></br></br>';
+                echo    '<select id="scslider_template" name="scslider_template">';
+                
+                                
+                            echo '<option value="standard" ';
+                            echo "standard" == $scslider_selected ? 'selected="selected"' : '';
+                            echo ' >Standard</option>';
+
+                echo    '</select>';
+                
+                echo '</div>';
+
+            echo '</table>';
+        }
+                
+	public function save_metabox( $post_id, $post ) {       
+            
+            $nonce_name   = isset( $_POST[ 'scslider_template_nonce' ] ) ? $_POST[ 'scslider_template_nonce' ] : '';
+            $nonce_action = 'scslider_template_nonce_action';
+
+            // Check if a nonce is set.
+            if ( ! isset( $nonce_name ) )
+                    return;
+
+            // Check if a nonce is valid.
+            if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
+                    return;
+            // Sanitize user input.
+            $scslider_template_new = isset( $_POST[ 'scslider_template' ] ) ?  $_POST[ 'scslider_template' ] : '';
+
+            // Update the meta field in the database.
+            update_post_meta( $post_id, 'scslider_template', $scslider_template_new );
+
+	}
+
+}
+new scslider_template_metabox;
 
 /**
  * Returns list of all active post types

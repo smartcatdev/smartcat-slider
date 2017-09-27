@@ -27,6 +27,7 @@ function init() {
 
         include_once dirname( __FILE__ ) . '/includes/functions.php';
         include_once dirname( __FILE__ ) . '/includes/settings.php';
+        include_once dirname( __FILE__ ) . '/templates/standard.php';
                 
     } else {
         
@@ -80,6 +81,25 @@ function register_admin_scripts() {
 }
 
 add_action( 'admin_enqueue_scripts', 'scslider\register_admin_scripts' );
+
+
+/**
+ * Enqueue scripts on init hook
+ * @since 1.0.0
+ */
+function enqueue_scripts() {
+
+
+	wp_enqueue_style( 'camera-style', asset( 'css/camera.css' ), null, VERSION );
+	wp_enqueue_style( 'scslider-style', asset( 'css/style.css' ), null, VERSION );
+
+        wp_enqueue_script("jquery-effects-core");
+	wp_enqueue_script( 'camera-script', asset( 'js/camera.min.js' ), array( 'jquery', 'jquery-effects-core' ), VERSION );
+	wp_enqueue_script( 'scslder-script', asset( 'js/script.js' ), array( 'jquery',  'jquery-effects-core'  ), VERSION );
+
+}
+
+add_action( 'init', 'scslider\enqueue_scripts' );
 
 /**
  * Get the URL of an asset from the assets folder.
