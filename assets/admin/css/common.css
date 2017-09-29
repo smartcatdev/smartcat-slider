@@ -28,7 +28,7 @@
 }
 .single-slide {
     display: table;
-    min-height: 100px;
+    min-height: 150px;
     width: 90%;
     background-color: #c9c9c9;
 }
@@ -152,4 +152,10 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+#scslider_template {
+    text-transform: capitalize;
+}
+a.post-edit-link {
+    text-decoration: none;
 }

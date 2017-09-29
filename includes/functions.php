@@ -377,8 +377,8 @@ class scslider_template_metabox {
                 __( 'Select Slide Template', 'scslider' ),
                 array( $this, 'render_scslider_metabox' ),
                 'slide',
-                'normal',
-                'default'
+                'side',
+                'low'
             );
 
 	}
@@ -388,23 +388,32 @@ class scslider_template_metabox {
             wp_nonce_field( 'scslider_template_nonce_action', 'scslider_template_nonce' );
 
             // Retrieve an existing value from the database.
-            $scslider_template = get_post_meta( $post->ID, 'scslider_template', true );
+            $scslider_template = get_post_meta( $post->ID, 'scslider_template_dropdown', true );
             
             // Set default values.
-            if( empty( $scslider_template ) ) $scslider_template = '';
+            if( empty( $scslider_template_dropdown ) ) $scslider_template_dropdown = '';
             
             // Form fields. 
             echo '<table class="form-table">';
             
              echo    '<div></br>';
                     
-                echo    '<label for="scslider_template">Template</label></br></br>';
-                echo    '<select id="scslider_template" name="scslider_template">';
+                echo    '<label for="scslider_template_dropdown">Template</label></br></br>';
+                echo    '<select id="scslider_template_dropdown" name="scslider_template_dropdown">';
                 
-                                
-                            echo '<option value="standard" ';
-                            echo "standard" == $scslider_selected ? 'selected="selected"' : '';
-                            echo ' >Standard</option>';
+                $path = root_path() . 'templates';
+                
+                $templates = array_diff(scandir($path), array('..', '.'));
+                
+                foreach ($templates as $template) {
+                
+                    $template_name = rtrim( $template, '.php' );
+                    
+                    echo '<option value="' . $template_name . '" ';
+                    echo $template_name == $scslider_template ? 'selected="selected"' : '';
+                    echo ' >' . $template_name . '</option>';
+                    
+                }
 
                 echo    '</select>';
                 
@@ -426,15 +435,68 @@ class scslider_template_metabox {
             if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
                     return;
             // Sanitize user input.
-            $scslider_template_new = isset( $_POST[ 'scslider_template' ] ) ?  $_POST[ 'scslider_template' ] : '';
+            $scslider_template_dropdown_new = isset( $_POST[ 'scslider_template_dropdown' ] ) ?  $_POST[ 'scslider_template_dropdown' ] : '';
 
             // Update the meta field in the database.
-            update_post_meta( $post_id, 'scslider_template', $scslider_template_new );
+            update_post_meta( $post_id, 'scslider_template_dropdown', $scslider_template_dropdown_new );
 
 	}
 
 }
 new scslider_template_metabox;
+
+class   scslider_preview_metabox {
+
+	public function __construct() {
+
+		if ( is_admin() ) {
+			add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
+			add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
+                        add_action( 'wp_ajax_refresh_preview', array( $this, 'render_scslider_metabox' ) );
+		}
+
+	}
+
+	public function init_metabox() {
+
+            add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
+            
+	}
+
+	public function add_metabox() {
+            
+            add_meta_box(
+                'scslider_preview',
+                __( 'Live Slide Preview', 'scslider' ),
+                array( $this, 'render_scslider_metabox' ),
+                'slide',
+                'normal',
+                'default'
+            );
+
+	}
+        
+        public function render_scslider_metabox( $post ) {
+        
+            $newData = null;
+            
+            if ( wp_doing_ajax() ) {
+                $post = get_post( $_POST[ 'postID' ] );
+                $newData = $_POST[ 'newData' ];
+            }
+            
+            render_single_slide( $post, $newData );
+            
+            if ( wp_doing_ajax() ) {
+            
+                exit();
+                
+            }
+        }
+        
+
+}
+new scslider_preview_metabox;
 
 /**
  * Returns list of all active post types

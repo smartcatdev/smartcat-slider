@@ -1,0 +1,17 @@
+.ajax-preview {
+    width: 100%;
+    background-position: 50% 50%;
+    background-size: cover;
+}
+.slide-content-wrapper {
+    width:100%;
+}
+.inside .slide-title, .inside .slide-subtitle {
+    margin-bottom: 15px
+}
+.inside .slide-content-wrapper {
+    bottom: 12px !important;
+}
+.ajax-preview {
+    height: 445px;
+}

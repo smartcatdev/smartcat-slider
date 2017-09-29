@@ -27,7 +27,7 @@ function init() {
 
         include_once dirname( __FILE__ ) . '/includes/functions.php';
         include_once dirname( __FILE__ ) . '/includes/settings.php';
-        include_once dirname( __FILE__ ) . '/templates/standard.php';
+        include_once dirname( __FILE__ ) . '/includes/slider-view.php';
                 
     } else {
         
@@ -84,7 +84,7 @@ add_action( 'admin_enqueue_scripts', 'scslider\register_admin_scripts' );
 
 
 /**
- * Enqueue scripts on init hook
+ * Enqueue scripts on front end
  * @since 1.0.0
  */
 function enqueue_scripts() {
@@ -99,7 +99,7 @@ function enqueue_scripts() {
 
 }
 
-add_action( 'init', 'scslider\enqueue_scripts' );
+add_action( 'wp_enqueue_scripts', 'scslider\enqueue_scripts' );
 
 /**
  * Get the URL of an asset from the assets folder.
@@ -141,3 +141,38 @@ function template_path( $template ) {
     return false;
 
 }
+/**
+ * Returns the plugin path from this file (root)
+ * @since 1.0.0
+ * @return type string   Path of root plugin
+ */
+function root_path() {
+    return plugin_dir_path(__FILE__);
+}
+
+/**
+ * Adds script only on slide post.php pages
+ * @since 1.0.0
+ * @global type $post
+ * @param type $hook
+ */
+function add_preview_scripts( $hook ) {
+
+    global $post;
+
+    if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
+        if ( 'slide' === $post->post_type ) {     
+            
+            wp_enqueue_style( 'camera-style', asset( 'css/camera.css' ), null, VERSION );
+            wp_enqueue_style( 'scslider_preview', asset( 'admin/css/preview.css' ), null, VERSION );
+            wp_enqueue_style( 'scslider-style', asset( 'css/style.css' ), null, VERSION );
+            
+            wp_enqueue_script( 'scslider_admin_preview_script', asset( 'admin/js/preview.js' ), array( 'jquery' ), VERSION );
+            
+            wp_localize_script( 'scslider_admin_preview_script', 'ajaxObject',
+            array( 'ajaxUrl' => admin_url( 'admin-ajax.php' ), 'postID' => get_the_ID() ) );
+            
+        }
+    }
+}
+add_action( 'admin_enqueue_scripts', 'scslider\add_preview_scripts', 10, 1 );

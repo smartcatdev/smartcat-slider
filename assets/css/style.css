@@ -1,49 +1,121 @@
-/*.slide-content {
-    text-align: center;
+/*<editor-fold desc="Standard Template">*/
+
+.slide-content-wrapper.standard {
+    background-color: rgba(0, 0, 0, 0.80);
+    width: 25%;
+    align-items: baseline;
     position: absolute;
-    top: 40%;
-    left: 15%;
-     bottom: 50%; 
-    width: 70%;
+    padding: 15px;
+    bottom: 0;
     color: white;
-    padding: 30px;
-    background-color: rgba(0, 0, 0, 0.86);
-}*/
-.camera_caption {
-    
 }
-.slide-content-wrapper {
+.slide-content-wrapper.standard .slide-title, 
+.slide-content-wrapper.standard .slide-subtitle,
+.slide-content-wrapper.standard .slide-content p {
+    text-align: right;
+}
+.slide-content-wrapper.standard .slide-title, 
+.slide-content-wrapper.standard .slide-subtitle {
+    text-transform: capitalize;
+}
+
+/*</editor-fold>*/
+/*<editor-fold desc="Stacked Template">*/
+.slide-content-wrapper.stacked {
+    text-align: center;
     display: table;
     height: 100%;
+    width: 100%;
+}
+.slide-title-wrapper.stacked {
+    display: table-cell;
+    vertical-align: middle;
+}
+.slide-content.stacked {
+    display: table-cell;
+    vertical-align: middle;
     color: white;
 }
-.slide-title-wrapper {
-    display: table-cell;
-    font-size: 30px;
-    width: 50%;
-    vertical-align: middle;
-    text-align: center;
-}
-.slide-title {
+.slide-content.stacked .slide-title {
     text-transform: capitalize;
-    margin: 0 60px;
-    background-color: rgba(0, 0, 0, 0.80);
+    font-size: 36px;
+    font-weight: 800;
 }
-.slide-subtitle {
-    background-color: rgba(0, 0, 0, 0.80);
-    margin: 0 60px;
+.slide-content.stacked .slide-subtitle {
+    text-transform: capitalize;
+    font-size: 30px;
+    font-weight: 800;
 }
-.slide-content {
+.slide-content.stacked p {
+    padding: 15px 100px;
+    font-weight: 500;
+}
+/*</editor-fold>*/
+/*<editor-fold desc="Left Template">*/
+.slide-content-wrapper.left {
+    text-align: center;
+    display: table;
+    height: 100%;
+}
+.slide-title-wrapper.left {
     display: table-cell;
     vertical-align: middle;
+}
+.slide-content.left {
+    display: table-cell;
+    vertical-align: middle;
+    color: white;
+}
+.slide-content.left .slide-title {
+    text-transform: capitalize;
+    font-size: 36px;
+    font-weight: 800;
     width: 50%;
-    text-align: left;
 }
-.slide-content p {
-    background-color: rgba(0, 0, 0, 0.80);
-    padding: 15px;
-    margin: 0 15px;
+.slide-content.left .slide-subtitle {
+    text-transform: capitalize;
+    font-size: 30px;
+    font-weight: 800;
+    width: 50%;
 }
-ul.camera_pag_ul {
+.slide-content.left p {
+    padding: 15px 100px;
+    font-weight: 500;
+    width: 50%;
+}
+/*</editor-fold>*/
+/*<editor-fold desc="Right Template">*/
+.slide-content-wrapper.right {
     text-align: center;
+    display: table;
+    height: 100%;
+    align-items: right;
 }
+.slide-title-wrapper.right {
+    display: table-cell;
+    vertical-align: middle;
+}
+.slide-content.right {
+    display: table-cell;
+    vertical-align: middle;
+    color: white;
+}
+.slide-content.right .slide-title {
+    text-transform: capitalize;
+    font-size: 36px;
+    font-weight: 800;
+    width: 150%;
+}
+.slide-content.right .slide-subtitle {
+    text-transform: capitalize;
+    font-size: 30px;
+    font-weight: 800;
+    width: 150%;
+}
+.slide-content.right p {
+    padding: 15px 100px;
+    font-weight: 500;
+    width: 50%;
+    float: right;
+}
+/*</editor-fold>*/
