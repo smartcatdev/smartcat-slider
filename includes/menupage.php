@@ -39,7 +39,7 @@
 
                         <li class="single-slide" id="<?php the_ID() ?>">
                             <div class="single-slide-img" style="background-image: url('<?php the_post_thumbnail_url(); ?>')"></div>
-                            <div class="single-slide-title"><h4><?php the_title(); ?></h4><?php edit_post_link(); ?></div>
+                            <div class="single-slide-title"><h4><?php the_title(); ?></h4><?php edit_post_link( "Edit" ); ?></div>
                         </li>
 
                     <?php endwhile; ?>

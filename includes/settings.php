@@ -30,7 +30,7 @@ function register_settings() {
     register_setting( 'scslider-settings', Options::ACTIVE_POST_TYPES, array(
     'type'                  => 'string',
     'sanitize_callback'     => 'scslider\sanitize_active_post_types',
-    'default'               => array()
+    'default'               => get_all_post_types( 'slide' )
         
     ) );
         

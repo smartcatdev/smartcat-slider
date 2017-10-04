@@ -55,7 +55,7 @@ function register_slide_post_type() {
 		'has_archive'           => false,		
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => false,
-                'supports'              => array('title','author','thumbnail','excerpt','comments'),
+                'supports'              => array('title','author','thumbnail'),
 		'capability_type'       => 'page',
 		'show_in_rest'          => true,
 	);
@@ -76,7 +76,7 @@ function create_slider_tax() {
 		array(
                     'label' => __( 'Slider Group' ),
                     'rewrite' => array( 'slug' => 'slide' ),
-                    'hierarchical' => false,
+                    'hierarchical' => true,
                 )
 		
 	);
@@ -121,7 +121,7 @@ function save_new_slide_order() {
     $orderArray =  $_POST['orderArray'] ;
         
     foreach ( $orderArray as $orderArray_single ) {
-     
+             
         update_post_meta($orderArray_single['slideId'], 'order_array', $orderArray_single['position']);
         
     }
@@ -281,22 +281,19 @@ class scslider_info_metabox {
 
 	}
 
-	public function add_metabox() {
-            
+	public function add_metabox() { 
 
-            if ( get_terms( array( 'taxonomy' => 'slider' ) ) ) {              
+                      
 
-                    add_meta_box(
-                        'scslider_add_info',
-                        __( 'Additional Info', 'scslider' ),
-                        array( $this, 'render_scslider_info_metabox' ),
-                        'slide',
-                        'normal',
-                        'high'
-                    );
+                add_meta_box(
+                    'scslider_add_info',
+                    __( 'Additional Info', 'scslider' ),
+                    array( $this, 'render_scslider_info_metabox' ),
+                    'slide',
+                    'normal',
+                    'high'
+                );
 
-            }
-            
 	}
         
         public function render_scslider_info_metabox( $post ) {
@@ -314,7 +311,7 @@ class scslider_info_metabox {
             // Form fields. 
             echo '<table class="form-table">';
             
-             echo    '<div></br>';
+                echo '<div></br>';
              
                 echo '<label for="scslider_subtitle">Subtitle</label>';
                 echo '<input type="text" id="scslider_subtitle" name="scslider_subtitle" value="' . esc_attr( $scslider_subtitle ) . '" />';
@@ -378,7 +375,7 @@ class scslider_template_metabox {
                 array( $this, 'render_scslider_metabox' ),
                 'slide',
                 'side',
-                'low'
+                'default'
             );
 
 	}
@@ -500,9 +497,12 @@ new scslider_preview_metabox;
 
 /**
  * Returns list of all active post types
+ * 
  * @since 1.0.0
+ * @param string $exception   post type to be excluded from return
+ * @return array
  */
-function get_all_post_types(){
+function get_all_post_types( $exception=null ){
     
     $args = array(
         'public'   => true,
@@ -522,6 +522,13 @@ function get_all_post_types(){
         
     }
     
+    if ( $exception != null ) {
+        
+        $key = array_search( $exception, $all_post_types );
+        unset($all_post_types[$key]);
+  
+    }        
+            
     return $all_post_types;
     
 }
