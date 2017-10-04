@@ -10,6 +10,11 @@
     color: white;
 }
 .slide-content-wrapper.standard .slide-title, 
+.slide-content-wrapper.standard .slide-subtitle {
+    font-weight: bold;
+}
+
+.slide-content-wrapper.standard .slide-title, 
 .slide-content-wrapper.standard .slide-subtitle,
 .slide-content-wrapper.standard .slide-content p {
     text-align: right;
@@ -119,3 +124,17 @@
     float: right;
 }
 /*</editor-fold>*/
+@media screen and ( max-width:992px ) {
+    .slide-content p {
+        display: none;
+    }
+    .slide-title, .slide-subtitle {
+        font-size: 23px !important;
+    }
+    .slide-content-wrapper.standard {
+        width: 100% !important;
+    }
+    .slide-content {
+        width: 10%;
+    }
+}
