@@ -72,7 +72,8 @@ function register_admin_scripts() {
 
         wp_enqueue_style( 'scslider-common', asset( 'admin/css/common.css' ), null, VERSION );
         
-        wp_enqueue_script( 'scslider_admin_script', asset( 'admin/js/script.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion' ), VERSION );
+        wp_enqueue_script( 'scslider_wp_uploader', asset( 'admin/js/wp_media_uploader.js' ), array( 'jquery' ), VERSION );
+        wp_enqueue_script( 'scslider_admin_script', asset( 'admin/js/script.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion', 'scslider_wp_uploader' ), VERSION );
         wp_enqueue_script( 'scslider_admin_ajax_script', asset( 'admin/js/ajax_script.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion' ), VERSION );
         
         wp_localize_script( 'scslider_admin_ajax_script', 'ajaxObject',
@@ -95,8 +96,13 @@ function enqueue_scripts() {
 
         wp_enqueue_script("jquery-effects-core");
 	wp_enqueue_script( 'camera-script', asset( 'js/camera.min.js' ), array( 'jquery', 'jquery-effects-core' ), VERSION );
-	wp_enqueue_script( 'scslder-script', asset( 'js/script.js' ), array( 'jquery',  'jquery-effects-core'  ), VERSION );
-
+	wp_register_script( 'scslider-script', asset( 'js/script.js' ), array( 'jquery',  'jquery-effects-core'  ), VERSION );
+        
+        
+        $js_path = plugin_dir_url( ( __FILE__ ) );
+        wp_localize_script( 'scslider-script', 'pluginPath', $js_path );
+        
+        wp_enqueue_script('scslider-script');
 }
 
 add_action( 'wp_enqueue_scripts', 'scslider\enqueue_scripts' );

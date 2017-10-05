@@ -5,16 +5,20 @@ function render_slider() {
     ob_start();
     
     $category = get_post_meta( get_the_ID(), 'scslider_selected' );
-  
+    
+    
     $args = array(
 	'post_type' => 'slide',
-	'tax_query' => array(
+ 	'tax_query' => array(
 		array(
 			'taxonomy' => 'slider',
 			'field'    => 'slug',
 			'terms'    => $category
 		),
-	),
+            ),
+      'meta_key'   => 'order_array',
+      'orderby'    => 'meta_value_num',
+      'order'      => 'ASC',  
     );
     
 $query = new \WP_Query( $args );
@@ -53,23 +57,37 @@ function render_single_slide( $post = null, $new_data= null ) { $post = get_post
             $slide_subtitle = ( $new_data[ 'subtitle' ] == null ?  get_post_meta( $post->ID, 'scslider_subtitle', true ) : $new_data['subtitle']  ) ;
             $scslider_template_dropdown = ( $new_data[ 'template' ] == null ?  get_post_meta( $post->ID, 'scslider_template_dropdown', true ) : $new_data['template']  ) ;
             $post->post_name = ( $new_data[ 'title' ] == null ? $post->post_name : $new_data[ 'title' ] );
-            
         
-        
-        if ( $new_data[ 'img' ] == null ) { 
+        if ( $new_data[ 'img' ] == null ) {     
             
-            $img_src = esc_url( get_the_post_thumbnail_url( $post->ID, 'large' ) );
+            $img_src = get_post_meta( $post->ID, 'scslider_media_box', true );
             
         } else {
             
             $img_src = $new_data[ 'img' ];
             
-        } ?>      
+        } ?> 
 
+        <?php if( substr($img_src, -3) === 'mp4' ) $is_video = true; ?>
+        
         <div class="ajax-preview" data-src="<?php echo $img_src ?>" 
-             style="background-image: url('<?php  echo $img_src ?>')" >
+             style="background-image: url('<?php echo $img_src ?>')" >
 
-            <div class="slide-content-wrapper <?php echo esc_attr( $scslider_template_dropdown ) ?>">
+            <?php if ( $is_video ) { ?>
+            
+                <iframe src="<?php echo esc_url( $img_src )?>"
+                        class="scslider-iframe"
+                        width="100%" 
+                        height="100%" 
+                        frameborder="0"
+                        allowtransparency="yes"
+                        webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+                </iframe>
+            
+            <?php } ?>
+            
+            <div class="slide-content-wrapper <?php echo esc_attr( $scslider_template_dropdown ) ?>"
+                 id="<?php echo $is_video ? 'iframe' : ''; ?>">
                 
                 <?php if ( template_path( $scslider_template_dropdown ) ) {
 
@@ -78,7 +96,7 @@ function render_single_slide( $post = null, $new_data= null ) { $post = get_post
                 } ?>
 
             </div>
-
+                
         </div>
 
 <?php }

@@ -55,7 +55,7 @@ function register_slide_post_type() {
 		'has_archive'           => false,		
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => false,
-                'supports'              => array('title','author','thumbnail'),
+                'supports'              => array('title', 'thumbnail' ),
 		'capability_type'       => 'page',
 		'show_in_rest'          => true,
 	);
@@ -494,6 +494,86 @@ class   scslider_preview_metabox {
 
 }
 new scslider_preview_metabox;
+
+class scslider_media_metabox {
+
+	public function __construct() {
+
+		if ( is_admin() ) {
+			add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
+			add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
+		}
+
+	}
+
+	public function init_metabox() {
+
+		add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
+		add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
+
+	}
+
+	public function add_metabox() { 
+
+                      
+
+                add_meta_box(
+                    'scslider_add_media',
+                    __( 'Add Media to Slide', 'scslider' ),
+                    array( $this, 'render_scslider_media_metabox' ),
+                    'slide',
+                    'normal',
+                    'high'
+                );
+
+	}
+        
+        public function render_scslider_media_metabox( $post ) {
+            // Add nonce for security and authentication.
+            wp_nonce_field( 'scslider_add_media_nonce_action', 'scslider_add_media_nonce' );
+
+            // Retrieve an existing value from the database.
+            $scslider_media_box = get_post_meta( $post->ID, 'scslider_media_box', true );
+            
+            // Set default values.
+            if( empty( $scslider_media_box ) ) $scslider_media_box = '';
+            
+            // Form fields. 
+            echo '<table class="form-table">';
+            
+                echo '<div></br>';
+             
+                echo '<div class="form-group scslider-uploader">';
+                
+                echo '<input type="hidden" id="scslider_media_box" name="scslider_media_box" value="' . esc_attr( $scslider_media_box ) . '" />';
+                
+                echo '</div>';
+
+            echo '</table>';
+        }
+                
+	public function save_metabox( $post_id, $post ) {       
+            
+            $nonce_name   = isset( $_POST[ 'scslider_add_media_nonce' ] ) ? $_POST[ 'scslider_add_media_nonce' ] : '';
+            $nonce_action = 'scslider_add_media_nonce_action';
+
+            // Check if a nonce is set.
+            if ( ! isset( $nonce_name ) )
+                    return;
+
+            // Check if a nonce is valid.
+            if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
+                    return;
+            // Sanitize user input.
+            $scslider_media_box_new = isset( $_POST[ 'scslider_media_box' ] ) ?  $_POST[ 'scslider_media_box' ] : '';
+
+            // Update the meta field in the database.
+            update_post_meta( $post_id, 'scslider_media_box', $scslider_media_box_new );
+
+	}
+
+}
+new scslider_media_metabox;
 
 /**
  * Returns list of all active post types

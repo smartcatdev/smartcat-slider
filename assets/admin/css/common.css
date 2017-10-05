@@ -159,3 +159,6 @@ input:checked + .slider:before {
 a.post-edit-link {
     text-decoration: none;
 }
+.post-type-slide #postimagediv {
+    display: none !important;
+}

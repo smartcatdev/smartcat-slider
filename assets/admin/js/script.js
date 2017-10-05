@@ -9,5 +9,7 @@ jQuery( document ).ready( function ( $ ) {
     
     $( '.slides-list' ).sortable();
     
+    $.wpMediaUploader();
+    
 });
 

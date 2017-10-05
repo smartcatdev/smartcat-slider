@@ -4,21 +4,24 @@ jQuery( document ).ready( function ( $ ) {
     $( '#scslider_content' ).change( update_template );
     $( '#scslider_template_dropdown' ).change( update_template );
     $( '#title' ).change( update_template );
-    
-    wp.media.featuredImage.frame().on('open', function() {
-        
-        // Get the actual modal
-        var modal = $(wp.media.featuredImage.frame().modal.el);
-        
-        // Do stuff when clicking on a thumbnail in the modal
-        modal.on('click', '.attachment', function() {
-            
-            var src = $('.setting[data-setting=url] input').val();
-            update_template( null, src );
-            
-        }); 
-        
+    $( '#scslider_media_box' ).change( function() {
+        var src = $( '#scslider_media_box' ).val();
+        console.log( src );
+        update_template( null, src ) ;
     });
+//    wp.media().on('open', function() {
+//        alert();
+//        // Get the actual modal
+//        var modal = $(wp.media().modal.el);
+//        // Do stuff when clicking on a thumbnail in the modal
+//        modal.on('click', '.attachment', function() {
+//            
+//            var src = $('.setting[data-setting=url] input').val();
+//            update_template( null, src );
+//            
+//        }); 
+//        
+//    });
     
     var current_img;
     

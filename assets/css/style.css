@@ -61,6 +61,7 @@
     text-align: center;
     display: table;
     height: 100%;
+    width: 100%;
 }
 .slide-title-wrapper.left {
     display: table-cell;
@@ -137,4 +138,17 @@
     .slide-content {
         width: 10%;
     }
+}
+.scslider-wrap #iframe.slide-content-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+.scslider-wrap iframe {
+    z-index: -1 !important;
+}
+.scslider-wrap iframe video {
+    display: none;
 }

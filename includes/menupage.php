@@ -38,7 +38,7 @@
                         <?php $the_query->the_post(); ?>
 
                         <li class="single-slide" id="<?php the_ID() ?>">
-                            <div class="single-slide-img" style="background-image: url('<?php the_post_thumbnail_url(); ?>')"></div>
+                            <div class="single-slide-img" style="background-image: url('<?php echo esc_url( get_post_meta( get_the_ID(), 'scslider_media_box', true ) ); ?>')"></div>
                             <div class="single-slide-title"><h4><?php the_title(); ?></h4><?php edit_post_link( "Edit" ); ?></div>
                         </li>
 
