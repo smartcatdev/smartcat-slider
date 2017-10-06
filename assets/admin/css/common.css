@@ -162,3 +162,10 @@ a.post-edit-link {
 .post-type-slide #postimagediv {
     display: none !important;
 }
+.movie-icon {
+    display: block;
+    margin: auto;
+}
+.slide-content-wrapper {
+    background-color: black;
+}

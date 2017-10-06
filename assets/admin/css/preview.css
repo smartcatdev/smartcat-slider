@@ -64,11 +64,16 @@
         width: 10%;
     }
 }
-.ajax-preview #iframe.slide-content-wrapper {
+.ajax-preview video {
     position: absolute;
     top: 0;
     left: 0;
     height: 445px !important;
     width: 100%;
+    z-index: 1;
+}
+.slide-content {
+    position: relative;
+    z-index: 2;
 }
 

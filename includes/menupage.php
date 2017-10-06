@@ -38,7 +38,18 @@
                         <?php $the_query->the_post(); ?>
 
                         <li class="single-slide" id="<?php the_ID() ?>">
-                            <div class="single-slide-img" style="background-image: url('<?php echo esc_url( get_post_meta( get_the_ID(), 'scslider_media_box', true ) ); ?>')"></div>
+                            <div class="single-slide-img" 
+                                 style="background-image: url('<?php echo esc_url( get_post_meta( get_the_ID(), 'scslider_media_box', true ) ); ?>')">
+                                
+                                <?php $src = get_post_meta( get_the_ID(), 'scslider_media_box', true ) ?> 
+                                
+                                <?php if( substr( $src, -3 ) === 'mp4' ) { ?>
+                                
+                                <img class="movie-icon" height="150px" src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/film-2.svg' ?>" />    
+                                
+                                <?php } ?>
+                                
+                            </div>
                             <div class="single-slide-title"><h4><?php the_title(); ?></h4><?php edit_post_link( "Edit" ); ?></div>
                         </li>
 

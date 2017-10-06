@@ -152,3 +152,7 @@
 .scslider-wrap iframe video {
     display: none;
 }
+.camera-video{
+    position: absolute;
+    z-index: -1;
+}

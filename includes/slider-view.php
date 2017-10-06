@@ -68,26 +68,22 @@ function render_single_slide( $post = null, $new_data= null ) { $post = get_post
             
         } ?> 
 
-        <?php if( substr($img_src, -3) === 'mp4' ) $is_video = true; ?>
+        <?php if( substr( $img_src, -3 ) === 'mp4' ) $is_video = true; ?>
         
-        <div class="ajax-preview" data-src="<?php echo $img_src ?>" 
-             style="background-image: url('<?php echo $img_src ?>')" >
-
-            <?php if ( $is_video ) { ?>
-            
-                <iframe src="<?php echo esc_url( $img_src )?>"
-                        class="scslider-iframe"
-                        width="100%" 
-                        height="100%" 
-                        frameborder="0"
-                        allowtransparency="yes"
-                        webkitAllowFullScreen mozallowfullscreen allowFullScreen>
-                </iframe>
-            
-            <?php } ?>
-            
+            <div class="ajax-preview" data-src="<?php echo $is_video ? plugin_dir_url(__FILE__) . '../assets/images/tiny.png' : $img_src ?>" 
+             style="background-image: url('<?php echo $img_src ?>')" >         
+           
             <div class="slide-content-wrapper <?php echo esc_attr( $scslider_template_dropdown ) ?>"
                  id="<?php echo $is_video ? 'iframe' : ''; ?>">
+                
+                <?php if ( $is_video ) { ?>
+
+                    <video class="camera-video" preload="none" width="100%" height="100%" muted loop>
+                        <source src="<?php echo esc_url( $img_src )?>" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                <?php } ?>
                 
                 <?php if ( template_path( $scslider_template_dropdown ) ) {
 
