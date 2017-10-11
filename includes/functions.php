@@ -651,6 +651,134 @@ class scslider_media_metabox {
 }
 new scslider_media_metabox;
 
+class scslider_cta_metabox {
+
+	public function __construct() {
+
+		if ( is_admin() ) {
+			add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
+			add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
+		}
+
+	}
+
+	public function init_metabox() {
+
+		add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
+		add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
+
+	}
+
+	public function add_metabox() { 
+
+                      
+
+                add_meta_box(
+                    'scslider_cta_info',
+                    __( 'Call To Action', 'scslider' ),
+                    array( $this, 'render_scslider_cta_metabox' ),
+                    'slide',
+                    'normal',
+                    'high'
+                );
+
+	}
+        
+        public function render_scslider_cta_metabox( $post ) {
+            // Add nonce for security and authentication.
+            wp_nonce_field( 'scslider_add_cta_nonce_action', 'scslider_add_cta_nonce' );
+
+            // Retrieve an existing value from the database.
+            $scslider_button1_text = get_post_meta( $post->ID, 'scslider_button1_text', true );
+            $scslider_button1_url = get_post_meta( $post->ID, 'scslider_button1_url', true );
+            $scslider_button1_text_color = get_post_meta( $post->ID, 'scslider_button1_text_color', true );
+            $scslider_button1_color = get_post_meta( $post->ID, 'scslider_button1_color', true );
+            $scslider_button2_text = get_post_meta( $post->ID, 'scslider_button2_text', true );
+            $scslider_button2_url = get_post_meta( $post->ID, 'scslider_button2_url', true );
+            $scslider_button2_text_color = get_post_meta( $post->ID, 'scslider_button2_text_color', true );
+            $scslider_button2_color = get_post_meta( $post->ID, 'scslider_button2_color', true );
+            
+            // Set default values.
+            if( empty( $scslider_button1_text ) ) $scslider_button1_text = '';
+            if( empty( $scslider_button1_url ) ) $scslider_button1_url = '';
+            if( empty( $scslider_button1_text_color ) ) $scslider_button1_text_color = '#ffffff';
+            if( empty( $scslider_button1_color ) ) $scslider_button1_color = '#ffffff';
+            if( empty( $scslider_button2_text ) ) $scslider_button2_text = '';
+            if( empty( $scslider_button2_url ) ) $scslider_button2_url = '';
+            if( empty( $scslider_button2_text_color ) ) $scslider_button2_text_color = '#ffffff';
+            if( empty( $scslider_button2_color ) ) $scslider_button2_color = '#ffffff';
+            
+            // Form fields. 
+            echo '<table class="form-table">';
+            
+                echo '<div></br>';
+                
+                echo '<label for="scslider_button1_text">Button 1 Text</label></br>';
+                echo '<input type="text" id="scslider_button1_text" name="scslider_button1_text" value="' . esc_attr( $scslider_button1_text ) . '" /></br></br>';
+                
+                echo '<label for="scslider_button1_url">Button 1 URL</label></br>';
+                echo '<input type="text" id="scslider_button1_url" name="scslider_button1_url" value="' . esc_raw_url( $scslider_button1_url ) . '" /></br></br>';
+                
+                echo '<label for="scslider_button1_text_color">Button 1 Text Color</label></br>';
+                echo '<input type="text" value="' . esc_attr( $scslider_button1_text_color ) . '" id="scslider_button1_text_color" name="scslider_button1_text_color" data-default-color="#ffffff" /></br></br>';
+                
+                echo '<label for="scslider_button1_color">Button 1 Color</label></br>';
+                echo '<input type="text" value="' . esc_attr( $scslider_button1_color ) . '" id="scslider_button1_color" name="scslider_button1_color" data-default-color="#ffffff" /></br></br>';
+                                           
+                echo '<label for="scslider_button2_text">Button 2 Text</label></br>';
+                echo '<input type="text" id="scslider_button2_text" name="scslider_button2_text" value="' . esc_attr( $scslider_button2_text ) . '" /></br></br>';
+                
+                echo '<label for="scslider_button2_url">Button 2 URL</label></br>';
+                echo '<input type="text" id="scslider_button2_url" name="scslider_button2_url" value="' . esc_raw_url( $scslider_button2_url ) . '" /></br></br>';
+                
+                echo '<label for="scslider_button2_text_color">Button 2 Text Color</label></br>';
+                echo '<input type="text" value="' . esc_attr( $scslider_button2_text_color ) . '" id="scslider_button2_text_color" name="scslider_button2_text_color" data-default-color="#ffffff" /></br></br>';
+                
+                echo '<label for="scslider_button2_color">Button 2 Color</label></br>';
+                echo '<input type="text" value="' . esc_attr( $scslider_button2_color ) . '" id="scslider_button2_color" name="scslider_button2_color" data-default-color="#ffffff" /></br></br>';
+                                           
+                echo '</div>';
+
+            echo '</table>';
+        }
+                
+	public function save_metabox( $post_id, $post ) {       
+            
+            $nonce_name   = isset( $_POST[ 'scslider_add_cta_nonce' ] ) ? $_POST[ 'scslider_add_cta_nonce' ] : '';
+            $nonce_action = 'scslider_add_cta_nonce_action';
+
+            // Check if a nonce is set.
+            if ( ! isset( $nonce_name ) )
+                    return;
+
+            // Check if a nonce is valid.
+            if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
+                    return;
+            // Sanitize user input.
+            $scslider_button1_text_new = isset( $_POST[ 'scslider_button1_text' ] ) ?  $_POST[ 'scslider_button1_text' ] : '';
+            $scslider_button1_url_new = isset( $_POST[ 'scslider_button1_url' ] ) ?  $_POST[ 'scslider_button1_url' ] : '';
+            $scslider_button1_text_color_new = isset( $_POST[ 'scslider_button1_text_color' ] ) ?  $_POST[ 'scslider_button1_text_color' ] : '#ffffff';
+            $scslider_button1_color_new = isset( $_POST[ 'scslider_button1_color' ] ) ?  $_POST[ 'scslider_button1_color' ] : '#ffffff';
+            $scslider_button2_text_new = isset( $_POST[ 'scslider_button2_text' ] ) ?  $_POST[ 'scslider_button2_text' ] : '';
+            $scslider_button2_url_new = isset( $_POST[ 'scslider_button2_url' ] ) ?  $_POST[ 'scslider_button2_url' ] : '';
+            $scslider_button2_text_color_new = isset( $_POST[ 'scslider_button2_text_color' ] ) ?  $_POST[ 'scslider_button2_text_color' ] : '#ffffff';
+            $scslider_button2_color_new = isset( $_POST[ 'scslider_button2_color' ] ) ?  $_POST[ 'scslider_button2_color' ] : '#ffffff';
+            
+            // Update the meta field in the database.
+            update_post_meta( $post_id, 'scslider_button1_text', $scslider_button1_text_new );
+            update_post_meta( $post_id, 'scslider_button1_url', $scslider_button1_url_new );
+            update_post_meta( $post_id, 'scslider_button1_text_color', $scslider_button1_text_color_new );
+            update_post_meta( $post_id, 'scslider_button1_color', $scslider_button1_color_new );
+            update_post_meta( $post_id, 'scslider_button2_text', $scslider_button2_text_new );
+            update_post_meta( $post_id, 'scslider_button2_url', $scslider_button2_url_new );
+            update_post_meta( $post_id, 'scslider_button2_text_color', $scslider_button2_text_color_new );
+            update_post_meta( $post_id, 'scslider_button2_color', $scslider_button2_color_new );
+
+	}
+
+}
+new scslider_cta_metabox;
+
 /**
  * Returns list of all active post types
  * 

@@ -56,16 +56,37 @@ add_shortcode( 'scslider', 'scslider\render_slider' );
 function render_single_slide( $post = null, $new_data= null ) { $post = get_post( $post ); ?>
 
         <?php 
-          
-            $slide_content = ( $new_data[ 'content' ] == null ? get_post_meta( $post->ID, 'scslider_content', true ) : $new_data['content']  ) ;
-            $slide_subtitle = ( $new_data[ 'subtitle' ] == null ?  get_post_meta( $post->ID, 'scslider_subtitle', true ) : $new_data['subtitle']  ) ;
-            $scslider_template_dropdown = ( $new_data[ 'template' ] == null ?  get_post_meta( $post->ID, 'scslider_template_dropdown', true ) : $new_data['template']  ) ;
+            //TITLE OPTIONS--------------------------------------------------------------------------------------------------------------------------------------------------
+        
             $scslider_title_color = ( $new_data[ 'title_color' ] == null ?  get_post_meta( $post->ID, 'scslider_title_color', true ) : $new_data['title_color']  ) ;
-            $scslider_subtitle_color = ( $new_data[ 'subtitle_color' ] == null ?  get_post_meta( $post->ID, 'scslider_subtitle_color', true ) : $new_data['subtitle_color']  ) ;
-            $scslider_content_color = ( $new_data[ 'content_color' ] == null ?  get_post_meta( $post->ID, 'scslider_content_color', true ) : $new_data['content_color']  ) ;
             $scslider_title_size = ( $new_data[ 'title_size' ] == null ?  get_post_meta( $post->ID, 'scslider_title_size', true ) : $new_data['title_size']  ) ;
+            
+            //SUBTITLE OPTIONS-----------------------------------------------------------------------------------------------------------------------------------------------
+                        
+            $slide_subtitle = ( $new_data[ 'subtitle' ] == null ?  get_post_meta( $post->ID, 'scslider_subtitle', true ) : $new_data['subtitle']  ) ;
+            $scslider_subtitle_color = ( $new_data[ 'subtitle_color' ] == null ?  get_post_meta( $post->ID, 'scslider_subtitle_color', true ) : $new_data['subtitle_color']  ) ;
             $scslider_subtitle_size = ( $new_data[ 'subtitle_size' ] == null ?  get_post_meta( $post->ID, 'scslider_subtitle_size', true ) : $new_data['subtitle_size']  ) ;
+                        
+            //CONTENT OPTIONS------------------------------------------------------------------------------------------------------------------------------------------------
+            
+            $slide_content = ( $new_data[ 'content' ] == null ? get_post_meta( $post->ID, 'scslider_content', true ) : $new_data['content']  ) ;
+            $scslider_content_color = ( $new_data[ 'content_color' ] == null ?  get_post_meta( $post->ID, 'scslider_content_color', true ) : $new_data['content_color']  ) ;
             $scslider_content_size = ( $new_data[ 'content_size' ] == null ?  get_post_meta( $post->ID, 'scslider_content_size', true ) : $new_data['content_size']  ) ;
+            
+            //BUTTON OPTIONS---------------------------------------------------------------------------------------------------------------------------------------------------
+            
+            $scslider_button1_text = ( $new_data[ 'button1_text' ] == null ?  get_post_meta( $post->ID, 'scslider_button1_text', true ) : $new_data['button1_text']  ) ;
+            $scslider_button1_url = ( $new_data[ 'button1_url' ] == null ?  get_post_meta( $post->ID, 'scslider_button1_url', true ) : $new_data['button1_url']  ) ;
+            $scslider_button1_text_color = ( $new_data[ 'button1_text_color' ] == null ?  get_post_meta( $post->ID, 'scslider_button1_text_color', true ) : $new_data['button1_text_color']  ) ;
+            $scslider_button1_color = ( $new_data[ 'button1_color' ] == null ?  get_post_meta( $post->ID, 'scslider_button1_color', true ) : $new_data['button1_color']  ) ;
+            $scslider_button2_text = ( $new_data[ 'button2_text' ] == null ?  get_post_meta( $post->ID, 'scslider_button2_text', true ) : $new_data['button2_text']  ) ;
+            $scslider_button2_url = ( $new_data[ 'button2_url' ] == null ?  get_post_meta( $post->ID, 'scslider_button2_url', true ) : $new_data['button2_url']  ) ;
+            $scslider_button2_text_color = ( $new_data[ 'button2_text_color' ] == null ?  get_post_meta( $post->ID, 'scslider_button2_text_color', true ) : $new_data['button2_text_color']  ) ;
+            $scslider_button2_color = ( $new_data[ 'button2_color' ] == null ?  get_post_meta( $post->ID, 'scslider_button2_color', true ) : $new_data['button2_color']  ) ;
+            
+            $scslider_template_dropdown = ( $new_data[ 'template' ] == null ?  get_post_meta( $post->ID, 'scslider_template_dropdown', true ) : $new_data['template']  ) ;
+            
+            
             $post->post_name = ( $new_data[ 'title' ] == null ? $post->post_name : $new_data[ 'title' ] );
         
         if ( $new_data[ 'img' ] == null ) {     
