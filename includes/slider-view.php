@@ -1,43 +1,47 @@
 <?php namespace scslider; 
 
 function render_slider() {
+      
+    if ( get_post_meta( get_the_ID(), 'scslider_toggle', true ) == 'on' ) {
     
-    ob_start();
-    
-    $category = get_post_meta( get_the_ID(), 'scslider_selected' );
-    
-    
-    $args = array(
-	'post_type' => 'slide',
- 	'tax_query' => array(
-		array(
-			'taxonomy' => 'slider',
-			'field'    => 'slug',
-			'terms'    => $category
-		),
-            ),
-      'meta_key'   => 'order_array',
-      'orderby'    => 'meta_value_num',
-      'order'      => 'ASC',  
-    );
-    
-$query = new \WP_Query( $args );
+        ob_start();
 
-$slides = $query->posts;
+        $category = get_post_meta( get_the_ID(), 'scslider_selected' );
 
-?>
-<div class="scslider-wrap">
-    
-    <?php foreach ( $slides as $slide ) { ?>
-    
-        <?php render_single_slide( $slide, null ); ?>
+
+        $args = array(
+            'post_type' => 'slide',
+            'tax_query' => array(
+                    array(
+                            'taxonomy' => 'slider',
+                            'field'    => 'slug',
+                            'terms'    => $category
+                    ),
+                ),
+          'meta_key'   => 'order_array',
+          'orderby'    => 'meta_value_num',
+          'order'      => 'ASC',  
+        );
+
+    $query = new \WP_Query( $args );
+
+    $slides = $query->posts;
+
+    ?>
+    <div class="scslider-wrap">
+
+        <?php foreach ( $slides as $slide ) { ?>
+
+            <?php render_single_slide( $slide, null ); ?>
+
+        <?php } ?>     
+
+    </div>
+
+        <?php return ob_get_clean();
+
+    }    
         
-    <?php } ?>     
-         
-</div>
- 
-    <?php return ob_get_clean();
-
 }
 
 add_shortcode( 'scslider', 'scslider\render_slider' );

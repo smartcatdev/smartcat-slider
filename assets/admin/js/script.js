@@ -18,6 +18,9 @@ jQuery( document ).ready( function ( $ ) {
         video.currentTime = 0;
         video.play();
     }
+    if ( $('#scslider_preview .inside video').length ) {
+        $( '#scslider_preview .inside .slide-content-wrapper' ).css( 'background-color', 'black');
+    }
 
 });
 
