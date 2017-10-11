@@ -1,5 +1,7 @@
 jQuery( document ).ready( function ( $ ) {
 
+    
+
     $( '#slide-accordion' ).accordion({
         animate: 200,
         heightStyle: "content",

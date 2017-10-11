@@ -303,21 +303,85 @@ class scslider_info_metabox {
             // Retrieve an existing value from the database.
             $scslider_subtitle = get_post_meta( $post->ID, 'scslider_subtitle', true );
             $scslider_content = get_post_meta( $post->ID, 'scslider_content', true );
+            $scslider_title_color = get_post_meta( $post->ID, 'scslider_title_color', true );
+            $scslider_subtitle_color = get_post_meta( $post->ID, 'scslider_subtitle_color', true );
+            $scslider_content_color = get_post_meta( $post->ID, 'scslider_content_color', true );
+            $scslider_title_size = get_post_meta( $post->ID, 'scslider_title_size', true );
+            $scslider_subtitle_size = get_post_meta( $post->ID, 'scslider_subtitle_size', true );
+            $scslider_content_size = get_post_meta( $post->ID, 'scslider_content_size', true );
+            
+            $scslider_font_sizes = array( "12px", "14px", "16px", "18px", "20px", "22px", "24px", "26px",
+                                          "28px", "30px", "32px", "34px", "36px", "38px", "40px", "42px",
+                                          "44px", "46px", "48px", "50px", );
             
             // Set default values.
             if( empty( $scslider_subtitle ) ) $scslider_subtitle = '';
             if( empty( $scslider_content ) ) $scslider_content = '';
+            if( empty( $scslider_title_color ) ) $scslider_title_color = '';
+            if( empty( $scslider_subtitle_color ) ) $scslider_subtitle_color = '';
+            if( empty( $scslider_content_color ) ) $scslider_content_color = '';
+            if( empty( $scslider_title_size ) ) $scslider_title_size = '38px';
+            if( empty( $scslider_subtitle_size ) ) $scslider_subtitle_size = '28px';
+            if( empty( $scslider_content_size ) ) $scslider_content_size = '16px';
             
             // Form fields. 
             echo '<table class="form-table">';
             
                 echo '<div></br>';
-             
+                
+                echo '<label for="scslider_title_color">Title Color</label></br>';
+                echo '<input type="text" value="' . esc_attr( $scslider_title_color ) . '" id="scslider_title_color" name="scslider_title_color" data-default-color="#ffffff" /></br></br>';
+                
+                echo '<label for="scslider_title_size">Title Font Size</label></br>';
+                echo '<select name="scslider_title_size" id="scslider_title_size">';
+                
+                    foreach( $scslider_font_sizes as $scslider_font_size ) {
+
+                        echo '<option value="' . esc_attr( $scslider_font_size ) . '" ';
+                        echo $scslider_title_size == $scslider_font_size ? 'selected' : '' ;
+                        echo ' >';
+                        echo esc_attr( $scslider_font_size ) . '</option>';
+
+                    }
+                echo '</select></br></br>';
+                    
                 echo '<label for="scslider_subtitle">Subtitle</label>';
                 echo '<input type="text" id="scslider_subtitle" name="scslider_subtitle" value="' . esc_attr( $scslider_subtitle ) . '" />';
                 
+                echo '<label for="scslider_subtitle_color">Subtitle Color</label></br>';
+                echo '<input type="text" value="' . esc_attr( $scslider_subtitle_color ) . '" id="scslider_subtitle_color" name="scslider_subtitle_color" data-default-color="#ffffff" /></br></br>';
+                
+                echo '<label for="scslider_subtitle_size">Subtitle Font Size</label></br>';
+                echo '<select name="scslider_subtitle_size" id="scslider_subtitle_size">';
+                
+                    foreach( $scslider_font_sizes as $scslider_font_size ) {
+
+                        echo '<option value="' . esc_attr( $scslider_font_size ) . '" ';
+                        echo $scslider_subtitle_size == $scslider_font_size ? 'selected' : '' ;
+                        echo ' >';
+                        echo esc_attr( $scslider_font_size ) . '</option>';
+
+                    }
+                echo '</select></br></br>';
+                
                 echo '<label for="scslider_content">Content</label>';
-                echo '<textarea id="scslider_content" name="scslider_content">' . esc_attr( $scslider_content ) . '</textarea>';
+                echo '<textarea id="scslider_content" name="scslider_content">' . esc_attr( $scslider_content ) . '</textarea></br></br>';
+                
+                echo '<label for="scslider_content_color">Content Color</label></br>';
+                echo '<input type="text" value="' . esc_attr( $scslider_content_color ) . '" id="scslider_content_color" name="scslider_content_color" data-default-color="#ffffff" /></br></br>';
+                
+                echo '<label for="scslider_content_size">Content Font Size</label></br>';
+                echo '<select name="scslider_content_size" id="scslider_content_size">';
+                
+                    foreach( $scslider_font_sizes as $scslider_font_size ) {
+
+                        echo '<option value="' . esc_attr( $scslider_font_size ) . '" ';
+                        echo $scslider_content_size == $scslider_font_size ? 'selected' : '' ;
+                        echo ' >';
+                        echo esc_attr( $scslider_font_size ) . '</option>';
+
+                    }
+                echo '</select></br></br>';
                 
                 echo '</div>';
 
@@ -339,10 +403,22 @@ class scslider_info_metabox {
             // Sanitize user input.
             $scslider_subtitle_new = isset( $_POST[ 'scslider_subtitle' ] ) ?  $_POST[ 'scslider_subtitle' ] : '';
             $scslider_content_new = isset( $_POST[ 'scslider_content' ] ) ?  $_POST[ 'scslider_content' ] : 'true';
+            $scslider_title_color_new = isset( $_POST[ 'scslider_title_color' ] ) ?  $_POST[ 'scslider_title_color' ] : '';
+            $scslider_subtitle_color_new = isset( $_POST[ 'scslider_subtitle_color' ] ) ?  $_POST[ 'scslider_subtitle_color' ] : '';
+            $scslider_content_color_new = isset( $_POST[ 'scslider_content_color' ] ) ?  $_POST[ 'scslider_content_color' ] : '';
+            $scslider_title_size_new = isset( $_POST[ 'scslider_title_size' ] ) ?  $_POST[ 'scslider_title_size' ] : '';
+            $scslider_subtitle_size_new = isset( $_POST[ 'scslider_subtitle_size' ] ) ?  $_POST[ 'scslider_subtitle_size' ] : '';
+            $scslider_content_size_new = isset( $_POST[ 'scslider_content_size' ] ) ?  $_POST[ 'scslider_content_size' ] : '';
 
             // Update the meta field in the database.
             update_post_meta( $post_id, 'scslider_subtitle', $scslider_subtitle_new );
             update_post_meta( $post_id, 'scslider_content', $scslider_content_new );
+            update_post_meta( $post_id, 'scslider_title_color', $scslider_title_color_new );
+            update_post_meta( $post_id, 'scslider_subtitle_color', $scslider_subtitle_color_new );
+            update_post_meta( $post_id, 'scslider_content_color', $scslider_content_color_new );
+            update_post_meta( $post_id, 'scslider_title_size', $scslider_title_size_new );
+            update_post_meta( $post_id, 'scslider_subtitle_size', $scslider_subtitle_size_new );
+            update_post_meta( $post_id, 'scslider_content_size', $scslider_content_size_new );
 
 	}
 

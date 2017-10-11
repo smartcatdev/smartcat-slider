@@ -9,11 +9,14 @@
 .inside .slide-title, .inside .slide-subtitle {
     margin-bottom: 15px
 }
-.inside .slide-content-wrapper {
+.inside .slide-title {
+    margin-bottom: 30px;
+}
+.inside .slide-content {
     bottom: 12px !important;
 }
 .ajax-preview {
-    height: 445px;
+    height: 475px;
 }
 .inside .slide-content.left p {
     font-weight: 500;
@@ -68,12 +71,15 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 445px !important;
+    height: 475px !important;
     width: 100%;
     z-index: 1;
 }
 .slide-content {
     position: relative;
     z-index: 2;
+}
+.scslider-uploader a {
+    text-decoration: none;
 }
 

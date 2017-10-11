@@ -70,10 +70,12 @@ register_activation_hook( __FILE__, 'scslider\activate' );
  */
 function register_admin_scripts() {
 
+        wp_enqueue_style( 'wp-color-picker' );
         wp_enqueue_style( 'scslider-common', asset( 'admin/css/common.css' ), null, VERSION );
         
         wp_enqueue_script( 'scslider_wp_uploader', asset( 'admin/js/wp_media_uploader.js' ), array( 'jquery' ), VERSION );
-        wp_enqueue_script( 'scslider_admin_script', asset( 'admin/js/script.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion', 'scslider_wp_uploader' ), VERSION );
+        wp_enqueue_script( 'scslider_admin_script', asset( 'admin/js/script.js' ), 
+                array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion', 'scslider_wp_uploader', 'wp-color-picker' ), VERSION );
         wp_enqueue_script( 'scslider_admin_ajax_script', asset( 'admin/js/ajax_script.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion' ), VERSION );
         
         wp_localize_script( 'scslider_admin_ajax_script', 'ajaxObject',

@@ -1,11 +1,24 @@
-jQuery( document ).ready( function ( $ ) {
+    jQuery( document ).ready( function ( $ ) {
     
     if ( '.scslider-wrap'.length ) { 
         var cameraTarget =  $( '.scslider-wrap' );  
     }
+    var numSlides = 0;
+    var navigation = true;
+    $( '.slide-content-wrapper' ).each(function() {
+        numSlides++;
+    });
+    
+    if ( numSlides == 1 ) {
+        navigation = false;
+    }
 
     cameraTarget.camera({
         imagePath: pluginPath + '/assets/images/',
+        navigation: navigation,
+        playPause: navigation,
+        autoAdvance: navigation,
+        pagination: navigation,
         onEndTransition: function() {
 
             var slide = cameraTarget.find('.cameraContent.cameracurrent');

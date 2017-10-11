@@ -11,9 +11,9 @@
             
             target : '.scslider-uploader', // The class wrapping the textbox
             uploaderTitle : 'Select or upload image/video', // The title of the media upload popup
-            uploaderButton : 'Set image', // the text of the button in the media upload popup
+            uploaderButton : 'Set image/video', // the text of the button in the media upload popup
             multiple : false, // Allow the user to select multiple images
-            buttonText : 'Upload image', // The text of the upload button
+            buttonText : 'Upload image/video', // The text of the upload button
             buttonClass : '.scslider-upload', // the class of the upload button
             previewSize : '150px', // The preview image size
             modal : false, // is the upload button within a bootstrap modal ?
@@ -25,7 +25,6 @@
             },
             
         }, options );
-        
         
         $( settings.target ).append( '<a href="#" class="' + settings.buttonClass.replace('.','') + '">' + settings.buttonText + '</a>' );
         
@@ -48,7 +47,6 @@
             })
             .open();
         });
-        
         
     }
 })(jQuery);

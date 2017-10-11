@@ -1,6 +1,6 @@
 /*<editor-fold desc="Standard Template">*/
 
-.slide-content-wrapper.standard {
+.slide-content.standard {
     background-color: rgba(0, 0, 0, 0.80);
     width: 25%;
     align-items: baseline;
@@ -95,6 +95,7 @@
     text-align: center;
     display: table;
     height: 100%;
+    width: 100%;
     align-items: right;
 }
 .slide-title-wrapper.right {
