@@ -309,20 +309,49 @@ class scslider_info_metabox {
             $scslider_title_size = get_post_meta( $post->ID, 'scslider_title_size', true );
             $scslider_subtitle_size = get_post_meta( $post->ID, 'scslider_subtitle_size', true );
             $scslider_content_size = get_post_meta( $post->ID, 'scslider_content_size', true );
+            $scslider_title_trans = get_post_meta( $post->ID, 'scslider_title_trans', true );
+            $scslider_subtitle_trans = get_post_meta( $post->ID, 'scslider_subtitle_trans', true );
+            $scslider_content_trans = get_post_meta( $post->ID, 'scslider_content_trans', true );
             
-            $scslider_font_sizes = array( "12px", "14px", "16px", "18px", "20px", "22px", "24px", "26px",
-                                          "28px", "30px", "32px", "34px", "36px", "38px", "40px", "42px",
-                                          "44px", "46px", "48px", "50px", );
+            $scslider_font_sizes = array( 12 => '12px',
+                                          14 => '14px',  
+                                          16 => '16px',  
+                                          18 => '18px',  
+                                          20 => '20px',  
+                                          22 => '22px',  
+                                          24 => '24px',  
+                                          26 => '26px',  
+                                          28 => '28px',  
+                                          30 => '30px',  
+                                          32 => '32px',  
+                                          34 => '34px',  
+                                          36 => '36px',  
+                                          38 => '38px',  
+                                          40 => '40px',  
+                                          42 => '42px',  
+                                          44 => '44px',  
+                                          46 => '46px',  
+                                          48 => '48px',  
+                                          50 => '50px' );
+                       
+            $scslider_load_transitions = array( "scslide-fadeIn" => "Fade in", 
+                                                "scslide-fadeTop" => "Fade from top", 
+                                                "scslide-fadeBottom" => "Fade from bottom", 
+                                                "scslide-fadeLeft" => "Fade from left",   
+                                                "scslide-fadeRight" => "Fade from right");
             
             // Set default values.
             if( empty( $scslider_subtitle ) ) $scslider_subtitle = '';
             if( empty( $scslider_content ) ) $scslider_content = '';
-            if( empty( $scslider_title_color ) ) $scslider_title_color = '';
-            if( empty( $scslider_subtitle_color ) ) $scslider_subtitle_color = '';
-            if( empty( $scslider_content_color ) ) $scslider_content_color = '';
-            if( empty( $scslider_title_size ) ) $scslider_title_size = '38px';
-            if( empty( $scslider_subtitle_size ) ) $scslider_subtitle_size = '28px';
-            if( empty( $scslider_content_size ) ) $scslider_content_size = '16px';
+            if( empty( $scslider_title_color ) ) $scslider_title_color = '#000000';
+            if( empty( $scslider_subtitle_color ) ) $scslider_subtitle_color = '#000000';
+            if( empty( $scslider_content_color ) ) $scslider_content_color = '#000000';
+            if( empty( $scslider_title_size ) ) $scslider_title_size = 38;
+            if( empty( $scslider_subtitle_size ) ) $scslider_subtitle_size = 28;
+            if( empty( $scslider_content_size ) ) $scslider_content_size = 16;
+            if( empty( $scslider_title_trans ) ) $scslider_title_trans = 'scslide-fadeIn';
+            if( empty( $scslider_subtitle_trans ) ) $scslider_subtitle_trans = 'scslide-fadeIn';
+            if( empty( $scslider_content_trans ) ) $scslider_content_trans = 'scslide-fadeIn';
             
             // Form fields. 
             echo '<table class="form-table">';
@@ -335,12 +364,25 @@ class scslider_info_metabox {
                 echo '<label for="scslider_title_size">Title Font Size</label></br>';
                 echo '<select name="scslider_title_size" id="scslider_title_size">';
                 
-                    foreach( $scslider_font_sizes as $scslider_font_size ) {
+                    foreach( $scslider_font_sizes as $key => $value ) {
 
-                        echo '<option value="' . esc_attr( $scslider_font_size ) . '" ';
-                        echo $scslider_title_size == $scslider_font_size ? 'selected' : '' ;
+                        echo '<option value="' . esc_attr( $key ) . '" ';
+                        echo $scslider_title_size == $key ? 'selected' : '' ;
                         echo ' >';
-                        echo esc_attr( $scslider_font_size ) . '</option>';
+                        echo esc_attr( $value ) . '</option>';
+
+                    }
+                echo '</select></br></br>';
+                
+                echo '<label for="scslider_title_trans">Title Transistion</label></br>';
+                echo '<select name="scslider_title_trans" id="scslider_title_trans">';
+                
+                    foreach( $scslider_load_transitions as $key => $value ) {
+                        
+                        echo '<option value="' . esc_attr( $key ) . '" ';
+                        echo $scslider_title_trans == $key ? 'selected' : '' ;
+                        echo ' >';
+                        echo esc_attr( $value ) . '</option>';
 
                     }
                 echo '</select></br></br>';
@@ -354,12 +396,25 @@ class scslider_info_metabox {
                 echo '<label for="scslider_subtitle_size">Subtitle Font Size</label></br>';
                 echo '<select name="scslider_subtitle_size" id="scslider_subtitle_size">';
                 
-                    foreach( $scslider_font_sizes as $scslider_font_size ) {
+                    foreach( $scslider_font_sizes as $key => $value ) {
 
-                        echo '<option value="' . esc_attr( $scslider_font_size ) . '" ';
-                        echo $scslider_subtitle_size == $scslider_font_size ? 'selected' : '' ;
+                        echo '<option value="' . esc_attr( $key ) . '" ';
+                        echo $scslider_subtitle_size == $key ? 'selected' : '' ;
                         echo ' >';
-                        echo esc_attr( $scslider_font_size ) . '</option>';
+                        echo esc_attr( $value ) . '</option>';
+
+                    }
+                echo '</select></br></br>';
+                
+                echo '<label for="scslider_subtitle_trans">Subtitle Transistion</label></br>';
+                echo '<select name="scslider_subtitle_trans" id="scslider_subtitle_trans">';
+                
+                    foreach( $scslider_load_transitions as $key => $value ) {
+                        
+                        echo '<option value="' . esc_attr( $key ) . '" ';
+                        echo $scslider_subtitle_trans == $key ? 'selected' : '' ;
+                        echo ' >';
+                        echo esc_attr( $value ) . '</option>';
 
                     }
                 echo '</select></br></br>';
@@ -373,12 +428,25 @@ class scslider_info_metabox {
                 echo '<label for="scslider_content_size">Content Font Size</label></br>';
                 echo '<select name="scslider_content_size" id="scslider_content_size">';
                 
-                    foreach( $scslider_font_sizes as $scslider_font_size ) {
+                    foreach( $scslider_font_sizes as $key => $value ) {
 
-                        echo '<option value="' . esc_attr( $scslider_font_size ) . '" ';
-                        echo $scslider_content_size == $scslider_font_size ? 'selected' : '' ;
+                        echo '<option value="' . esc_attr( $key ) . '" ';
+                        echo $scslider_content_size == $key ? 'selected' : '' ;
                         echo ' >';
-                        echo esc_attr( $scslider_font_size ) . '</option>';
+                        echo esc_attr( $value ) . '</option>';
+
+                    }
+                echo '</select></br></br>';
+                                                
+                echo '<label for="scslider_content_trans">Content Transistion</label></br>';
+                echo '<select name="scslider_content_trans" id="scslider_content_trans">';
+                
+                    foreach( $scslider_load_transitions as $key => $value ) {
+                        
+                        echo '<option value="' . esc_attr( $key ) . '" ';
+                        echo $scslider_content_trans == $key ? 'selected' : '' ;
+                        echo ' >';
+                        echo esc_attr( $value ) . '</option>';
 
                     }
                 echo '</select></br></br>';
@@ -403,12 +471,15 @@ class scslider_info_metabox {
             // Sanitize user input.
             $scslider_subtitle_new = isset( $_POST[ 'scslider_subtitle' ] ) ?  $_POST[ 'scslider_subtitle' ] : '';
             $scslider_content_new = isset( $_POST[ 'scslider_content' ] ) ?  $_POST[ 'scslider_content' ] : 'true';
-            $scslider_title_color_new = isset( $_POST[ 'scslider_title_color' ] ) ?  $_POST[ 'scslider_title_color' ] : '';
-            $scslider_subtitle_color_new = isset( $_POST[ 'scslider_subtitle_color' ] ) ?  $_POST[ 'scslider_subtitle_color' ] : '';
-            $scslider_content_color_new = isset( $_POST[ 'scslider_content_color' ] ) ?  $_POST[ 'scslider_content_color' ] : '';
-            $scslider_title_size_new = isset( $_POST[ 'scslider_title_size' ] ) ?  $_POST[ 'scslider_title_size' ] : '';
-            $scslider_subtitle_size_new = isset( $_POST[ 'scslider_subtitle_size' ] ) ?  $_POST[ 'scslider_subtitle_size' ] : '';
-            $scslider_content_size_new = isset( $_POST[ 'scslider_content_size' ] ) ?  $_POST[ 'scslider_content_size' ] : '';
+            $scslider_title_color_new = isset( $_POST[ 'scslider_title_color' ] ) ?  $_POST[ 'scslider_title_color' ] : '#000000';
+            $scslider_subtitle_color_new = isset( $_POST[ 'scslider_subtitle_color' ] ) ?  $_POST[ 'scslider_subtitle_color' ] : '#000000';
+            $scslider_content_color_new = isset( $_POST[ 'scslider_content_color' ] ) ?  $_POST[ 'scslider_content_color' ] : '#000000';
+            $scslider_title_size_new = isset( $_POST[ 'scslider_title_size' ] ) ?  $_POST[ 'scslider_title_size' ] : 38;
+            $scslider_subtitle_size_new = isset( $_POST[ 'scslider_subtitle_size' ] ) ?  $_POST[ 'scslider_subtitle_size' ] : 28;
+            $scslider_content_size_new = isset( $_POST[ 'scslider_content_size' ] ) ?  $_POST[ 'scslider_content_size' ] : 16;
+            $scslider_title_trans_new = isset( $_POST[ 'scslider_title_trans' ] ) ?  $_POST[ 'scslider_title_trans' ] : 'scslide-fadeIn';
+            $scslider_subtitle_trans_new = isset( $_POST[ 'scslider_subtitle_trans' ] ) ?  $_POST[ 'scslider_subtitle_trans' ] : 'scslide-fadeIn';
+            $scslider_content_trans_new = isset( $_POST[ 'scslider_content_trans' ] ) ?  $_POST[ 'scslider_content_trans' ] : 'scslide-fadeIn';
 
             // Update the meta field in the database.
             update_post_meta( $post_id, 'scslider_subtitle', $scslider_subtitle_new );
@@ -419,6 +490,9 @@ class scslider_info_metabox {
             update_post_meta( $post_id, 'scslider_title_size', $scslider_title_size_new );
             update_post_meta( $post_id, 'scslider_subtitle_size', $scslider_subtitle_size_new );
             update_post_meta( $post_id, 'scslider_content_size', $scslider_content_size_new );
+            update_post_meta( $post_id, 'scslider_title_trans', $scslider_title_trans_new );
+            update_post_meta( $post_id, 'scslider_subtitle_trans', $scslider_subtitle_trans_new );
+            update_post_meta( $post_id, 'scslider_content_trans', $scslider_content_trans_new );
 
 	}
 
@@ -697,16 +771,26 @@ class scslider_cta_metabox {
             $scslider_button2_url = get_post_meta( $post->ID, 'scslider_button2_url', true );
             $scslider_button2_text_color = get_post_meta( $post->ID, 'scslider_button2_text_color', true );
             $scslider_button2_color = get_post_meta( $post->ID, 'scslider_button2_color', true );
+            $scslider_button1_trans = get_post_meta( $post->ID, 'scslider_button1_trans', true );
+            $scslider_button2_trans = get_post_meta( $post->ID, 'scslider_button2_trans', true );
             
             // Set default values.
             if( empty( $scslider_button1_text ) ) $scslider_button1_text = '';
             if( empty( $scslider_button1_url ) ) $scslider_button1_url = '';
-            if( empty( $scslider_button1_text_color ) ) $scslider_button1_text_color = '#ffffff';
+            if( empty( $scslider_button1_text_color ) ) $scslider_button1_text_color = '#000000';
             if( empty( $scslider_button1_color ) ) $scslider_button1_color = '#ffffff';
             if( empty( $scslider_button2_text ) ) $scslider_button2_text = '';
             if( empty( $scslider_button2_url ) ) $scslider_button2_url = '';
-            if( empty( $scslider_button2_text_color ) ) $scslider_button2_text_color = '#ffffff';
+            if( empty( $scslider_button2_text_color ) ) $scslider_button2_text_color = '#000000';
             if( empty( $scslider_button2_color ) ) $scslider_button2_color = '#ffffff';
+            if( empty( $scslider_button1_trans ) ) $scslider_button1_trans = 'scslide-fadeIn';
+            if( empty( $scslider_button2_trans ) ) $scslider_button2_trans = 'scslide-fadeIn';
+            
+            $scslider_load_transitions = array( "scslide-fadeIn" => "Fade in", 
+                                                "scslide-fadeTop" => "Fade from top", 
+                                                "scslide-fadeBottom" => "Fade from bottom", 
+                                                "scslide-fadeLeft" => "Fade from left",   
+                                                "scslide-fadeRight" => "Fade from right");
             
             // Form fields. 
             echo '<table class="form-table">';
@@ -717,19 +801,32 @@ class scslider_cta_metabox {
                 echo '<input type="text" id="scslider_button1_text" name="scslider_button1_text" value="' . esc_attr( $scslider_button1_text ) . '" /></br></br>';
                 
                 echo '<label for="scslider_button1_url">Button 1 URL</label></br>';
-                echo '<input type="text" id="scslider_button1_url" name="scslider_button1_url" value="' . esc_raw_url( $scslider_button1_url ) . '" /></br></br>';
+                echo '<input type="text" id="scslider_button1_url" name="scslider_button1_url" value="' . esc_url_raw( $scslider_button1_url ) . '" /></br></br>';
                 
                 echo '<label for="scslider_button1_text_color">Button 1 Text Color</label></br>';
                 echo '<input type="text" value="' . esc_attr( $scslider_button1_text_color ) . '" id="scslider_button1_text_color" name="scslider_button1_text_color" data-default-color="#ffffff" /></br></br>';
                 
                 echo '<label for="scslider_button1_color">Button 1 Color</label></br>';
                 echo '<input type="text" value="' . esc_attr( $scslider_button1_color ) . '" id="scslider_button1_color" name="scslider_button1_color" data-default-color="#ffffff" /></br></br>';
+                
+                echo '<label for="scslider_button1_trans">Button 1 Transistion</label></br>';
+                echo '<select name="scslider_button1_trans" id="scslider_button1_trans">';
+                
+                    foreach( $scslider_load_transitions as $key => $value ) {
+                        
+                        echo '<option value="' . esc_attr( $key ) . '" ';
+                        echo $scslider_button1_trans == $key ? 'selected' : '' ;
+                        echo ' >';
+                        echo esc_attr( $value ) . '</option>';
+
+                    }
+                echo '</select></br></br>';
                                            
                 echo '<label for="scslider_button2_text">Button 2 Text</label></br>';
                 echo '<input type="text" id="scslider_button2_text" name="scslider_button2_text" value="' . esc_attr( $scslider_button2_text ) . '" /></br></br>';
                 
                 echo '<label for="scslider_button2_url">Button 2 URL</label></br>';
-                echo '<input type="text" id="scslider_button2_url" name="scslider_button2_url" value="' . esc_raw_url( $scslider_button2_url ) . '" /></br></br>';
+                echo '<input type="text" id="scslider_button2_url" name="scslider_button2_url" value="' . esc_url_raw( $scslider_button2_url ) . '" /></br></br>';
                 
                 echo '<label for="scslider_button2_text_color">Button 2 Text Color</label></br>';
                 echo '<input type="text" value="' . esc_attr( $scslider_button2_text_color ) . '" id="scslider_button2_text_color" name="scslider_button2_text_color" data-default-color="#ffffff" /></br></br>';
@@ -737,6 +834,19 @@ class scslider_cta_metabox {
                 echo '<label for="scslider_button2_color">Button 2 Color</label></br>';
                 echo '<input type="text" value="' . esc_attr( $scslider_button2_color ) . '" id="scslider_button2_color" name="scslider_button2_color" data-default-color="#ffffff" /></br></br>';
                                            
+                echo '<label for="scslider_button2_trans">Button 2 Transistion</label></br>';
+                echo '<select name="scslider_button2_trans" id="scslider_button2_trans">';
+                
+                    foreach( $scslider_load_transitions as $key => $value ) {
+                        
+                        echo '<option value="' . esc_attr( $key ) . '" ';
+                        echo $scslider_button2_trans == $key ? 'selected' : '' ;
+                        echo ' >';
+                        echo esc_attr( $value ) . '</option>';
+
+                    }
+                echo '</select></br></br>';
+                
                 echo '</div>';
 
             echo '</table>';
@@ -757,12 +867,14 @@ class scslider_cta_metabox {
             // Sanitize user input.
             $scslider_button1_text_new = isset( $_POST[ 'scslider_button1_text' ] ) ?  $_POST[ 'scslider_button1_text' ] : '';
             $scslider_button1_url_new = isset( $_POST[ 'scslider_button1_url' ] ) ?  $_POST[ 'scslider_button1_url' ] : '';
-            $scslider_button1_text_color_new = isset( $_POST[ 'scslider_button1_text_color' ] ) ?  $_POST[ 'scslider_button1_text_color' ] : '#ffffff';
+            $scslider_button1_text_color_new = isset( $_POST[ 'scslider_button1_text_color' ] ) ?  $_POST[ 'scslider_button1_text_color' ] : '#000000';
             $scslider_button1_color_new = isset( $_POST[ 'scslider_button1_color' ] ) ?  $_POST[ 'scslider_button1_color' ] : '#ffffff';
             $scslider_button2_text_new = isset( $_POST[ 'scslider_button2_text' ] ) ?  $_POST[ 'scslider_button2_text' ] : '';
             $scslider_button2_url_new = isset( $_POST[ 'scslider_button2_url' ] ) ?  $_POST[ 'scslider_button2_url' ] : '';
-            $scslider_button2_text_color_new = isset( $_POST[ 'scslider_button2_text_color' ] ) ?  $_POST[ 'scslider_button2_text_color' ] : '#ffffff';
+            $scslider_button2_text_color_new = isset( $_POST[ 'scslider_button2_text_color' ] ) ?  $_POST[ 'scslider_button2_text_color' ] : '#000000';
             $scslider_button2_color_new = isset( $_POST[ 'scslider_button2_color' ] ) ?  $_POST[ 'scslider_button2_color' ] : '#ffffff';
+            $scslider_button1_trans_new = isset( $_POST[ 'scslider_button1_trans' ] ) ?  $_POST[ 'scslider_button1_trans' ] : 'scslide-fadeIn';
+            $scslider_button2_trans_new = isset( $_POST[ 'scslider_button2_trans' ] ) ?  $_POST[ 'scslider_button2_trans' ] : 'scslide-fadeIn';
             
             // Update the meta field in the database.
             update_post_meta( $post_id, 'scslider_button1_text', $scslider_button1_text_new );
@@ -773,6 +885,8 @@ class scslider_cta_metabox {
             update_post_meta( $post_id, 'scslider_button2_url', $scslider_button2_url_new );
             update_post_meta( $post_id, 'scslider_button2_text_color', $scslider_button2_text_color_new );
             update_post_meta( $post_id, 'scslider_button2_color', $scslider_button2_color_new );
+            update_post_meta( $post_id, 'scslider_button1_trans', $scslider_button1_trans_new );
+            update_post_meta( $post_id, 'scslider_button2_trans', $scslider_button2_trans_new );
 
 	}
 
@@ -809,7 +923,7 @@ function get_all_post_types( $exception=null ){
     if ( $exception != null ) {
         
         $key = array_search( $exception, $all_post_types );
-        unset($all_post_types[$key]);
+        unset( $all_post_types[$key] );
   
     }        
             

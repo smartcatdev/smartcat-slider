@@ -19,7 +19,7 @@ jQuery( document ).ready( function ( $ ) {
     var wpColorPickerOptions = {
         change: function(event, ui){
             update_template();
-        },
+        }
     };
     
     $( '#scslider_title_color' ).wpColorPicker(wpColorPickerOptions);
