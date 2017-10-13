@@ -1,24 +1,68 @@
     jQuery( document ).ready( function ( $ ) {
     
     if ( '.scslider-wrap'.length ) { 
-        var cameraTarget =  $( '.scslider-wrap' );  
+        
+        var cameraTarget =  $( '.scslider-wrap' ); 
+        
     }
     var numSlides = 0;
-    var navigation = true;
+    
+    var navigation = ( cameraSettings.navigation == 'true' );
+    var navigationHover = ( cameraSettings.navigationHover == 'true' );
+    var playPause = ( cameraSettings.playPause == 'true' );
+    var autoAdvance = ( cameraSettings.autoAdvance == 'true' );
+    var pagination = ( cameraSettings.pagination == 'true' );
+    var overlayer = ( cameraSettings.overlayer == 'true' );
+    var clickPause = ( cameraSettings.clickPause == 'true' );
+    
+   
+    var deviceWidth = $( window ).width();
+    var height = '';
+    if ( deviceWidth < 768 ){
+        
+        height=cameraSettings.slideMobileHeight + '%';
+        
+    } else {
+                
+        height=cameraSettings.slideHeight + '%';
+        
+    }
+    
+    
     $( '.slide-content-wrapper' ).each(function() {
-        numSlides++;
+        
+       numSlides++;
+       
     });
     
     if ( numSlides == 1 ) {
         navigation = false;
-    }
-
+        navigationHover = false;
+        autoAdvance = false;
+        pagination = false;
+        playPause = false;
+    } 
+            
+    console.log(  cameraSettings.slideMobileTrans );
+        
     cameraTarget.camera({
-        imagePath: pluginPath + '/assets/images/',
+        
+        imagePath: cameraSettings.js_path + 'assets/images/',
         navigation: navigation,
-        playPause: navigation,
-        autoAdvance: navigation,
-        pagination: navigation,
+        hover: navigationHover,
+        playPause: playPause,
+        autoAdvance: autoAdvance,
+        pagination: pagination,
+        pauseOnClick: clickPause,
+        fx: cameraSettings.slideTrans,
+        mobileFx: cameraSettings.slideMobileTrans,
+        loader: cameraSettings.loader,
+        piePosition: cameraSettings.piePosition,
+        barPosition: cameraSettings.barPosition,
+        height: height,
+        time: parseInt(cameraSettings.slideTimer),
+        transPeriod: parseInt( cameraSettings.slideTransTimer ),
+        overlayer: overlayer,
         onEndTransition: function() {
 
             var slide = cameraTarget.find('.cameraContent.cameracurrent');

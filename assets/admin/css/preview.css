@@ -82,3 +82,6 @@
 .scslider-uploader a {
     text-decoration: none;
 }
+.ajax-preview {
+    overflow:hidden;
+}

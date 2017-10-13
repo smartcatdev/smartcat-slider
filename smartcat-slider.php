@@ -70,21 +70,20 @@ register_activation_hook( __FILE__, 'scslider\activate' );
  */
 function register_admin_scripts() {
 
-        wp_enqueue_style( 'wp-color-picker' );
-        wp_enqueue_style( 'scslider-common', asset( 'admin/css/common.css' ), null, VERSION );
-        
-        wp_enqueue_script( 'scslider_wp_uploader', asset( 'admin/js/wp_media_uploader.js' ), array( 'jquery' ), VERSION );
-        wp_enqueue_script( 'scslider_admin_script', asset( 'admin/js/script.js' ), 
-                array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion', 'scslider_wp_uploader', 'wp-color-picker' ), VERSION );
-        wp_enqueue_script( 'scslider_admin_ajax_script', asset( 'admin/js/ajax_script.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion' ), VERSION );
-        
-        wp_localize_script( 'scslider_admin_ajax_script', 'ajaxObject',
-            array( 'ajaxUrl' => admin_url( 'admin-ajax.php' ) ) );
+    wp_enqueue_style( 'wp-color-picker' );
+    wp_enqueue_style( 'scslider-common', asset( 'admin/css/common.css' ), null, VERSION );
+
+    wp_enqueue_script( 'scslider_wp_uploader', asset( 'admin/js/wp_media_uploader.js' ), array( 'jquery' ), VERSION );
+    wp_enqueue_script( 'scslider_admin_script', asset( 'admin/js/script.js' ), 
+            array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion', 'scslider_wp_uploader', 'wp-color-picker' ), VERSION );
+    wp_enqueue_script( 'scslider_admin_ajax_script', asset( 'admin/js/ajax_script.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-accordion' ), VERSION );
+
+    wp_localize_script( 'scslider_admin_ajax_script', 'ajaxObject',
+        array( 'ajaxUrl' => admin_url( 'admin-ajax.php' ) ) );
 
 }
 
 add_action( 'admin_enqueue_scripts', 'scslider\register_admin_scripts' );
-
 
 /**
  * Enqueue scripts on front end
@@ -92,19 +91,36 @@ add_action( 'admin_enqueue_scripts', 'scslider\register_admin_scripts' );
  */
 function enqueue_scripts() {
 
+    wp_enqueue_style( 'camera-style', asset( 'css/camera.css' ), null, VERSION );
+    wp_enqueue_style( 'scslider-style', asset( 'css/style.css' ), null, VERSION );
 
-	wp_enqueue_style( 'camera-style', asset( 'css/camera.css' ), null, VERSION );
-	wp_enqueue_style( 'scslider-style', asset( 'css/style.css' ), null, VERSION );
+    wp_enqueue_script("jquery-effects-core");
+    wp_enqueue_script( 'camera-script', asset( 'js/camera.min.js' ), array( 'jquery', 'jquery-effects-core' ), VERSION );
+    wp_register_script( 'scslider-script', asset( 'js/script.js' ), array( 'jquery',  'jquery-effects-core'  ), VERSION );
 
-        wp_enqueue_script("jquery-effects-core");
-	wp_enqueue_script( 'camera-script', asset( 'js/camera.min.js' ), array( 'jquery', 'jquery-effects-core' ), VERSION );
-	wp_register_script( 'scslider-script', asset( 'js/script.js' ), array( 'jquery',  'jquery-effects-core'  ), VERSION );
-        
-        
-        $js_path = plugin_dir_url( ( __FILE__ ) );
-        wp_localize_script( 'scslider-script', 'pluginPath', $js_path );
-        
-        wp_enqueue_script('scslider-script');
+    $camera_settings = array (
+        'js_path' => plugin_dir_url( ( __FILE__ ) ),
+        'autoAdvance' => get_option( Options::AUTO_ADVANCE ),
+        'clickPause' => get_option( Options::CLICKPAUSE ),
+        'navigation' => get_option( Options::NAVIGATION ),
+        'navigationHover' => get_option( Options::NAVIGATION_HOVER ),
+        'overlayer' => get_option( Options::OVERLAYER ),
+        'playPause' => get_option( Options::PLAYPAUSE ),
+        'slideHeight' => get_option( Options::SLIDE_HEIGHT ),
+        'slideMobileHeight' => get_option( Options::SLIDE_MOBILE_HEIGHT ),
+        'slideTimer' => get_option( Options::SLIDE_TIMER ),
+        'slideTrans' => get_option( Options::SLIDE_TRANS ),
+        'slideMobileTrans' => get_option( Options::SLIDE_MOBILE_TRANS ),
+        'slideTransTimer' => get_option( Options::TRANS_TIMER ),
+        'pagination' => get_option( Options::PAGINATION ),
+        'loader' => get_option( Options::LOADER ),
+        'piePosition' => get_option( Options::PIE_POSITION ),
+        'barPosition' => get_option( Options::BAR_POSITION ),
+    );    
+                
+    wp_localize_script( 'scslider-script', 'cameraSettings', $camera_settings );
+
+    wp_enqueue_script('scslider-script');
 }
 
 add_action( 'wp_enqueue_scripts', 'scslider\enqueue_scripts' );
