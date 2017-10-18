@@ -8,17 +8,33 @@ namespace scslider;
 add_action( 'admin_menu', function(){
     
     add_options_page( __( 'Smartcat Slider', 'scslider' ), __( 'Smartcat Slider', 'scslider' ), 'manage_options', 'scslider-settings', 'scslider\output_options_page' );
-    
+        
 });
 
 function output_options_page() { ?>
 
     <h2><?php _e( 'Smartcat Slider Options Page', 'scslider' ); ?></h2>
     
-    <form action="options.php" method="POST">
+    <?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'scslider-settings'; ?>
     
-        <?php settings_fields('scslider-settings'); ?>
-        <?php do_settings_sections( 'scslider-settings' ); ?>
+    <h2 class="nav-tab-wrapper">
+        <a href="?page=scslider-settings&tab=scslider-settings" class="nav-tab <?php echo $active_tab == 'scslider-settings' ? 'nav-tab-active' : ''; ?>">Options</a>
+        <a href="?page=scslider-settings&tab=scslider-camera-settings" class="nav-tab <?php echo $active_tab == 'scslider-camera-settings' ? 'nav-tab-active' : ''; ?>">Display Properties</a>
+    </h2>
+    
+    <?php
+            
+    if( isset( $_GET[ 'tab' ] ) ) {
+        $active_tab = $_GET[ 'tab' ];
+    }
+    
+    ?>
+    
+    <form action="options.php" method="POST">
+        
+        <?php settings_fields( $active_tab );
+              do_settings_sections( $active_tab ); ?>
+        
         <?php submit_button(); ?>
         
     </form>
@@ -34,97 +50,97 @@ function register_settings() {
         
     ) );
     
-    register_setting( 'scslider-settings', Options::AUTO_ADVANCE, array(
+    register_setting( 'scslider-camera-settings', Options::AUTO_ADVANCE, array(
     'type'                  => 'boolean',
     'sanitize_callback'     => 'scslider\sanitize_boolean',
     'default'               => Defaults::AUTO_ADVANCE
     ) );
     
-    register_setting( 'scslider-settings', Options::SLIDE_TRANS, array(
+    register_setting( 'scslider-camera-settings', Options::SLIDE_TRANS, array(
     'type'                  => 'string',
     'sanitize_callback'     => 'scslider\sanitize_transition',
     'default'               => Defaults::SLIDE_TRANS
     ) );
     
-    register_setting( 'scslider-settings', Options::SLIDE_MOBILE_TRANS, array(
+    register_setting( 'scslider-camera-settings', Options::SLIDE_MOBILE_TRANS, array(
     'type'                  => 'string',
     'sanitize_callback'     => 'scslider\sanitize_transition',
     'default'               => Defaults::SLIDE_MOBILE_TRANS
     ) );
     
-    register_setting( 'scslider-settings', Options::NAVIGATION, array(
+    register_setting( 'scslider-camera-settings', Options::NAVIGATION, array(
     'type'                  => 'boolean',
     'sanitize_callback'     => 'scslider\sanitize_boolean',
     'default'               => Defaults::NAVIGATION
     ) );
     
-    register_setting( 'scslider-settings', Options::NAVIGATION_HOVER, array(
+    register_setting( 'scslider-camera-settings', Options::NAVIGATION_HOVER, array(
     'type'                  => 'boolean',
     'sanitize_callback'     => 'scslider\sanitize_boolean',
     'default'               => Defaults::NAVIGATION_HOVER
     ) );
     
-    register_setting( 'scslider-settings', Options::PAGINATION, array(
+    register_setting( 'scslider-camera-settings', Options::PAGINATION, array(
     'type'                  => 'boolean',
     'sanitize_callback'     => 'scslider\sanitize_boolean',
     'default'               => Defaults::PAGINATION
     ) );
     
-    register_setting( 'scslider-settings', Options::OVERLAYER, array(
+    register_setting( 'scslider-camera-settings', Options::OVERLAYER, array(
     'type'                  => 'boolean',
     'sanitize_callback'     => 'scslider\sanitize_boolean',
     'default'               => Defaults::OVERLAYER
     ) );
     
-    register_setting( 'scslider-settings', Options::PLAYPAUSE, array(
+    register_setting( 'scslider-camera-settings', Options::PLAYPAUSE, array(
     'type'                  => 'boolean',
     'sanitize_callback'     => 'scslider\sanitize_boolean',
     'default'               => Defaults::PLAYPAUSE
     ) );
     
-    register_setting( 'scslider-settings', Options::CLICKPAUSE, array(
+    register_setting( 'scslider-camera-settings', Options::CLICKPAUSE, array(
     'type'                  => 'boolean',
     'sanitize_callback'     => 'scslider\sanitize_boolean',
     'default'               => Defaults::CLICKPAUSE
     ) );
     
-    register_setting( 'scslider-settings', Options::SLIDE_HEIGHT, array(
+    register_setting( 'scslider-camera-settings', Options::SLIDE_HEIGHT, array(
     'type'                  => 'integer',
     'sanitize_callback'     => 'scslider\sanitize_height',
     'default'               => Defaults::SLIDE_HEIGHT
     ) );
         
-    register_setting( 'scslider-settings', Options::SLIDE_MOBILE_HEIGHT, array(
+    register_setting( 'scslider-camera-settings', Options::SLIDE_MOBILE_HEIGHT, array(
     'type'                  => 'integer',
     'sanitize_callback'     => 'scslider\sanitize_height',
     'default'               => Defaults::SLIDE_MOBILE_HEIGHT
     ) );
         
-    register_setting( 'scslider-settings', Options::SLIDE_TIMER, array(
+    register_setting( 'scslider-camera-settings', Options::SLIDE_TIMER, array(
     'type'                  => 'integer',
     'sanitize_callback'     => 'scslider\sanitize_number',
     'default'               => Defaults::SLIDE_TIMER
     ) );
         
-    register_setting( 'scslider-settings', Options::TRANS_TIMER, array(
+    register_setting( 'scslider-camera-settings', Options::TRANS_TIMER, array(
     'type'                  => 'integer',
     'sanitize_callback'     => 'scslider\sanitize_number',
     'default'               => Defaults::TRANS_TIMER
     ) );
     
-    register_setting( 'scslider-settings', Options::LOADER, array(
+    register_setting( 'scslider-camera-settings', Options::LOADER, array(
     'type'                  => 'string',
     'sanitize_callback'     => 'scslider\sanitize_loader',
     'default'               => Defaults::LOADER
     ) );
     
-    register_setting( 'scslider-settings', Options::PIE_POSITION, array(
+    register_setting( 'scslider-camera-settings', Options::PIE_POSITION, array(
     'type'                  => 'string',
     'sanitize_callback'     => 'scslider\sanitize_pie_position',
     'default'               => Defaults::PIE_POSITION
     ) );
         
-    register_setting( 'scslider-settings', Options::BAR_POSITION, array(
+    register_setting( 'scslider-camera-settings', Options::BAR_POSITION, array(
     'type'                  => 'string',
     'sanitize_callback'     => 'scslider\sanitize_bar_position',
     'default'               => Defaults::BAR_POSITION
@@ -137,7 +153,7 @@ add_action( 'init', 'scslider\register_settings' );
 function create_settings_sections() {
     
     add_settings_section( 'scslider-settings', __( 'Select post types', 'scslider' ), '', 'scslider-settings' );
-    add_settings_section( 'scslider-camera-settings', __( 'Select camera settings', 'scslider' ), '', 'scslider-settings' );
+    add_settings_section( 'scslider-camera-settings', __( 'Select camera settings', 'scslider' ), '', 'scslider-camera-settings' );
     
 }
 
@@ -157,7 +173,7 @@ function add_settings_fields() {
         Options::AUTO_ADVANCE,
         __( 'Auto Advance', 'scslider' ),
         'scslider\render_boolean_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::AUTO_ADVANCE
@@ -168,7 +184,7 @@ function add_settings_fields() {
         Options::SLIDE_TRANS,
         __( 'Slide Transition', 'scslider' ),
         'scslider\render_dropdown_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::SLIDE_TRANS,
@@ -180,7 +196,7 @@ function add_settings_fields() {
         Options::SLIDE_MOBILE_TRANS,
         __( 'Mobile Slide Transition', 'scslider' ),
         'scslider\render_dropdown_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::SLIDE_MOBILE_TRANS,
@@ -190,29 +206,29 @@ function add_settings_fields() {
 
     add_settings_field(
         Options::SLIDE_HEIGHT,
-        __( 'Slide Height', 'scslider' ),
+        __( 'Slide Height (% of Screen Size)', 'scslider' ),
         'scslider\render_number_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::SLIDE_HEIGHT,
             'max' => 100,
             'min' => 20,
-            'step'=> 10
+            'step'=> 5
         )
     );
 
     add_settings_field(
         Options::SLIDE_MOBILE_HEIGHT,
-        __( 'Slide Mobile Height', 'scslider' ),
+        __( 'Slide Mobile Height (% of Screen Size)', 'scslider' ),
         'scslider\render_number_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::SLIDE_MOBILE_HEIGHT,
             'max' => 100,
             'min' => 20,
-            'step'=> 10
+            'step'=> 5
         )
     );
 
@@ -220,7 +236,7 @@ function add_settings_fields() {
         Options::NAVIGATION,
         __( 'Display Navigation', 'scslider' ),
         'scslider\render_boolean_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::NAVIGATION
@@ -231,7 +247,7 @@ function add_settings_fields() {
         Options::NAVIGATION_HOVER,
         __( 'Pause On Hover', 'scslider' ),
         'scslider\render_boolean_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::NAVIGATION_HOVER
@@ -242,7 +258,7 @@ function add_settings_fields() {
         Options::PAGINATION,
         __( 'Display Pagination', 'scslider' ),
         'scslider\render_boolean_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::PAGINATION
@@ -253,7 +269,7 @@ function add_settings_fields() {
         Options::OVERLAYER,
         __( 'Place Overlayer Over Slider', 'scslider' ),
         'scslider\render_boolean_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::OVERLAYER
@@ -264,7 +280,7 @@ function add_settings_fields() {
         Options::PLAYPAUSE,
         __( 'Display Play/Pause Button', 'scslider' ),
         'scslider\render_boolean_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::PLAYPAUSE
@@ -275,7 +291,7 @@ function add_settings_fields() {
         Options::CLICKPAUSE,
         __( 'Pause On Slide Click', 'scslider' ),
         'scslider\render_boolean_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::CLICKPAUSE
@@ -286,7 +302,7 @@ function add_settings_fields() {
         Options::SLIDE_TIMER,
         __( 'Slide Time ( milliseconds )', 'scslider' ),
         'scslider\render_number_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::SLIDE_TIMER,
@@ -300,7 +316,7 @@ function add_settings_fields() {
         Options::TRANS_TIMER,
         __( 'Slide Transistion Timer ( milliseconds )', 'scslider' ),
         'scslider\render_number_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::TRANS_TIMER,
@@ -314,7 +330,7 @@ function add_settings_fields() {
         Options::LOADER,
         __( 'Slider Loader', 'scslider' ),
         'scslider\render_dropdown_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::LOADER,
@@ -324,9 +340,9 @@ function add_settings_fields() {
     
     add_settings_field(
         Options::PIE_POSITION,
-        __( 'Loader Position', 'scslider' ),
+        __( 'Pie Loader Position', 'scslider' ),
         'scslider\render_dropdown_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::PIE_POSITION,
@@ -336,9 +352,9 @@ function add_settings_fields() {
         
     add_settings_field(
         Options::BAR_POSITION,
-        __( 'Loader Position', 'scslider' ),
+        __( 'Bar Loader Position', 'scslider' ),
         'scslider\render_dropdown_field',
-        'scslider-settings',
+        'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::BAR_POSITION,

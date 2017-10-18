@@ -2,7 +2,7 @@
 
 .slide-content.standard {
     background-color: rgba(0, 0, 0, 0.80);
-    width: 25%;
+    width: 40%;
     align-items: baseline;
     position: absolute;
     padding: 15px;
@@ -22,6 +22,10 @@
 .slide-content-wrapper.standard .slide-title, 
 .slide-content-wrapper.standard .slide-subtitle {
     text-transform: capitalize;
+}
+.standard .scslider-button-wrapper a {
+    float: right;
+    margin-bottom: 5px !important;
 }
 
 /*</editor-fold>*/
@@ -85,7 +89,6 @@
     width: 50%;
 }
 .slide-content.left p {
-    padding: 15px 100px;
     font-weight: 500;
     width: 50%;
 }
@@ -120,7 +123,6 @@
     width: 150%;
 }
 .slide-content.right p {
-    padding: 15px 100px;
     font-weight: 500;
     width: 50%;
     float: right;
@@ -133,11 +135,35 @@
     .slide-title, .slide-subtitle {
         font-size: 23px !important;
     }
+    .left .scslider-button-wrapper, 
+    .right .scslider-button-wrapper {
+        width: 50% !important;
+    }
     .slide-content-wrapper.standard {
+        width: 50% !important;
+    }
+}
+@media screen and ( max-width:767px ){
+    .slide-content * {
+        line-height: inherit !important;
+    }
+    .right .slide-title, .right .slide-subtitle, 
+    .left .slide-title, .left .slide-subtitle {
         width: 100% !important;
     }
-    .slide-content {
-        width: 10%;
+    .scslider-button-wrapper {
+        font-size: 13px !important;
+        width: 100% !important;
+    }
+    .slide-content.standard {
+        width: 100% !important;
+    }
+    .standard .scslider-button-wrapper {
+        margin: 0 !important;
+    }
+    .left .scslider-button-wrapper,
+    .right .scslider-button-wrapper {
+        width: 100% !important;
     }
 }
 .scslider-wrap #iframe.slide-content-wrapper {
@@ -154,7 +180,6 @@
     display: none;
 }
 .camera-video{
-    position: absolute;
     z-index: -1;
 }
 .scslider-button1, .scslider-button2 {
@@ -175,6 +200,7 @@
 }
 .slide-content.standard .scslider-button-wrapper {
     margin: 25px 0 15px 0;
+    float: right;
 }
 .scslide-fadeIn {
     animation: scslide-fadeIn 1s;

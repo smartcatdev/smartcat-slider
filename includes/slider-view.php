@@ -91,8 +91,7 @@ function render_single_slide( $post = null, $new_data= null ) { $post = get_post
 
     $scslider_template_dropdown = ( $new_data[ 'template' ] == null ?  get_post_meta( $post->ID, 'scslider_template_dropdown', true ) : $new_data['template']  ) ;
 
-
-    $post->post_name = ( $new_data[ 'title' ] == null ? $post->post_name : $new_data[ 'title' ] );
+    $post->post_title = ( $new_data == null ? $post->post_title : $new_data[ 'title' ] );
 
     if ( $new_data[ 'img' ] == null ) {     
 
@@ -107,14 +106,16 @@ function render_single_slide( $post = null, $new_data= null ) { $post = get_post
     <?php if( substr( $img_src, -3 ) === 'mp4' ) $is_video = true; ?> 
 
     <div class="ajax-preview" data-src="<?php echo $is_video ? plugin_dir_url(__FILE__) . '../assets/images/tiny.png' : $img_src ?>" 
-         style="background-image: url('<?php echo $img_src ?>')" >         
+         style="background-image: url('<?php echo $img_src ?>');
+                 <?php echo $is_video ? 'background-color:black;' : ''; ?>" >         
 
         <div class="slide-content-wrapper <?php echo esc_attr( $scslider_template_dropdown ) ?>"
             <?php echo $is_video ? 'id="iframe"' : ''; ?>>
 
             <?php if ( $is_video ) { ?>
 
-                <video class="camera-video" preload="none" width="100%" height="100%" muted loop>
+                <video class="camera-video" preload="none" width="100%" height="100%" muted loop
+                       <?php echo $post->post_title == '' ? '' : 'style="position:absolute;"' ?>>
                     <source src="<?php echo esc_url( $img_src )?>" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>

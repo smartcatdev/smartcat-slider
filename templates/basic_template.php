@@ -1,12 +1,13 @@
 <div class="slide-content <?php echo esc_attr( $scslider_template_dropdown )?> camera_effected"
-    <?php            //Make the text color black if the screen background if blank white                       
-    echo $img_src && $scslider_template_dropdown != 'standard' ? '' : 'style="color:black !important;"'; ?>>
-
+<?php          //Make the text color black if the screen background if blank white                       
+echo $img_src && $scslider_template_dropdown != 'standard' ? '' : 'style="color:black !important;"'; ?>>
+        
     <div class="<?php echo esc_attr( $scslider_title_trans ) ?> slide-title"
          style="color: <?php echo esc_attr( $scslider_title_color ); ?>;
                 font-size: <?php echo esc_attr( $scslider_title_size ) . 'px'; ?>;
                 line-height: <?php echo esc_attr( $scslider_title_size + 10 ) . 'px'; ?>;">
-        <?php echo esc_attr( $post->post_name ); ?>
+        
+        <?php echo esc_attr( $post->post_title ); ?>
     </div>
 
     <?php if ( $slide_subtitle ) { ?>
@@ -34,8 +35,8 @@
 
         if ( $scslider_button1_text ) { ?>
 
-        <a class="<?php echo esc_attr( $scslider_button1_trans ); ?> scslider-button1" href="<?php echo $scslider_button1_url ? esc_url( $scslider_button1_url ) : '#' ?>"
-               style="<?php echo $scslider_button1_text_color ? 'color: ' . esc_attr( $scslider_button1_text_color ) . ';' : '' ?>
+            <a  class="<?php echo esc_attr( $scslider_button1_trans ); ?> scslider-button1" href="<?php echo $scslider_button1_url ? esc_url( $scslider_button1_url ) : '#' ?>"
+                style="<?php echo $scslider_button1_text_color ? 'color: ' . esc_attr( $scslider_button1_text_color ) . ';' : '' ?>
                       <?php echo $scslider_button1_color ? 'background-color: ' . esc_attr( $scslider_button1_color ) . ';' : '' ?>" >
                 <?php echo esc_attr( $scslider_button1_text ) ?>
             </a>
@@ -44,8 +45,8 @@
 
         if ( $scslider_button2_text ) { ?>
 
-            <a class="<?php echo esc_attr( $scslider_button2_trans ); ?> scslider-button2" href="<?php echo $scslider_button2_url ? esc_url( $scslider_button2_url ) : '#' ?>"
-               style="<?php echo $scslider_button2_text_color ? 'color: ' . esc_attr( $scslider_button2_text_color ) . ';' : '' ?>
+            <a  class="<?php echo esc_attr( $scslider_button2_trans ); ?> scslider-button2" href="<?php echo $scslider_button2_url ? esc_url( $scslider_button2_url ) : '#' ?>"
+                style="<?php echo $scslider_button2_text_color ? 'color: ' . esc_attr( $scslider_button2_text_color ) . ';' : '' ?>
                       <?php echo $scslider_button2_color ? 'background-color: ' . esc_attr( $scslider_button2_color ) . ';' : '' ?>" >
                 <?php echo esc_attr( $scslider_button2_text ) ?>
             </a>

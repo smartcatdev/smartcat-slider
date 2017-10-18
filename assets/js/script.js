@@ -5,19 +5,18 @@
         var cameraTarget =  $( '.scslider-wrap' ); 
         
     }
-    var numSlides = 0;
     
+    var numSlides = 0; 
     var navigation = ( cameraSettings.navigation == 'true' );
     var navigationHover = ( cameraSettings.navigationHover == 'true' );
     var playPause = ( cameraSettings.playPause == 'true' );
     var autoAdvance = ( cameraSettings.autoAdvance == 'true' );
     var pagination = ( cameraSettings.pagination == 'true' );
     var overlayer = ( cameraSettings.overlayer == 'true' );
-    var clickPause = ( cameraSettings.clickPause == 'true' );
-    
-   
+    var clickPause = ( cameraSettings.clickPause == 'true' ); 
     var deviceWidth = $( window ).width();
     var height = '';
+    
     if ( deviceWidth < 768 ){
         
         height=cameraSettings.slideMobileHeight + '%';
@@ -27,7 +26,6 @@
         height=cameraSettings.slideHeight + '%';
         
     }
-    
     
     $( '.slide-content-wrapper' ).each(function() {
         
@@ -42,9 +40,7 @@
         pagination = false;
         playPause = false;
     } 
-            
-    console.log(  cameraSettings.slideMobileTrans );
-        
+                  
     cameraTarget.camera({
         
         imagePath: cameraSettings.js_path + 'assets/images/',
