@@ -14,7 +14,9 @@
             
             $term_info = get_term($term_id);
             
-            echo '<h3>' . esc_attr( $term_info->name ) . '<a href="#" data-cat-id="' . esc_attr( $term_id ) . '" class="save-slide-order">Save</a>' . '</h3>';
+            echo '<h3>';
+            echo '<span class="slides-sorter dashicons dashicons-arrow-right"></span>     ';
+            echo esc_attr( $term_info->name ) . '<a href="#" data-cat-id="' . esc_attr( $term_id ) . '" class="save-slide-order">Save</a>' . '</h3>';
             
             $the_query = new WP_Query( array(
                 'post_type' => 'slide',
@@ -45,7 +47,7 @@
                                 
                                 <?php if( substr( $src, -3 ) === 'mp4' ) { ?>
                                 
-                                <img class="movie-icon" height="150px" src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/film-2.svg' ?>" />    
+                                <span class="movie-icon dashicons dashicons-video-alt2" height="150px"  />    
                                 
                                 <?php } ?>
                                 

@@ -5,7 +5,7 @@
  * 
  */
 ( function( $) {
-    $.wpMediaUploader = function( options ) {
+    $.scsliderUploader = function( options ) {
         
         var settings = $.extend({
             

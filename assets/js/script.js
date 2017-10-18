@@ -1,6 +1,6 @@
     jQuery( document ).ready( function ( $ ) {
     
-    if ( '.scslider-wrap'.length ) { 
+    if ( '.scslider-wrap'.length > 0 ) { 
         
         var cameraTarget =  $( '.scslider-wrap' ); 
         
@@ -19,11 +19,11 @@
     
     if ( deviceWidth < 768 ){
         
-        height=cameraSettings.slideMobileHeight + '%';
+        height = cameraSettings.slideMobileHeight + '%';
         
     } else {
                 
-        height=cameraSettings.slideHeight + '%';
+        height = cameraSettings.slideHeight + '%';
         
     }
     

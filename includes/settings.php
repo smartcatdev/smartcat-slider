@@ -7,19 +7,26 @@ namespace scslider;
  */
 add_action( 'admin_menu', function(){
     
-    add_options_page( __( 'Smartcat Slider', 'scslider' ), __( 'Smartcat Slider', 'scslider' ), 'manage_options', 'scslider-settings', 'scslider\output_options_page' );
-        
+    add_submenu_page(
+        'edit.php?post_type=slide',
+        __( 'Settings', 'scslider' ),
+        'Settings',
+        'manage_options',
+        'scslider-settings',
+        'scslider\output_options_page'
+    );
+    
 });
 
 function output_options_page() { ?>
 
     <h2><?php _e( 'Smartcat Slider Options Page', 'scslider' ); ?></h2>
     
-    <?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'scslider-settings'; ?>
+    <?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'scslider-camera-settings'; ?>
     
     <h2 class="nav-tab-wrapper">
-        <a href="?page=scslider-settings&tab=scslider-settings" class="nav-tab <?php echo $active_tab == 'scslider-settings' ? 'nav-tab-active' : ''; ?>">Options</a>
-        <a href="?page=scslider-settings&tab=scslider-camera-settings" class="nav-tab <?php echo $active_tab == 'scslider-camera-settings' ? 'nav-tab-active' : ''; ?>">Display Properties</a>
+        <a href="?post_type=slide&page=scslider-settings&tab=scslider-camera-settings" class="nav-tab <?php echo $active_tab == 'scslider-camera-settings' ? 'nav-tab-active' : ''; ?>">Appearance</a>
+        <a href="?post_type=slide&page=scslider-settings&tab=scslider-settings" class="nav-tab <?php echo $active_tab == 'scslider-settings' ? 'nav-tab-active' : ''; ?>">General</a>
     </h2>
     
     <?php

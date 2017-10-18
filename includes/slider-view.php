@@ -1,7 +1,7 @@
 <?php namespace scslider; 
 
 function render_slider() {
-      
+    
     if ( get_post_meta( get_the_ID(), 'scslider_toggle', true ) == 'on' ) {
     
         ob_start();
@@ -40,11 +40,11 @@ function render_slider() {
 
         <?php return ob_get_clean();
 
-    }    
-        
+    }
 }
 
 add_shortcode( 'scslider', 'scslider\render_slider' );
+
 
 /**
  * Renders 1 slide of a slider

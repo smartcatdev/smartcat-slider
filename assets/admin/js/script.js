@@ -1,7 +1,5 @@
 jQuery( document ).ready( function ( $ ) {
 
-    
-
     $( '#slide-accordion' ).accordion({
         animate: 200,
         heightStyle: "content",
@@ -11,7 +9,17 @@ jQuery( document ).ready( function ( $ ) {
     
     $( '.slides-list' ).sortable();
     
-    $.wpMediaUploader();
+    $( '.ui-accordion-header' ).on( 'click', function() {
+        
+         $( '.ui-accordion-header-active' ).find( '.slides-sorter' ).addClass( 'dashicons-arrow-down');
+         $( '.ui-accordion-header-active' ).find( '.slides-sorter' ).removeClass( 'dashicons-arrow-right');
+         
+         $( '.ui-accordion-header' ).not( '.ui-accordion-header-active' ).find( '.slides-sorter' ).addClass( 'dashicons-arrow-right');
+         $( '.ui-accordion-header' ).not( '.ui-accordion-header-active' ).find( '.slides-sorter' ).removeClass( 'dashicons-arrow-down');
+         
+    });
+    
+    $.scsliderUploader();
     
     var video = $( '.ajax-preview' ).find( '.camera-video' );
             

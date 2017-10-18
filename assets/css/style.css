@@ -1,5 +1,4 @@
 /*<editor-fold desc="Standard Template">*/
-
 .slide-content.standard {
     background-color: rgba(0, 0, 0, 0.80);
     width: 40%;
@@ -13,7 +12,6 @@
 .slide-content-wrapper.standard .slide-subtitle {
     font-weight: bold;
 }
-
 .slide-content-wrapper.standard .slide-title, 
 .slide-content-wrapper.standard .slide-subtitle,
 .slide-content-wrapper.standard .slide-content p {
@@ -27,7 +25,6 @@
     float: right;
     margin-bottom: 5px !important;
 }
-
 /*</editor-fold>*/
 /*<editor-fold desc="Stacked Template">*/
 .slide-content-wrapper.stacked {
@@ -226,31 +223,30 @@
     }
 }
 @keyframes scslide-fadeTop {
-	0% {
-            transform: translateY(-100%);
-            opacity: 0;
-	}
-	50%{
-            opacity: 0.5;
-	}			
-	100% {
-            transform: translateY(0%);
-            opacity: 1;
-	}		
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    50%{
+        opacity: 0.5;
+    }			
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }		
 }
 @keyframes scslide-fadeBottom {
-    
-	0% {
-            transform: translateY(100%);
-            opacity: 0;
-	}
-	50%{
-            opacity: 0.5;
-	}			
-	100% {
-            transform: translateY(0%);
-            opacity: 1;
-	}		
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    50%{
+        opacity: 0.5;
+    }			
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }		
 }
 @keyframes scslide-fadeLeft {
     
