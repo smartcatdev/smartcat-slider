@@ -1,13 +1,12 @@
 <?php namespace scslider; 
 
-function render_slider() {
+function render_slider( $echo=false ) {
     
     if ( get_post_meta( get_the_ID(), 'scslider_toggle', true ) == 'on' ) {
     
         ob_start();
 
-        $category = get_post_meta( get_the_ID(), 'scslider_selected' );
-
+        $category = get_post_meta( get_the_ID(), 'scslider_selected', true );
 
         $args = array(
             'post_type' => 'slide',
@@ -37,14 +36,23 @@ function render_slider() {
         <?php } ?>     
 
     </div>
-
-        <?php return ob_get_clean();
-
+    
+        <?php 
+        
+        $ob_buffer = ob_get_clean();
+        
+        if ( $echo ) {
+            echo $ob_buffer;
+        } else {
+            return $ob_buffer;
+        }
+        
     }
 }
 
 add_shortcode( 'scslider', 'scslider\render_slider' );
 
+add_action( 'render_scslider', 'scslider\render_slider' );
 
 /**
  * Renders 1 slide of a slider
