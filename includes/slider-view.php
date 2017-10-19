@@ -2,11 +2,19 @@
 
 function render_slider( $echo=false ) {
     
-    if ( get_post_meta( get_the_ID(), 'scslider_toggle', true ) == 'on' ) {
+
+    $post_id = null;
+    if( is_home() ){
+        $post_id = get_option( 'page_for_posts' );
+    }else {
+        $post_id = get_the_ID();
+    }
+    
+    if ( get_post_meta( $post_id, 'scslider_toggle', true ) == 'on' ) {
     
         ob_start();
 
-        $category = get_post_meta( get_the_ID(), 'scslider_selected', true );
+        $category = get_post_meta( $post_id, 'scslider_selected', true );
 
         $args = array(
             'post_type' => 'slide',
