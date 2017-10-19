@@ -147,12 +147,12 @@ interface Defaults {
     /**
     * @since 1.0.0
     */
-    const SLIDE_HEIGHT = '50';
+    const SLIDE_HEIGHT = '450';
             
     /**
     * @since 1.0.0
     */
-    const SLIDE_MOBILE_HEIGHT = '50';
+    const SLIDE_MOBILE_HEIGHT = '450';
      
     /**
     * @since 1.0.0

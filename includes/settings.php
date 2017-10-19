@@ -213,29 +213,29 @@ function add_settings_fields() {
 
     add_settings_field(
         Options::SLIDE_HEIGHT,
-        __( 'Slide Height (% of Screen Size)', 'scslider' ),
+        __( 'Slide Height ( in pixels )', 'scslider' ),
         'scslider\render_number_field',
         'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::SLIDE_HEIGHT,
-            'max' => 100,
-            'min' => 20,
-            'step'=> 5
+            'max' => 2000,
+            'min' => 200,
+            'step'=> 50
         )
     );
 
     add_settings_field(
         Options::SLIDE_MOBILE_HEIGHT,
-        __( 'Slide Mobile Height (% of Screen Size)', 'scslider' ),
+        __( 'Slide Mobile Height ( in pixels )', 'scslider' ),
         'scslider\render_number_field',
         'scslider-camera-settings',
         'scslider-camera-settings',
         array (
             'name' => Options::SLIDE_MOBILE_HEIGHT,
-            'max' => 100,
-            'min' => 20,
-            'step'=> 5
+            'max' => 2000,
+            'min' => 200,
+            'step'=> 50
         )
     );
 
@@ -380,15 +380,15 @@ function render_checkbox_field() { ?>
     
     <feildset>
         
-        <?php foreach ($post_types as $post_type ) {?>
+        <?php foreach ( $post_types as $post_type ) {?>
 
             <?php   if ($post_type != 'slide') { ?> <!-- Don't output the Slider meta-box on slide post type -->
         
-                <?php $post = get_post_type_object($post_type); ?>
+                <?php $post = get_post_type_object( $post_type ); ?>
 
                 <label>
                 <input type="checkbox" 
-                       value="<?php esc_attr_e($post_type); ?>"
+                       value="<?php esc_attr_e( $post_type ); ?>"
                        name="<?php echo Options::ACTIVE_POST_TYPES ?>[]"
                        <?php checked( true, in_array( $post_type, $option ), true)?> />
 
@@ -482,7 +482,7 @@ function sanitize_active_post_types( $input ) {
             
             if ( !in_array( $single_input, $all_types ) || $single_input == 'slide' ) {
                 
-                $key = array_search($single_input, $input);
+                $key = array_search( $single_input, $input );
                 unset( $input[ $key ] );
                 
             }
@@ -539,10 +539,10 @@ function sanitize_transition( $input ) {
 }
 function sanitize_height( $input ) {
     
-    if ( $input >= 20 && $input <= 100 ){
+    if ( $input >= 200 && $input <= 2000 ){
         return $input;
     }
-    return 30;
+    return 450;
     
 }
 function sanitize_number( $input ) {
@@ -555,7 +555,7 @@ function sanitize_number( $input ) {
 }
 function sanitize_loader( $input ) {
     
-    if (in_array( $input, array( 'pie', 'bar', 'none' ))) {
+    if ( in_array( $input, array( 'pie', 'bar', 'none' ) ) ) {
         return $input;
     }
     return 'pie';
@@ -563,7 +563,7 @@ function sanitize_loader( $input ) {
 }
 function sanitize_pie_position( $input ) {
     
-    if (in_array( $input, array( 'rightTop', 'leftTop', 'leftBottom', 'rightBottom' ))) {
+    if ( in_array( $input, array( 'rightTop', 'leftTop', 'leftBottom', 'rightBottom' ) ) ) {
         return $input;
     }
     return 'pie';
@@ -571,7 +571,7 @@ function sanitize_pie_position( $input ) {
 }
 function sanitize_bar_position( $input ) {
     
-    if (in_array( $input, array( 'top', 'bottom' ))) {
+    if ( in_array( $input, array( 'top', 'bottom' ) ) ) {
         return $input;
     }
     return 'bottom';

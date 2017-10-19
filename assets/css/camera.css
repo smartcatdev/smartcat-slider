@@ -21,7 +21,6 @@
 .camera_wrap {
 	direction: ltr;
 	display: none;
-	float: left;
 	position: relative;
 	z-index: 0;
 }

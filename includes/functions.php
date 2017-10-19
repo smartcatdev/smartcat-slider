@@ -148,81 +148,78 @@ function create_new_meta( $post_id ) {
 
 add_action( 'save_post', 'scslider\create_new_meta');
 
-class scslider_metabox {
+class  scslider_metabox {
 
-	public function __construct() {
+    public function __construct() {
 
-		if ( is_admin() ) {
-			add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
-			add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
-		}
+        if ( is_admin() ) {
+                add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
+                add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
+        }
 
-	}
+    }
 
-	public function init_metabox() {
+    public function init_metabox() {
 
-		add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
-		add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
+        add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
+        add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
 
-	}
+    }
 
-	public function add_metabox() {
-            
+    public function add_metabox() {
+
+        $checked_posts = get_option( Options::ACTIVE_POST_TYPES );
+
+        foreach ( $checked_posts as $checked_post ) {                      
+
+            add_meta_box(
+                'scslider_selector',
+                __( 'Select Slider', 'scslider' ),
+                array( $this, 'render_scslider_metabox' ),
+                $checked_post,
+                'normal',
+                'high'
+            );
+
+        }
+
+    }
+
+    public function render_scslider_metabox( $post ) {
+        // Add nonce for security and authentication.
+        wp_nonce_field( 'scslider_selector_nonce_action', 'scslider_selector_nonce' );
+
+        // Retrieve an existing value from the database.
+        $scslider_selected = get_post_meta( $post->ID, 'scslider_selected', true );
+        $scslider_toggle = get_post_meta( $post->ID, 'scslider_toggle', true );
+
+        // Set default values.
+        if( empty( $scslider_selected ) ) $scslider_selected = '';
+        if( empty( $scslider_toggle ) ) $scslider_toggle = '';
+
+        // Form fields. 
+        echo '<table class="form-table">';
+
+         echo    '<div></br>';
+
+            echo '<label>Display Slider?  </label>';
+            echo ' <label class="switch">
+                        <input id="scslider_toggle"
+                               name="scslider_toggle"
+                               value="on"
+                               type="checkbox"' . checked( 'on', $scslider_toggle, false ) . '/>
+                        <span class="slider round"></span>
+                    </label></br></br>';
 
             if ( get_terms( array( 'taxonomy' => 'slider' ) ) ) {
-            
-                $checked_posts = get_option( Options::ACTIVE_POST_TYPES );
-            
-                foreach ( $checked_posts as $checked_post ) {                      
 
-                    add_meta_box(
-                        'scslider_selector',
-                        __( 'Select Slider', 'scslider' ),
-                        array( $this, 'render_scslider_metabox' ),
-                        $checked_post,
-                        'normal',
-                        'high'
-                    );
-
-                }
-
-            }
-            
-	}
-        
-        public function render_scslider_metabox( $post ) {
-            // Add nonce for security and authentication.
-            wp_nonce_field( 'scslider_selector_nonce_action', 'scslider_selector_nonce' );
-
-            // Retrieve an existing value from the database.
-            $scslider_selected = get_post_meta( $post->ID, 'scslider_selected', true );
-            $scslider_toggle = get_post_meta( $post->ID, 'scslider_toggle', true );
-            
-            // Set default values.
-            if( empty( $scslider_selected ) ) $scslider_selected = '';
-            if( empty( $scslider_toggle ) ) $scslider_toggle = '';
-            
-            // Form fields. 
-            echo '<table class="form-table">';
-            
-             echo    '<div></br>';
-             
-                echo '<label>Display Slider?  </label>';
-                echo ' <label class="switch">
-                            <input id="scslider_toggle"
-                                   name="scslider_toggle"
-                                   value="on"
-                                   type="checkbox"' . checked( 'on', $scslider_toggle, false ) . '/>
-                            <span class="slider round"></span>
-                        </label></br></br>';
-                
                 echo    '<select id="scslider_selected" name="scslider_selected">';
-                
+
                             $terms = get_terms( array( 
                                 'taxonomy' => 'slider'
                             ) ); // Get all terms of a taxonomy
                             foreach ( $terms as $term ) {
-                                
+
                                 echo '<option value="' . $term->slug . '" ';
                                 echo $term->slug == $scslider_selected ? 'selected="selected"' : '';
                                 echo ' >'
@@ -230,276 +227,46 @@ class scslider_metabox {
                                 '</option>';
 
                             }
-                            
+
                 echo    '</select>';
-                
-                echo '</div>';
 
-            echo '</table>';
-        }
-                
-	public function save_metabox( $post_id, $post ) {       
-            
-            $nonce_name   = isset( $_POST[ 'scslider_selector_nonce' ] ) ? $_POST[ 'scslider_selector_nonce' ] : '';
-            $nonce_action = 'scslider_selector_nonce_action';
+            } else {
 
-            // Check if a nonce is set.
-            if ( ! isset( $nonce_name ) )
-                    return;
+                echo 'No Sliders currently created';
 
-            // Check if a nonce is valid.
-            if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
-                    return;
-            // Sanitize user input.
-            $scslider_selected_new = isset( $_POST[ 'scslider_selected' ] ) ?  $_POST[ 'scslider_selected' ] : '';
-            $scslider_toggle_new = isset( $_POST[ 'scslider_toggle' ] ) ?  $_POST[ 'scslider_toggle' ] : '';
+            }
 
-            // Update the meta field in the database.
-            update_post_meta( $post_id, 'scslider_selected', $scslider_selected_new );
-            update_post_meta( $post_id, 'scslider_toggle', $scslider_toggle_new );
+            echo '</div>';
 
-	}
+        echo '</table>';
+    }
+
+    public function save_metabox( $post_id, $post ) {       
+
+        $nonce_name   = isset( $_POST[ 'scslider_selector_nonce' ] ) ? $_POST[ 'scslider_selector_nonce' ] : '';
+        $nonce_action = 'scslider_selector_nonce_action';
+
+        // Check if a nonce is set.
+        if ( ! isset( $nonce_name ) )
+                return;
+
+        // Check if a nonce is valid.
+        if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
+                return;
+        // Sanitize user input.
+        $scslider_selected_new = isset( $_POST[ 'scslider_selected' ] ) ?  $_POST[ 'scslider_selected' ] : '';
+        $scslider_toggle_new = isset( $_POST[ 'scslider_toggle' ] ) ?  $_POST[ 'scslider_toggle' ] : '';
+
+        // Update the meta field in the database.
+        update_post_meta( $post_id, 'scslider_selected', $scslider_selected_new );
+        update_post_meta( $post_id, 'scslider_toggle', $scslider_toggle_new );
+
+    }
 
 }
 new scslider_metabox;
 
 class scslider_info_metabox {
-
-	public function __construct() {
-
-		if ( is_admin() ) {
-			add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
-			add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
-		}
-
-	}
-
-	public function init_metabox() {
-
-		add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
-		add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
-
-	}
-
-	public function add_metabox() { 
-
-                      
-
-                add_meta_box(
-                    'scslider_add_info',
-                    __( 'Additional Info', 'scslider' ),
-                    array( $this, 'render_scslider_info_metabox' ),
-                    'slide',
-                    'normal',
-                    'high'
-                );
-
-	}
-        
-        public function render_scslider_info_metabox( $post ) {
-            // Add nonce for security and authentication.
-            wp_nonce_field( 'scslider_add_info_nonce_action', 'scslider_add_info_nonce' );
-
-            // Retrieve an existing value from the database.
-            $scslider_subtitle = get_post_meta( $post->ID, 'scslider_subtitle', true );
-            $scslider_content = get_post_meta( $post->ID, 'scslider_content', true );
-            $scslider_title_color = get_post_meta( $post->ID, 'scslider_title_color', true );
-            $scslider_subtitle_color = get_post_meta( $post->ID, 'scslider_subtitle_color', true );
-            $scslider_content_color = get_post_meta( $post->ID, 'scslider_content_color', true );
-            $scslider_title_size = get_post_meta( $post->ID, 'scslider_title_size', true );
-            $scslider_subtitle_size = get_post_meta( $post->ID, 'scslider_subtitle_size', true );
-            $scslider_content_size = get_post_meta( $post->ID, 'scslider_content_size', true );
-            $scslider_title_trans = get_post_meta( $post->ID, 'scslider_title_trans', true );
-            $scslider_subtitle_trans = get_post_meta( $post->ID, 'scslider_subtitle_trans', true );
-            $scslider_content_trans = get_post_meta( $post->ID, 'scslider_content_trans', true );
-            
-            $scslider_font_sizes = array( 12 => '12px',
-                                          14 => '14px',  
-                                          16 => '16px',  
-                                          18 => '18px',  
-                                          20 => '20px',  
-                                          22 => '22px',  
-                                          24 => '24px',  
-                                          26 => '26px',  
-                                          28 => '28px',  
-                                          30 => '30px',  
-                                          32 => '32px',  
-                                          34 => '34px',  
-                                          36 => '36px',  
-                                          38 => '38px',  
-                                          40 => '40px',  
-                                          42 => '42px',  
-                                          44 => '44px',  
-                                          46 => '46px',  
-                                          48 => '48px',  
-                                          50 => '50px' );
-                       
-            $scslider_load_transitions = array( "scslide-fadeIn" => "Fade in", 
-                                                "scslide-fadeTop" => "Fade from top", 
-                                                "scslide-fadeBottom" => "Fade from bottom", 
-                                                "scslide-fadeLeft" => "Fade from left",   
-                                                "scslide-fadeRight" => "Fade from right");
-            
-            // Set default values.
-            if( empty( $scslider_subtitle ) ) $scslider_subtitle = '';
-            if( empty( $scslider_content ) ) $scslider_content = '';
-            if( empty( $scslider_title_color ) ) $scslider_title_color = '#000000';
-            if( empty( $scslider_subtitle_color ) ) $scslider_subtitle_color = '#000000';
-            if( empty( $scslider_content_color ) ) $scslider_content_color = '#000000';
-            if( empty( $scslider_title_size ) ) $scslider_title_size = 38;
-            if( empty( $scslider_subtitle_size ) ) $scslider_subtitle_size = 28;
-            if( empty( $scslider_content_size ) ) $scslider_content_size = 16;
-            if( empty( $scslider_title_trans ) ) $scslider_title_trans = 'scslide-fadeIn';
-            if( empty( $scslider_subtitle_trans ) ) $scslider_subtitle_trans = 'scslide-fadeIn';
-            if( empty( $scslider_content_trans ) ) $scslider_content_trans = 'scslide-fadeIn';
-            
-            // Form fields. 
-            echo '<table class="form-table">';
-            
-                echo '<div></br>';
-                
-                echo '<label for="scslider_title_color">Title Color</label></br>';
-                echo '<input type="text" value="' . esc_attr( $scslider_title_color ) . '" id="scslider_title_color" name="scslider_title_color" data-default-color="#ffffff" /></br></br>';
-                
-                echo '<label for="scslider_title_size">Title Font Size</label></br>';
-                echo '<select name="scslider_title_size" id="scslider_title_size">';
-                
-                    foreach( $scslider_font_sizes as $key => $value ) {
-
-                        echo '<option value="' . esc_attr( $key ) . '" ';
-                        echo $scslider_title_size == $key ? 'selected' : '' ;
-                        echo ' >';
-                        echo esc_attr( $value ) . '</option>';
-
-                    }
-                echo '</select></br></br>';
-                
-                echo '<label for="scslider_title_trans">Title Transistion</label></br>';
-                echo '<select name="scslider_title_trans" id="scslider_title_trans">';
-                
-                    foreach( $scslider_load_transitions as $key => $value ) {
-                        
-                        echo '<option value="' . esc_attr( $key ) . '" ';
-                        echo $scslider_title_trans == $key ? 'selected' : '' ;
-                        echo ' >';
-                        echo esc_attr( $value ) . '</option>';
-
-                    }
-                echo '</select></br></br>';
-                    
-                echo '<label for="scslider_subtitle">Subtitle</label>';
-                echo '<input type="text" id="scslider_subtitle" name="scslider_subtitle" value="' . esc_attr( $scslider_subtitle ) . '" />';
-                
-                echo '<label for="scslider_subtitle_color">Subtitle Color</label></br>';
-                echo '<input type="text" value="' . esc_attr( $scslider_subtitle_color ) . '" id="scslider_subtitle_color" name="scslider_subtitle_color" data-default-color="#ffffff" /></br></br>';
-                
-                echo '<label for="scslider_subtitle_size">Subtitle Font Size</label></br>';
-                echo '<select name="scslider_subtitle_size" id="scslider_subtitle_size">';
-                
-                    foreach( $scslider_font_sizes as $key => $value ) {
-
-                        echo '<option value="' . esc_attr( $key ) . '" ';
-                        echo $scslider_subtitle_size == $key ? 'selected' : '' ;
-                        echo ' >';
-                        echo esc_attr( $value ) . '</option>';
-
-                    }
-                echo '</select></br></br>';
-                
-                echo '<label for="scslider_subtitle_trans">Subtitle Transistion</label></br>';
-                echo '<select name="scslider_subtitle_trans" id="scslider_subtitle_trans">';
-                
-                    foreach( $scslider_load_transitions as $key => $value ) {
-                        
-                        echo '<option value="' . esc_attr( $key ) . '" ';
-                        echo $scslider_subtitle_trans == $key ? 'selected' : '' ;
-                        echo ' >';
-                        echo esc_attr( $value ) . '</option>';
-
-                    }
-                echo '</select></br></br>';
-                
-                echo '<label for="scslider_content">Content</label>';
-                echo '<textarea id="scslider_content" name="scslider_content">' . esc_attr( $scslider_content ) . '</textarea></br></br>';
-                
-                echo '<label for="scslider_content_color">Content Color</label></br>';
-                echo '<input type="text" value="' . esc_attr( $scslider_content_color ) . '" id="scslider_content_color" name="scslider_content_color" data-default-color="#ffffff" /></br></br>';
-                
-                echo '<label for="scslider_content_size">Content Font Size</label></br>';
-                echo '<select name="scslider_content_size" id="scslider_content_size">';
-                
-                    foreach( $scslider_font_sizes as $key => $value ) {
-
-                        echo '<option value="' . esc_attr( $key ) . '" ';
-                        echo $scslider_content_size == $key ? 'selected' : '' ;
-                        echo ' >';
-                        echo esc_attr( $value ) . '</option>';
-
-                    }
-                echo '</select></br></br>';
-                                                
-                echo '<label for="scslider_content_trans">Content Transistion</label></br>';
-                echo '<select name="scslider_content_trans" id="scslider_content_trans">';
-                
-                    foreach( $scslider_load_transitions as $key => $value ) {
-                        
-                        echo '<option value="' . esc_attr( $key ) . '" ';
-                        echo $scslider_content_trans == $key ? 'selected' : '' ;
-                        echo ' >';
-                        echo esc_attr( $value ) . '</option>';
-
-                    }
-                echo '</select></br></br>';
-                
-                echo '</div>';
-
-            echo '</table>';
-        }
-                
-	public function save_metabox( $post_id, $post ) {       
-            
-            $nonce_name   = isset( $_POST[ 'scslider_add_info_nonce' ] ) ? $_POST[ 'scslider_add_info_nonce' ] : '';
-            $nonce_action = 'scslider_add_info_nonce_action';
-
-            // Check if a nonce is set.
-            if ( ! isset( $nonce_name ) )
-                    return;
-
-            // Check if a nonce is valid.
-            if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
-                    return;
-            // Sanitize user input.
-            $scslider_subtitle_new = isset( $_POST[ 'scslider_subtitle' ] ) ?  $_POST[ 'scslider_subtitle' ] : '';
-            $scslider_content_new = isset( $_POST[ 'scslider_content' ] ) ?  $_POST[ 'scslider_content' ] : 'true';
-            $scslider_title_color_new = isset( $_POST[ 'scslider_title_color' ] ) ?  $_POST[ 'scslider_title_color' ] : '#000000';
-            $scslider_subtitle_color_new = isset( $_POST[ 'scslider_subtitle_color' ] ) ?  $_POST[ 'scslider_subtitle_color' ] : '#000000';
-            $scslider_content_color_new = isset( $_POST[ 'scslider_content_color' ] ) ?  $_POST[ 'scslider_content_color' ] : '#000000';
-            $scslider_title_size_new = isset( $_POST[ 'scslider_title_size' ] ) ?  $_POST[ 'scslider_title_size' ] : 38;
-            $scslider_subtitle_size_new = isset( $_POST[ 'scslider_subtitle_size' ] ) ?  $_POST[ 'scslider_subtitle_size' ] : 28;
-            $scslider_content_size_new = isset( $_POST[ 'scslider_content_size' ] ) ?  $_POST[ 'scslider_content_size' ] : 16;
-            $scslider_title_trans_new = isset( $_POST[ 'scslider_title_trans' ] ) ?  $_POST[ 'scslider_title_trans' ] : 'scslide-fadeIn';
-            $scslider_subtitle_trans_new = isset( $_POST[ 'scslider_subtitle_trans' ] ) ?  $_POST[ 'scslider_subtitle_trans' ] : 'scslide-fadeIn';
-            $scslider_content_trans_new = isset( $_POST[ 'scslider_content_trans' ] ) ?  $_POST[ 'scslider_content_trans' ] : 'scslide-fadeIn';
-
-            // Update the meta field in the database.
-            update_post_meta( $post_id, 'scslider_subtitle', $scslider_subtitle_new );
-            update_post_meta( $post_id, 'scslider_content', $scslider_content_new );
-            update_post_meta( $post_id, 'scslider_title_color', $scslider_title_color_new );
-            update_post_meta( $post_id, 'scslider_subtitle_color', $scslider_subtitle_color_new );
-            update_post_meta( $post_id, 'scslider_content_color', $scslider_content_color_new );
-            update_post_meta( $post_id, 'scslider_title_size', $scslider_title_size_new );
-            update_post_meta( $post_id, 'scslider_subtitle_size', $scslider_subtitle_size_new );
-            update_post_meta( $post_id, 'scslider_content_size', $scslider_content_size_new );
-            update_post_meta( $post_id, 'scslider_title_trans', $scslider_title_trans_new );
-            update_post_meta( $post_id, 'scslider_subtitle_trans', $scslider_subtitle_trans_new );
-            update_post_meta( $post_id, 'scslider_content_trans', $scslider_content_trans_new );
-
-	}
-
-}
-new scslider_info_metabox;
-
-class scslider_template_metabox {
 
     public function __construct() {
 
@@ -517,6 +284,242 @@ class scslider_template_metabox {
 
     }
 
+    public function add_metabox() { 
+
+
+
+            add_meta_box(
+                'scslider_add_info',
+                __( 'Additional Info', 'scslider' ),
+                array( $this, 'render_scslider_info_metabox' ),
+                'slide',
+                'normal',
+                'high'
+            );
+
+    }
+
+    public function render_scslider_info_metabox( $post ) {
+        // Add nonce for security and authentication.
+        wp_nonce_field( 'scslider_add_info_nonce_action', 'scslider_add_info_nonce' );
+
+        // Retrieve an existing value from the database.
+        $scslider_subtitle = get_post_meta( $post->ID, 'scslider_subtitle', true );
+        $scslider_content = get_post_meta( $post->ID, 'scslider_content', true );
+        $scslider_title_color = get_post_meta( $post->ID, 'scslider_title_color', true );
+        $scslider_subtitle_color = get_post_meta( $post->ID, 'scslider_subtitle_color', true );
+        $scslider_content_color = get_post_meta( $post->ID, 'scslider_content_color', true );
+        $scslider_title_size = get_post_meta( $post->ID, 'scslider_title_size', true );
+        $scslider_subtitle_size = get_post_meta( $post->ID, 'scslider_subtitle_size', true );
+        $scslider_content_size = get_post_meta( $post->ID, 'scslider_content_size', true );
+        $scslider_title_trans = get_post_meta( $post->ID, 'scslider_title_trans', true );
+        $scslider_subtitle_trans = get_post_meta( $post->ID, 'scslider_subtitle_trans', true );
+        $scslider_content_trans = get_post_meta( $post->ID, 'scslider_content_trans', true );
+
+        $scslider_font_sizes = array( 12 => '12px',
+                                      14 => '14px',  
+                                      16 => '16px',  
+                                      18 => '18px',  
+                                      20 => '20px',  
+                                      22 => '22px',  
+                                      24 => '24px',  
+                                      26 => '26px',  
+                                      28 => '28px',  
+                                      30 => '30px',  
+                                      32 => '32px',  
+                                      34 => '34px',  
+                                      36 => '36px',  
+                                      38 => '38px',  
+                                      40 => '40px',  
+                                      42 => '42px',  
+                                      44 => '44px',  
+                                      46 => '46px',  
+                                      48 => '48px',  
+                                      50 => '50px' );
+
+        $scslider_load_transitions = array( "scslide-fadeIn" => "Fade in", 
+                                            "scslide-fadeTop" => "Fade from top", 
+                                            "scslide-fadeBottom" => "Fade from bottom", 
+                                            "scslide-fadeLeft" => "Fade from left",   
+                                            "scslide-fadeRight" => "Fade from right");
+
+        // Set default values.
+        if( empty( $scslider_subtitle ) ) $scslider_subtitle = '';
+        if( empty( $scslider_content ) ) $scslider_content = '';
+        if( empty( $scslider_title_color ) ) $scslider_title_color = '#000000';
+        if( empty( $scslider_subtitle_color ) ) $scslider_subtitle_color = '#000000';
+        if( empty( $scslider_content_color ) ) $scslider_content_color = '#000000';
+        if( empty( $scslider_title_size ) ) $scslider_title_size = 38;
+        if( empty( $scslider_subtitle_size ) ) $scslider_subtitle_size = 28;
+        if( empty( $scslider_content_size ) ) $scslider_content_size = 16;
+        if( empty( $scslider_title_trans ) ) $scslider_title_trans = 'scslide-fadeIn';
+        if( empty( $scslider_subtitle_trans ) ) $scslider_subtitle_trans = 'scslide-fadeIn';
+        if( empty( $scslider_content_trans ) ) $scslider_content_trans = 'scslide-fadeIn';
+
+        // Form fields. 
+        echo '<table class="form-table">';
+
+            echo '<div></br>';
+
+            echo '<label for="scslider_title_color">Title Color</label></br>';
+            echo '<input type="text" value="' . esc_attr( $scslider_title_color ) . '" id="scslider_title_color" name="scslider_title_color" data-default-color="#ffffff" /></br></br>';
+
+            echo '<label for="scslider_title_size">Title Font Size</label></br>';
+            echo '<select name="scslider_title_size" id="scslider_title_size">';
+
+                foreach( $scslider_font_sizes as $key => $value ) {
+
+                    echo '<option value="' . esc_attr( $key ) . '" ';
+                    echo $scslider_title_size == $key ? 'selected' : '' ;
+                    echo ' >';
+                    echo esc_attr( $value ) . '</option>';
+
+                }
+            echo '</select></br></br>';
+
+            echo '<label for="scslider_title_trans">Title Transistion</label></br>';
+            echo '<select name="scslider_title_trans" id="scslider_title_trans">';
+
+                foreach( $scslider_load_transitions as $key => $value ) {
+
+                    echo '<option value="' . esc_attr( $key ) . '" ';
+                    echo $scslider_title_trans == $key ? 'selected' : '' ;
+                    echo ' >';
+                    echo esc_attr( $value ) . '</option>';
+
+                }
+            echo '</select></br></br>';
+
+            echo '<label for="scslider_subtitle">Subtitle</label>';
+            echo '<input type="text" id="scslider_subtitle" name="scslider_subtitle" value="' . esc_attr( $scslider_subtitle ) . '" />';
+
+            echo '<label for="scslider_subtitle_color">Subtitle Color</label></br>';
+            echo '<input type="text" value="' . esc_attr( $scslider_subtitle_color ) . '" id="scslider_subtitle_color" name="scslider_subtitle_color" data-default-color="#ffffff" /></br></br>';
+
+            echo '<label for="scslider_subtitle_size">Subtitle Font Size</label></br>';
+            echo '<select name="scslider_subtitle_size" id="scslider_subtitle_size">';
+
+                foreach( $scslider_font_sizes as $key => $value ) {
+
+                    echo '<option value="' . esc_attr( $key ) . '" ';
+                    echo $scslider_subtitle_size == $key ? 'selected' : '' ;
+                    echo ' >';
+                    echo esc_attr( $value ) . '</option>';
+
+                }
+            echo '</select></br></br>';
+
+            echo '<label for="scslider_subtitle_trans">Subtitle Transistion</label></br>';
+            echo '<select name="scslider_subtitle_trans" id="scslider_subtitle_trans">';
+
+                foreach( $scslider_load_transitions as $key => $value ) {
+
+                    echo '<option value="' . esc_attr( $key ) . '" ';
+                    echo $scslider_subtitle_trans == $key ? 'selected' : '' ;
+                    echo ' >';
+                    echo esc_attr( $value ) . '</option>';
+
+                }
+            echo '</select></br></br>';
+
+            echo '<label for="scslider_content">Content</label>';
+            echo '<textarea id="scslider_content" name="scslider_content">' . esc_attr( $scslider_content ) . '</textarea></br></br>';
+
+            echo '<label for="scslider_content_color">Content Color</label></br>';
+            echo '<input type="text" value="' . esc_attr( $scslider_content_color ) . '" id="scslider_content_color" name="scslider_content_color" data-default-color="#ffffff" /></br></br>';
+
+            echo '<label for="scslider_content_size">Content Font Size</label></br>';
+            echo '<select name="scslider_content_size" id="scslider_content_size">';
+
+                foreach( $scslider_font_sizes as $key => $value ) {
+
+                    echo '<option value="' . esc_attr( $key ) . '" ';
+                    echo $scslider_content_size == $key ? 'selected' : '' ;
+                    echo ' >';
+                    echo esc_attr( $value ) . '</option>';
+
+                }
+            echo '</select></br></br>';
+
+            echo '<label for="scslider_content_trans">Content Transistion</label></br>';
+            echo '<select name="scslider_content_trans" id="scslider_content_trans">';
+
+                foreach( $scslider_load_transitions as $key => $value ) {
+
+                    echo '<option value="' . esc_attr( $key ) . '" ';
+                    echo $scslider_content_trans == $key ? 'selected' : '' ;
+                    echo ' >';
+                    echo esc_attr( $value ) . '</option>';
+
+                }
+            echo '</select></br></br>';
+
+            echo '</div>';
+
+        echo '</table>';
+    }
+
+    public function save_metabox( $post_id, $post ) {       
+
+        $nonce_name   = isset( $_POST[ 'scslider_add_info_nonce' ] ) ? $_POST[ 'scslider_add_info_nonce' ] : '';
+        $nonce_action = 'scslider_add_info_nonce_action';
+
+        // Check if a nonce is set.
+        if ( ! isset( $nonce_name ) )
+                return;
+
+        // Check if a nonce is valid.
+        if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
+                return;
+        // Sanitize user input.
+        $scslider_subtitle_new = isset( $_POST[ 'scslider_subtitle' ] ) ?  $_POST[ 'scslider_subtitle' ] : '';
+        $scslider_content_new = isset( $_POST[ 'scslider_content' ] ) ?  $_POST[ 'scslider_content' ] : 'true';
+        $scslider_title_color_new = isset( $_POST[ 'scslider_title_color' ] ) ?  $_POST[ 'scslider_title_color' ] : '#000000';
+        $scslider_subtitle_color_new = isset( $_POST[ 'scslider_subtitle_color' ] ) ?  $_POST[ 'scslider_subtitle_color' ] : '#000000';
+        $scslider_content_color_new = isset( $_POST[ 'scslider_content_color' ] ) ?  $_POST[ 'scslider_content_color' ] : '#000000';
+        $scslider_title_size_new = isset( $_POST[ 'scslider_title_size' ] ) ?  $_POST[ 'scslider_title_size' ] : 38;
+        $scslider_subtitle_size_new = isset( $_POST[ 'scslider_subtitle_size' ] ) ?  $_POST[ 'scslider_subtitle_size' ] : 28;
+        $scslider_content_size_new = isset( $_POST[ 'scslider_content_size' ] ) ?  $_POST[ 'scslider_content_size' ] : 16;
+        $scslider_title_trans_new = isset( $_POST[ 'scslider_title_trans' ] ) ?  $_POST[ 'scslider_title_trans' ] : 'scslide-fadeIn';
+        $scslider_subtitle_trans_new = isset( $_POST[ 'scslider_subtitle_trans' ] ) ?  $_POST[ 'scslider_subtitle_trans' ] : 'scslide-fadeIn';
+        $scslider_content_trans_new = isset( $_POST[ 'scslider_content_trans' ] ) ?  $_POST[ 'scslider_content_trans' ] : 'scslide-fadeIn';
+
+        // Update the meta field in the database.
+        update_post_meta( $post_id, 'scslider_subtitle', $scslider_subtitle_new );
+        update_post_meta( $post_id, 'scslider_content', $scslider_content_new );
+        update_post_meta( $post_id, 'scslider_title_color', $scslider_title_color_new );
+        update_post_meta( $post_id, 'scslider_subtitle_color', $scslider_subtitle_color_new );
+        update_post_meta( $post_id, 'scslider_content_color', $scslider_content_color_new );
+        update_post_meta( $post_id, 'scslider_title_size', $scslider_title_size_new );
+        update_post_meta( $post_id, 'scslider_subtitle_size', $scslider_subtitle_size_new );
+        update_post_meta( $post_id, 'scslider_content_size', $scslider_content_size_new );
+        update_post_meta( $post_id, 'scslider_title_trans', $scslider_title_trans_new );
+        update_post_meta( $post_id, 'scslider_subtitle_trans', $scslider_subtitle_trans_new );
+        update_post_meta( $post_id, 'scslider_content_trans', $scslider_content_trans_new );
+
+    }
+
+}
+new scslider_info_metabox;
+
+class scslider_template_metabox {
+
+    public function __construct() {
+
+        if ( is_admin() ) {
+            add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
+            add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
+        }
+
+    }
+
+    public function init_metabox() {
+
+        add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
+        add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
+
+    }
+
     public function add_metabox() {
 
         add_meta_box(
@@ -524,7 +527,7 @@ class scslider_template_metabox {
             __( 'Select Slide Template', 'scslider' ),
             array( $this, 'render_scslider_metabox' ),
             'slide',
-            'side',
+            'normal',
             'default'
         );
 
@@ -547,20 +550,7 @@ class scslider_template_metabox {
 
             echo    '<label for="scslider_template_dropdown">Template</label></br></br>';
             echo    '<select id="scslider_template_dropdown" name="scslider_template_dropdown">';
-
-//                $path = root_path() . 'templates';
-//                
-//                $templates = array_diff(scandir($path), array('..', '.'));
-//                
-//                foreach ($templates as $template) {
-//                
-//                    $template_name = rtrim( $template, '.php' );
-//                    
-//                    echo '<option value="' . $template_name . '" ';
-//                    echo $template_name == $scslider_template ? 'selected="selected"' : '';
-//                    echo ' >' . $template_name . '</option>';
-//                    
-//                }
+            
                 echo '<option value="stacked"';
                 echo    $scslider_template == "stacked" ? 'selected="selected"' : '';
                 echo ' >Stacked</option>';
@@ -689,7 +679,7 @@ class scslider_media_metabox {
                 array( $this, 'render_scslider_media_metabox' ),
                 'slide',
                 'normal',
-                'high'
+                'low'
             );
 
     }
@@ -745,32 +735,30 @@ class scslider_cta_metabox {
     
     public function __construct() {
 
-            if ( is_admin() ) {
-                    add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
-                    add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
-            }
+        if ( is_admin() ) {
+            add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
+            add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
+        }
 
     }
 
     public function init_metabox() {
 
-            add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
-            add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
+        add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
+        add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
 
     }
 
     public function add_metabox() { 
-
-
-
-            add_meta_box(
-                'scslider_cta_info',
-                __( 'Call To Action', 'scslider' ),
-                array( $this, 'render_scslider_cta_metabox' ),
-                'slide',
-                'normal',
-                'high'
-            );
+        
+        add_meta_box(
+            'scslider_cta_info',
+            __( 'Call To Action', 'scslider' ),
+            array( $this, 'render_scslider_cta_metabox' ),
+            'slide',
+            'normal',
+            'high'
+        );
 
     }
 

@@ -1,6 +1,6 @@
 <?php namespace scslider; 
 
-function render_slider( $echo=false ) {
+function render_slider( $echo = false ) {
     
 
     $post_id = null;
@@ -20,9 +20,9 @@ function render_slider( $echo=false ) {
             'post_type' => 'slide',
             'tax_query' => array(
                     array(
-                            'taxonomy' => 'slider',
-                            'field'    => 'slug',
-                            'terms'    => $category
+                        'taxonomy' => 'slider',
+                        'field'    => 'slug',
+                        'terms'    => $category
                     ),
                 ),
           'meta_key'   => 'order_array',
@@ -119,14 +119,17 @@ function render_single_slide( $post = null, $new_data= null ) { $post = get_post
 
     } ?> 
 
-    <?php if( substr( $img_src, -3 ) === 'mp4' ) $is_video = true; ?> 
-
+    <?php if( substr( $img_src, -3 ) === 'mp4' ) {
+        $is_video = true;
+    } else {
+        $is_video = false;
+    }
+    ?>
     <div class="ajax-preview" data-src="<?php echo $is_video ? plugin_dir_url(__FILE__) . '../assets/images/tiny.png' : $img_src ?>" 
          style="background-image: url('<?php echo $img_src ?>');
                  <?php echo $is_video ? 'background-color:black;' : ''; ?>" >         
 
-        <div class="slide-content-wrapper <?php echo esc_attr( $scslider_template_dropdown ) ?>"
-            <?php echo $is_video ? 'id="iframe"' : ''; ?>>
+        <div class="slide-content-wrapper <?php echo esc_attr( $scslider_template_dropdown ) ?>" >
 
             <?php if ( $is_video ) { ?>
 

@@ -31,7 +31,7 @@ function init() {
                 
     } else {
         
-        make_admin_notice( __( 'Your version of PHP (' . PHP_VERSION . ') does not meet the minimum required version (5.4+) to run More featured images' ) );
+        make_admin_notice( __( 'Your version of PHP (' . PHP_VERSION . ') does not meet the minimum required version (5.4+) to run Smartcat Slider' ) );
         
     }
 
