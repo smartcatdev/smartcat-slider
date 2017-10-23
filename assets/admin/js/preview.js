@@ -20,6 +20,11 @@ jQuery( document ).ready( function ( $ ) {
     $( '#scslider_content_trans').change( update_template );
     $( '#scslider_button1_trans').change( update_template );
     $( '#scslider_button2_trans').change( update_template );
+    $( '.scslider_overlayer_toggle').change( function() {
+        update_template( null, this );
+    });
+    $( '#scslider_overlayer_color').change( update_template );
+    $( '#scslider_overlayer_opacity').change( update_template );
     
     var wpColorPickerOptions = {
         change: function(event, ui){
@@ -34,6 +39,7 @@ jQuery( document ).ready( function ( $ ) {
     $( '#scslider_button1_color' ).wpColorPicker(wpColorPickerOptions);
     $( '#scslider_button2_text_color' ).wpColorPicker(wpColorPickerOptions);
     $( '#scslider_button2_color' ).wpColorPicker(wpColorPickerOptions);
+    $( '#scslider_overlayer_color' ).wpColorPicker(wpColorPickerOptions);
     
   
     $( '#scslider_media_box' ).change( function() {
@@ -42,9 +48,10 @@ jQuery( document ).ready( function ( $ ) {
     }); 
     
     var current_img;
+    var overlayer_toggle;   
     
     function update_template( e, src ) {
-          
+        
         var subtitle = $( '#scslider_subtitle' ).val();
         var content = $( '#scslider_content' ).val();
         var template = $( '#scslider_template_dropdown' ).val();
@@ -68,9 +75,21 @@ jQuery( document ).ready( function ( $ ) {
         var content_trans = $( '#scslider_content_trans' ).val();
         var button1_trans = $( '#scslider_button1_trans' ).val();
         var button2_trans = $( '#scslider_button2_trans' ).val();
+        var overlayer_color = $( '#scslider_overlayer_color' ).val();
+        var overlayer_opacity = $( '#scslider_overlayer_opacity' ).val();
+        
+        
         
         if ( src !== undefined ) {
-            current_img = src;
+            
+            if( typeof src != 'string' ) {
+                if ( $( src ).hasClass( "scslider_overlayer_toggle" ) ){
+                    overlayer_toggle = $( src ).val();
+                }
+            }
+            else {
+                current_img = src;
+            }
         }
         
         var data = {
@@ -81,7 +100,7 @@ jQuery( document ).ready( function ( $ ) {
                                   button1_text:button1_text, button1_url:button1_url, button1_text_color:button1_text_color, button1_color:button1_color,
                                   button2_text:button2_text, button2_url:button2_url, button2_text_color:button2_text_color, button2_color:button2_color,
                                   title_trans:title_trans, subtitle_trans:subtitle_trans, content_trans:content_trans, button1_trans:button1_trans, 
-                                  button2_trans:button2_trans },
+                                  button2_trans:button2_trans, overlayer_toggle:overlayer_toggle, overlayer_color:overlayer_color, overlayer_opacity:overlayer_opacity },
             'postID':           ajaxObject.postID
 	};
          

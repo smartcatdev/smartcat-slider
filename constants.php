@@ -34,11 +34,6 @@ interface Options {
     /**
     * @since 1.0.0
     */
-    const OVERLAYER = 'scslider_overlayer';
-    
-    /**
-    * @since 1.0.0
-    */
     const PLAYPAUSE = 'scslider_playpause';
     
     /**
@@ -95,6 +90,11 @@ interface Options {
     * @since 1.0.0
     */
     const BAR_POSITION = 'scslider_bar_position';
+    
+    /**
+     * 
+     */
+    const PAGES_CREATED = 'scslider_pages_created';
       
 }
 interface Defaults {
@@ -117,12 +117,7 @@ interface Defaults {
     /**
     * @since 1.0.0
     */
-    const NAVIGATION_HOVER = 'true';    
-    
-    /**
-    * @since 1.0.0
-    */
-    const OVERLAYER = 'true';
+    const NAVIGATION_HOVER = 'true';
     
     /**
     * @since 1.0.0
