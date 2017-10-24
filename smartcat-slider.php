@@ -2,7 +2,7 @@
 /*
  * Plugin Name: Smartcat Slider
  * Plugin URI: https://smartcatdesign.net/downloads/more-featured-images/
- * Description: Creates sliders for many pages
+ * Description: Video and Image Sliders for your theme. Works with any theme and allows you to create multiple customizable sliders
  * Version: 1.0.0
  * Author: Smartcat
  * Author URI: https://smartcatdesign.net
@@ -11,10 +11,13 @@
 
 namespace scslider;
 
+
+
 /**
  * Include constants and Options definitions
  */
 include_once dirname( __FILE__ ) . '/constants.php';
+
 
 /**
  * Includes required files and initializes the plugin.
@@ -62,12 +65,6 @@ function activate() {
 
     register_slide_post_type();
     create_slider_tax();
-        
-    if( get_option(Options::PAGES_CREATED) != true ){
-        
-        create_demo_slides();
-        
-    }
     
 }
 
@@ -216,8 +213,15 @@ add_action( 'admin_enqueue_scripts', 'scslider\add_preview_scripts', 10, 1 );
  */
 function create_demo_slides() {
     
+    if( get_option(Options::PAGES_CREATED) == true ){
+        
+        return;
+    }
+    
     $demo_term = get_term_by( 'name', 'demo-slider', 'slider' );
       
+    var_dump( $demo_term );
+    
     if ( ! $demo_term ) {
         $demo_term = wp_insert_term( 'demo-slider', 'slider' );
     } 
@@ -290,15 +294,9 @@ function create_demo_slides() {
 
     }
     
-    update_option(Options::PAGES_CREATED, true);
+    update_option( Options::PAGES_CREATED, true );
 
 }
-//add_action( 'init', function() {
-//    
-//    if( get_option(Options::PAGES_CREATED) != true ){
-//        
-//        create_demo_slides();
-//        
-//    }
-//    
-//} );
+add_action( 'scslider_after_tax_registered', 'scslider\create_demo_slides' );
+
+

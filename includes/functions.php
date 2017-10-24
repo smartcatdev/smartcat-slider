@@ -70,16 +70,19 @@ add_action( 'init', 'scslider\register_slide_post_type', 0 );
  */
 function create_slider_tax() {
     
-	register_taxonomy(
-		'slider',
-		'slide',
-		array(
-                    'label' => __( 'Slider Group' ),
-                    'rewrite' => array( 'slug' => 'slide' ),
-                    'hierarchical' => true,
-                )
-		
-	);
+    register_taxonomy(
+            'slider',
+            'slide',
+            array(
+                'label' => __( 'Slider Group' ),
+                'rewrite' => array( 'slug' => 'slide' ),
+                'hierarchical' => true,
+            )
+
+    );
+    
+    do_action( 'scslider_after_tax_registered' );
+    
 }
 add_action( 'init', 'scslider\create_slider_tax' );  
 
