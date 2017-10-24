@@ -93,12 +93,6 @@ function register_settings() {
     'default'               => Defaults::PAGINATION
     ) );
     
-    register_setting( 'scslider-camera-settings', Options::OVERLAYER, array(
-    'type'                  => 'boolean',
-    'sanitize_callback'     => 'scslider\sanitize_boolean',
-    'default'               => Defaults::OVERLAYER
-    ) );
-    
     register_setting( 'scslider-camera-settings', Options::PLAYPAUSE, array(
     'type'                  => 'boolean',
     'sanitize_callback'     => 'scslider\sanitize_boolean',
@@ -271,18 +265,7 @@ function add_settings_fields() {
             'name' => Options::PAGINATION
         )
     );
-
-    add_settings_field(
-        Options::OVERLAYER,
-        __( 'Place Overlayer Over Slider', 'scslider' ),
-        'scslider\render_boolean_field',
-        'scslider-camera-settings',
-        'scslider-camera-settings',
-        array (
-            'name' => Options::OVERLAYER
-        )
-    );
-
+    
     add_settings_field(
         Options::PLAYPAUSE,
         __( 'Display Play/Pause Button', 'scslider' ),

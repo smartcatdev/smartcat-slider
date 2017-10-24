@@ -11,37 +11,37 @@ function register_slide_post_type() {
     // Register Custom Post Type
 
 	$labels = array(
-		'name'                  => _x( 'Slide', 'Post Type General Name', 'karma' ),
-		'singular_name'         => _x( 'Slide', 'Post Type Singular Name', 'karma' ),
-		'menu_name'             => __( 'Slides', 'karma' ),
-		'name_admin_bar'        => __( 'Slides', 'karma' ),
-		'archives'              => __( 'Slides Archives', 'karma' ),
-		'attributes'            => __( 'Slides Attributes', 'karma' ),
-		'parent_item_colon'     => __( 'Parent Item:', 'karma' ),
-		'all_items'             => __( 'All Slides', 'karma' ),
-		'add_new_item'          => __( 'Add New Slide', 'karma' ),
-		'add_new'               => __( 'Add New', 'karma' ),
-		'new_item'              => __( 'New Slide', 'karma' ),
-		'edit_item'             => __( 'Edit Slide', 'karma' ),
-		'update_item'           => __( 'Update Slide', 'karma' ),
-		'view_item'             => __( 'View Slide', 'karma' ),
-		'view_items'            => __( 'View Slides', 'karma' ),
-		'search_items'          => __( 'Search Item', 'karma' ),
-		'not_found'             => __( 'Not found', 'karma' ),
-		'not_found_in_trash'    => __( 'Not found in Trash', 'karma' ),
-		'featured_image'        => __( 'Featured Image', 'karma' ),
-		'set_featured_image'    => __( 'Set featured image', 'karma' ),
-		'remove_featured_image' => __( 'Remove featured image', 'karma' ),
-		'use_featured_image'    => __( 'Use as featured image', 'karma' ),
-		'insert_into_item'      => __( 'Insert into item', 'karma' ),
-		'uploaded_to_this_item' => __( 'Uploaded to this item', 'karma' ),
-		'items_list'            => __( 'Items list', 'karma' ),
-		'items_list_navigation' => __( 'Items list navigation', 'karma' ),
-		'filter_items_list'     => __( 'Filter items list', 'karma' ),
+		'name'                  => _x( 'Slide', 'Post Type General Name', 'scslider' ),
+		'singular_name'         => _x( 'Slide', 'Post Type Singular Name', 'scslider' ),
+		'menu_name'             => __( 'Slides', 'scslider' ),
+		'name_admin_bar'        => __( 'Slides', 'scslider' ),
+		'archives'              => __( 'Slides Archives', 'scslider' ),
+		'attributes'            => __( 'Slides Attributes', 'scslider' ),
+		'parent_item_colon'     => __( 'Parent Item:', 'scslider' ),
+		'all_items'             => __( 'All Slides', 'scslider' ),
+		'add_new_item'          => __( 'Add New Slide', 'scslider' ),
+		'add_new'               => __( 'Add New', 'scslider' ),
+		'new_item'              => __( 'New Slide', 'scslider' ),
+		'edit_item'             => __( 'Edit Slide', 'scslider' ),
+		'update_item'           => __( 'Update Slide', 'scslider' ),
+		'view_item'             => __( 'View Slide', 'scslider' ),
+		'view_items'            => __( 'View Slides', 'scslider' ),
+		'search_items'          => __( 'Search Item', 'scslider' ),
+		'not_found'             => __( 'Not found', 'scslider' ),
+		'not_found_in_trash'    => __( 'Not found in Trash', 'scslider' ),
+		'featured_image'        => __( 'Featured Image', 'scslider' ),
+		'set_featured_image'    => __( 'Set featured image', 'scslider' ),
+		'remove_featured_image' => __( 'Remove featured image', 'scslider' ),
+		'use_featured_image'    => __( 'Use as featured image', 'scslider' ),
+		'insert_into_item'      => __( 'Insert into item', 'scslider' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this item', 'scslider' ),
+		'items_list'            => __( 'Items list', 'scslider' ),
+		'items_list_navigation' => __( 'Items list navigation', 'scslider' ),
+		'filter_items_list'     => __( 'Filter items list', 'scslider' ),
 	);
 	$args = array(
-		'label'                 => __( 'Slides', 'karma' ),
-		'description'           => __( 'List of Slides', 'karma' ),
+		'label'                 => __( 'Slides', 'scslider' ),
+		'description'           => __( 'List of Slides', 'scslider' ),
 		'labels'                => $labels,
 		'supports'              => array( 'title' ),
 		'hierarchical'          => false,
@@ -896,6 +896,115 @@ class scslider_cta_metabox {
 
 }
 new scslider_cta_metabox;
+
+class scslider_overlayer_metabox {
+
+    public function __construct() {
+
+        if ( is_admin() ) {
+            add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
+            add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
+        }
+
+    }
+
+    public function init_metabox() {
+
+        add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
+        add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
+
+    }
+
+    public function add_metabox() {
+
+        add_meta_box(
+            'scslider_overlayer',
+            __( 'Select Overlayer', 'scslider' ),
+            array( $this, 'render_scslider_overlayer_metabox' ),
+            'slide',
+            'normal',
+            'default'
+        );
+
+    }
+
+    public function render_scslider_overlayer_metabox( $post ) {
+        // Add nonce for security and authentication.
+        wp_nonce_field( 'scslider_overlayer_nonce_action', 'scslider_overlayer_nonce' );
+
+        // Retrieve an existing value from the database.
+        $scslider_overlayer_toggle = get_post_meta( $post->ID, 'scslider_overlayer_toggle', true );
+        $scslider_overlayer_color = get_post_meta( $post->ID, 'scslider_overlayer_color', true );
+        $scslider_overlayer_opacity = get_post_meta( $post->ID, 'scslider_overlayer_opacity', true );
+
+        // Set default values.
+        if( empty( $scslider_overlayer_toggle ) ) $scslider_overlayer_toggle = '';
+        if( empty( $scslider_overlayer_color ) ) $scslider_overlayer_color = '';
+        if( empty( $scslider_overlayer_opacity ) ) $scslider_overlayer_opacity = '';
+        
+        // Form fields. 
+        echo '<table class="form-table">';
+
+        echo '<div></br>';
+
+        echo '<label>Display Overlayer?  </label></br></br>';
+        
+        echo '              <input 
+                               name="scslider_overlayer_toggle"
+                               class="scslider_overlayer_toggle"
+                               value="on" 
+                               type="radio" ' . checked( 'on', $scslider_overlayer_toggle, false ) . '/> On ';
+        
+        echo '              <input 
+                               name="scslider_overlayer_toggle"
+                               class="scslider_overlayer_toggle"
+                               value="off" 
+                               type="radio" ' . checked( 'off', $scslider_overlayer_toggle, false ) . '/> Off';
+                                               
+            echo    '</label></br></br>';    
+            
+            echo '<label for="scslider_overlayer_color">Overlayer Color</label></br>';
+            echo '<input type="text" value="' . esc_attr( $scslider_overlayer_color ) . '" id="scslider_overlayer_color" name="scslider_overlayer_color" data-default-color="#ffffff" /></br></br>';
+
+            echo '<label for="scslider_overlayer_opacity">Overlayer Opacity</label></br>';
+            echo 'High<input type="range" id="scslider_overlayer_opacity" name="scslider_overlayer_opacity" min="0.1" max="1" step="0.05"';
+            echo ' value="'. esc_attr( $scslider_overlayer_opacity ) . '"';
+            echo '/>Low'; 
+            
+            
+        echo '</div>';
+
+        echo '</table>';
+    }
+
+    public function save_metabox( $post_id, $post ) {       
+
+        $nonce_name   = isset( $_POST[ 'scslider_overlayer_nonce' ] ) ? $_POST[ 'scslider_overlayer_nonce' ] : '';
+        $nonce_action = 'scslider_overlayer_nonce_action';
+
+        // Check if a nonce is set.
+        if ( ! isset( $nonce_name ) )
+                return;
+
+        // Check if a nonce is valid.
+        if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
+                return;
+        // Sanitize user input.       
+        $scslider_overlayer_toggle_new = isset( $_POST[ 'scslider_overlayer_toggle' ] ) ?  $_POST[ 'scslider_overlayer_toggle' ] : '';
+        
+        $scslider_overlayer_color_new = isset( $_POST[ 'scslider_overlayer_color' ] ) ?  $_POST[ 'scslider_overlayer_color' ] : '';
+        $scslider_overlayer_opacity_new = isset( $_POST[ 'scslider_overlayer_opacity' ] ) ?  $_POST[ 'scslider_overlayer_opacity' ] : '';
+
+        // Update the meta field in the database.
+        update_post_meta( $post_id, 'scslider_overlayer_toggle', $scslider_overlayer_toggle_new );
+        update_post_meta( $post_id, 'scslider_overlayer_color', $scslider_overlayer_color_new );
+        update_post_meta( $post_id, 'scslider_overlayer_opacity', $scslider_overlayer_opacity_new );
+
+    }
+
+}
+new scslider_overlayer_metabox;
+
 
 /**
  * Returns list of all active post types

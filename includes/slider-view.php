@@ -106,9 +106,15 @@ function render_single_slide( $post = null, $new_data= null ) { $post = get_post
     $scslider_button2_trans = ( $new_data[ 'button2_trans' ] == null ?  get_post_meta( $post->ID, 'scslider_button2_trans', true ) : $new_data['button2_trans']  ) ;
 
     $scslider_template_dropdown = ( $new_data[ 'template' ] == null ?  get_post_meta( $post->ID, 'scslider_template_dropdown', true ) : $new_data['template']  ) ;
-
+    
+    $scslider_overlayer_toggle = ( $new_data[ 'overlayer_toggle' ] == null ?  get_post_meta( $post->ID, 'scslider_overlayer_toggle', true ) : $new_data['overlayer_toggle']  ) ;
+    $scslider_overlayer_color = ( $new_data[ 'overlayer_color' ] == null ?  get_post_meta( $post->ID, 'scslider_overlayer_color', true ) : $new_data['overlayer_color']  ) ;
+    $scslider_overlayer_opacity = ( $new_data[ 'overlayer_opacity' ] == null ?  get_post_meta( $post->ID, 'scslider_overlayer_opacity', true ) : $new_data['overlayer_opacity']  ) ;
+    
+    $rgb_overlayer_color = scslider_hex2rgb( $scslider_overlayer_color );
+            
     $post->post_title = ( $new_data == null ? $post->post_title : $new_data[ 'title' ] );
-
+    
     if ( $new_data[ 'img' ] == null ) {     
 
         $img_src = get_post_meta( $post->ID, 'scslider_media_box', true );
@@ -117,7 +123,7 @@ function render_single_slide( $post = null, $new_data= null ) { $post = get_post
 
         $img_src = $new_data[ 'img' ];
 
-    } ?> 
+    } ?>    
 
     <?php if( substr( $img_src, -3 ) === 'mp4' ) {
         $is_video = true;
@@ -129,33 +135,63 @@ function render_single_slide( $post = null, $new_data= null ) { $post = get_post
          style="background-image: url('<?php echo $img_src ?>');
                  <?php echo $is_video ? 'background-color:black;' : ''; ?>" >         
 
-        <div class="slide-content-wrapper <?php echo esc_attr( $scslider_template_dropdown ) ?>" >
+        <div class="slide-content-wrapper <?php echo esc_attr( $scslider_template_dropdown ) ?>" >       
+                        
+            <?php if ( $scslider_overlayer_toggle == 'on' ) { ?>
 
-            <?php if ( $is_video ) { ?>
+                <div class="scslider-overlayer" 
+                     style="background-color: rgba( <?php echo $rgb_overlayer_color[0] ?>,
+                                                    <?php echo $rgb_overlayer_color[1] ?>,
+                                                    <?php echo $rgb_overlayer_color[2] ?>,
+                                                    <?php echo $scslider_overlayer_opacity ?>);
+                                                    <?php echo $is_video ? 'z-index:2;' : ''; ?>"></div>
 
-                <video class="camera-video" preload="none" width="100%" height="100%" muted loop
-                       <?php echo $post->post_title == '' ? '' : 'style="position:absolute;"' ?>>
-                    <source src="<?php echo esc_url( $img_src )?>" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+            <?php } ?>
+                                                                           
+                <?php if ( $is_video ) { ?>
 
-            <?php }
+                    <video class="camera-video" preload="none" width="100%" height="100%" muted loop
+                           <?php echo $post->post_title == '' ? '' : 'style="position:absolute;"' ?>>
+                        <source src="<?php echo esc_url( $img_src )?>" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
 
-            if ( $scslider_template_dropdown === 'standard' || $scslider_template_dropdown === 'left' ||
-                 $scslider_template_dropdown === 'right' || $scslider_template_dropdown === 'stacked' ) {
-                    
-                    $template = "basic_template";
-                    
-                } 
+                <?php }
+
+                if ( $scslider_template_dropdown === 'standard' || $scslider_template_dropdown === 'left' ||
+                     $scslider_template_dropdown === 'right' || $scslider_template_dropdown === 'stacked' ) {
+
+                        $template = "basic_template";
+
+                    } 
+
+                if ( template_path( $template ) ) { 
+
+                    include template_path( "basic_template" );              
+
+                } ?>
+
             
-            if ( template_path( $template ) ) { 
-                
-                include template_path( "basic_template" );              
-
-            } ?>
 
         </div>
 
     </div>
 
 <?php }
+
+function scslider_hex2rgb( $hex ) {
+    $hex = str_replace( "#", "", $hex );
+
+    if ( strlen( $hex ) == 3 ) {
+        $r = hexdec( substr( $hex, 0, 1 ) . substr( $hex, 0, 1 ) );
+        $g = hexdec( substr( $hex, 1, 1 ) . substr( $hex, 1, 1 ) );
+        $b = hexdec( substr( $hex, 2, 1 ) . substr( $hex, 2, 1 ) );
+    } else {
+        $r = hexdec( substr( $hex, 0, 2 ) );
+        $g = hexdec( substr( $hex, 2, 2 ) );
+        $b = hexdec( substr( $hex, 4, 2 ) );
+    }
+    $rgb = array ( $r, $g, $b );
+    //return implode(",", $rgb); // returns the rgb values separated by commas
+    return $rgb; // returns an array with the rgb values
+}

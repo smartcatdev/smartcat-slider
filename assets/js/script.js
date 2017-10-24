@@ -15,7 +15,6 @@
         var autoAdvance = ( cameraSettings.autoAdvance == 'true' );
         var mobileAutoAdvance = autoAdvance;
         var pagination = ( cameraSettings.pagination == 'true' );
-        var overlayer = ( cameraSettings.overlayer == 'true' );
         var clickPause = ( cameraSettings.clickPause == 'true' ); 
         var deviceWidth = $( window ).width();
         var height = '';
@@ -63,11 +62,12 @@
             height: height,
             time: parseInt(cameraSettings.slideTimer),
             transPeriod: parseInt( cameraSettings.slideTransTimer ),
-            overlayer: overlayer,
             onEndTransition: function() {
 
                 var slide = cameraTarget.find('.cameraContent.cameracurrent');
-
+                
+                slide.find( '.scslider-overlayer' ).fadeIn();
+                
                 do_video(slide);
 
                 function do_video(slide) {
@@ -85,8 +85,18 @@
 
                 }
 
+            },
+            onLoaded: function() {
+                
+                var slide = cameraTarget.find('.cameraContent');
+                
+                slide.find( '.scslider-overlayer' ).fadeOut();
+                
             }
+            
         });
+        
+        
         
     }
     
