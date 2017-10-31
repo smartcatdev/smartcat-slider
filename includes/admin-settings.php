@@ -22,6 +22,11 @@ function output_options_page() { ?>
 
     <h2><?php _e( 'Smartcat Slider Options Page', 'scslider' ); ?></h2>
     
+    <div class="panel">
+        <?php _e( 'Create your slides, and assign them to a slider group, then add the following shortcode to the page/post that you want to show the slider', 'scsclider' ); ?>
+        <div><input type="text" style="width: 300px" readonly value="[scsclider slider=demo-slider]"/></div>
+    </div>
+    
     <?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'scslider-camera-settings'; ?>
     
     <h2 class="nav-tab-wrapper">
@@ -91,12 +96,6 @@ function register_settings() {
     'type'                  => 'boolean',
     'sanitize_callback'     => 'scslider\sanitize_boolean',
     'default'               => Defaults::PAGINATION
-    ) );
-    
-    register_setting( 'scslider-camera-settings', Options::OVERLAYER, array(
-    'type'                  => 'boolean',
-    'sanitize_callback'     => 'scslider\sanitize_boolean',
-    'default'               => Defaults::OVERLAYER
     ) );
     
     register_setting( 'scslider-camera-settings', Options::PLAYPAUSE, array(
@@ -178,7 +177,7 @@ function add_settings_fields() {
 
     add_settings_field(
         Options::AUTO_ADVANCE,
-        __( 'Auto Advance', 'scslider' ),
+        __( 'Auto Scroll', 'scslider' ),
         'scslider\render_boolean_field',
         'scslider-camera-settings',
         'scslider-camera-settings',
@@ -271,18 +270,7 @@ function add_settings_fields() {
             'name' => Options::PAGINATION
         )
     );
-
-    add_settings_field(
-        Options::OVERLAYER,
-        __( 'Place Overlayer Over Slider', 'scslider' ),
-        'scslider\render_boolean_field',
-        'scslider-camera-settings',
-        'scslider-camera-settings',
-        array (
-            'name' => Options::OVERLAYER
-        )
-    );
-
+    
     add_settings_field(
         Options::PLAYPAUSE,
         __( 'Display Play/Pause Button', 'scslider' ),

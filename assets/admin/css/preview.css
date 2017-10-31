@@ -85,3 +85,15 @@
 .ajax-preview {
     overflow:hidden;
 }
+.scslider-overlayer {
+    position: absolute;
+    height: 475px;
+    width: 100%;
+    left: 0;
+    z-index: 2 !important;
+    display: block !important;
+}
+#scslider_preview .inside {
+    margin: 0 12px 12px;
+    padding: 0;
+}
