@@ -1,10 +1,11 @@
 === Smartcat Video & Image Slider ===
 Contributors: smartcat
 Donate link: https://smartcatdesign.net/
-Tags: video,image,slider,
+Tags: video,image,slider
 Requires at least: 4.6
 Tested up to: 4.8.2
 Stable tag: 0.1
+Requires PHP: 5.4
 License: GPLv2 or later
 
 Create a highly customizable slider with images, videos, text, overlay, buttons and a fully customizable layout
