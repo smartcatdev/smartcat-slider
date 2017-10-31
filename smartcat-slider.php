@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name: Smartcat Slider
+ * Plugin Name: Smartcat Video & Image Slider
  * Plugin URI: https://smartcatdesign.net/downloads/more-featured-images/
  * Description: Video and Image Sliders for your theme. Works with any theme and allows you to create multiple customizable sliders
  * Version: 1.0.0
