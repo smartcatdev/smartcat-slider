@@ -219,8 +219,7 @@ function create_demo_slides() {
     }
     
     $demo_term = get_term_by( 'name', 'demo-slider', 'slider' );
-      
-    var_dump( $demo_term );
+    
     
     if ( ! $demo_term ) {
         $demo_term = wp_insert_term( 'demo-slider', 'slider' );
@@ -275,18 +274,18 @@ function create_demo_slides() {
         
         wp_set_object_terms( $post2_id, $demo_term->term_id, 'slider' );
         
-        update_post_meta( $post2_id, 'scslider_title_color', '#000000' );
+        update_post_meta( $post2_id, 'scslider_title_color', '#fff' );
         update_post_meta( $post2_id, 'scslider_title_size', 38 );
         update_post_meta( $post2_id, 'scslider_title_trans', 'scslide-fadeTop' );
         update_post_meta( $post2_id, 'scslider_subtitle', 'More Example Slides' );
-        update_post_meta( $post2_id, 'scslider_subtitle_color', '#000000' );
+        update_post_meta( $post2_id, 'scslider_subtitle_color', '#fff' );
         update_post_meta( $post2_id, 'scslider_subtitle_size', 28 );
         update_post_meta( $post2_id, 'scslider_subtitle_trans', 'scslide-fadeLeft' );
         update_post_meta( $post2_id, 'scslider_content', 'Here is some slide 2 example content' );
-        update_post_meta( $post2_id, 'scslider_content_color', '#000000' );
+        update_post_meta( $post2_id, 'scslider_content_color', '#fff' );
         update_post_meta( $post2_id, 'scslider_content_size', 16 );
         update_post_meta( $post2_id, 'scslider_content_trans', 'scslide-fadeBottom' );
-        update_post_meta( $post2_id, 'scslider_template_dropdown', 'left' );
+        update_post_meta( $post2_id, 'scslider_template_dropdown', 'standard' );
         update_post_meta( $post2_id, 'scslider_overlayer_toggle', 'on' );
         update_post_meta( $post2_id, 'scslider_overlayer_color', '#ffffff' );
         update_post_meta( $post2_id, 'scslider_overlayer_opacity', 0.35 );

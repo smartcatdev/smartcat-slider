@@ -22,6 +22,11 @@ function output_options_page() { ?>
 
     <h2><?php _e( 'Smartcat Slider Options Page', 'scslider' ); ?></h2>
     
+    <div class="panel">
+        <?php _e( 'Create your slides, and assign them to a slider group, then add the following shortcode to the page/post that you want to show the slider', 'scsclider' ); ?>
+        <div><input type="text" style="width: 300px" readonly value="[scsclider slider=demo-slider]"/></div>
+    </div>
+    
     <?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'scslider-camera-settings'; ?>
     
     <h2 class="nav-tab-wrapper">

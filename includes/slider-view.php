@@ -2,19 +2,32 @@
 
 function render_slider( $echo = false ) {
     
+    if( isset( $echo['slider' ] ) ) {
+        $category = $echo['slider'];
+    }else{
 
-    $post_id = null;
-    if( is_home() ){
-        $post_id = get_option( 'page_for_posts' );
-    }else {
-        $post_id = get_the_ID();
+        $post_id = null;
+        if( is_home() ){
+            $post_id = get_option( 'page_for_posts' );
+        }else {
+            $post_id = get_the_ID();
+        }
+
+        if ( get_post_meta( $post_id, 'scslider_toggle', true ) == 'on' ) {
+
+            $category = get_post_meta( $post_id, 'scslider_selected', true );
+
+        }
+        
     }
+
+
     
-    if ( get_post_meta( $post_id, 'scslider_toggle', true ) == 'on' ) {
+    if ( $category ) {
     
         ob_start();
 
-        $category = get_post_meta( $post_id, 'scslider_selected', true );
+        
 
         $args = array(
             'post_type' => 'slide',
