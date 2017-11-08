@@ -29,7 +29,7 @@ function init() {
     if ( PHP_VERSION >= Defaults::MIN_PHP_VERSION ) {
 
         include_once root_path() . '/includes/functions.php';
-        include_once root_path() . '/includes/settings.php';
+        include_once root_path() . '/includes/admin-settings.php';
         include_once root_path() . '/includes/slider-view.php';
                 
     } else {

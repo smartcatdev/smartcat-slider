@@ -58,6 +58,7 @@ function register_slide_post_type() {
                 'supports'              => array('title', 'thumbnail' ),
 		'capability_type'       => 'page',
 		'show_in_rest'          => true,
+                'menu_icon'             => asset( 'images/menu-icon.png' )
 	);
 	register_post_type( 'slide', $args );
 
@@ -112,7 +113,7 @@ add_action( 'admin_menu', 'scslider\custom_submenu_page' );
  */
 function load_submenu_page() {
     
-    include dirname(__FILE__).'../menupage.php';
+    include root_path() . 'includes/admin-reorder.php';
     
 }
 /**

@@ -172,7 +172,7 @@ function add_settings_fields() {
 
     add_settings_field(
         Options::AUTO_ADVANCE,
-        __( 'Auto Advance', 'scslider' ),
+        __( 'Auto Scroll', 'scslider' ),
         'scslider\render_boolean_field',
         'scslider-camera-settings',
         'scslider-camera-settings',
