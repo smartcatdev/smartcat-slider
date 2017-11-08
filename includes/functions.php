@@ -2,6 +2,9 @@
 
 namespace scslider;
 
+//Add shortcode ability for widgets
+add_filter('widget_text','do_shortcode');
+
 /**
  * Creates slide custom post type
  * @since 1.0.0

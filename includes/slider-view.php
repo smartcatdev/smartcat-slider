@@ -2,33 +2,35 @@
 
 function render_slider( $echo = false ) {
     
-    if( isset( $echo['slider' ] ) ) {
-        $category = $echo['slider'];
-    }else{
-
-        $post_id = null;
-        if( is_home() ){
-            $post_id = get_option( 'page_for_posts' );
-        }else {
-            $post_id = get_the_ID();
-        }
-
-        if ( get_post_meta( $post_id, 'scslider_toggle', true ) == 'on' ) {
-
-            $category = get_post_meta( $post_id, 'scslider_selected', true );
-
-        }
-        
-    }
-
-
+    if ( $echo !== true ) {
     
-    if ( $category ) {
+        $args = shortcode_atts( array(
+                'slider' => ''
+            ), $echo );
+
+    }
+    
+    $post_id = null;
+    if( is_home() ){
+        $post_id = get_option( 'page_for_posts' );
+    }else {
+        $post_id = get_the_ID();
+    }
+    
+if ( get_post_meta( $post_id, 'scslider_toggle', true ) == 'on' || $args['slider'] != '' ) {
     
         ob_start();
 
+        if ( $args['slider'] == '' ) {  
         
+            $category = get_post_meta( $post_id, 'scslider_selected', true );
 
+        } else {
+            
+            $category = $args['slider'];
+            
+        }
+        
         $args = array(
             'post_type' => 'slide',
             'tax_query' => array(
@@ -62,7 +64,7 @@ function render_slider( $echo = false ) {
         
         $ob_buffer = ob_get_clean();
         
-        if ( $echo ) {
+        if ( $echo === true ) {
             echo $ob_buffer;
         } else {
             return $ob_buffer;
