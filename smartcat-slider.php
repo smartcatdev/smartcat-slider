@@ -59,14 +59,7 @@ function make_admin_notice( $message, $type = 'error', $dismissible = true ) {
  *
  * @since 1.0.0
  */
-function activate() {
-
-    init();
-
-    register_slide_post_type();
-    create_slider_tax();
-    
-}
+function activate() {}
 
 register_activation_hook( __FILE__, 'scslider\activate' );
 
@@ -213,19 +206,22 @@ add_action( 'admin_enqueue_scripts', 'scslider\add_preview_scripts', 10, 1 );
  */
 function create_demo_slides() {
     
-    if( get_option(Options::PAGES_CREATED) == true ){
-        
+    
+    $completed = get_option( Options::PAGES_CREATED, Defaults::PAGES_CREATED );
+    
+    if( $completed == true ) {
         return;
     }
     
     $demo_term = get_term_by( 'name', 'demo-slider', 'slider' );
     
-    
     if ( ! $demo_term ) {
         $demo_term = wp_insert_term( 'demo-slider', 'slider' );
     } 
     
-    if ( $demo_term ) {
+    $demo_term = get_term_by( 'name', 'demo-slider', 'slider' );
+    
+    if ( isset( $demo_term->term_id ) ) {
         
         $postarr = array(
             'post_type'     => 'slide',
@@ -296,6 +292,6 @@ function create_demo_slides() {
     update_option( Options::PAGES_CREATED, true );
 
 }
-add_action( 'scslider_after_tax_registered', 'scslider\create_demo_slides' );
+add_action( 'scslide_tax_registered', 'scslider\create_demo_slides' );
 
 
