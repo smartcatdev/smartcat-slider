@@ -4,7 +4,7 @@ Donate link: https://smartcatdesign.net/
 Tags: video,image,slider
 Requires at least: 4.6
 Tested up to: 4.8.2
-Stable tag: 0.1
+Stable tag: 1.0.0
 Requires PHP: 5.4
 License: GPLv2 or later
 
@@ -16,6 +16,9 @@ This plugin is great for creating multiple sliders with ease. Create as many sli
 using the shortcode [scslider slider="demo-slider"]
 
 == Changelog ==
+
+= 1.0.1 =
+Plugin now creates a demo slider on initial install
 
 = 1.0.0 =
 Initial release
