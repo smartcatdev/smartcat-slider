@@ -79,13 +79,15 @@ function create_slider_tax() {
             'slide',
             array(
                 'label' => __( 'Slider Group' ),
-                'rewrite' => array( 'slug' => 'slide' ),
                 'hierarchical' => true,
             )
-
     );
     
-    do_action( 'scslider_after_tax_registered' );
+    register_taxonomy_for_object_type( 'slider', 'slide' );
+
+    do_action( 'scslide_tax_registered' );
+    
+//    update_option( Options::TAXONOMY_CREATED, true );
     
 }
 add_action( 'init', 'scslider\create_slider_tax' );  

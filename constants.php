@@ -95,6 +95,7 @@ interface Options {
      * 
      */
     const PAGES_CREATED = 'scslider_pages_created';
+    
       
 }
 interface Defaults {
@@ -178,5 +179,8 @@ interface Defaults {
     * @since 1.0.0
     */
     const BAR_POSITION = 'bottom';
+    
+    
+    const PAGES_CREATED = false;
     
 }
