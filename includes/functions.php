@@ -61,6 +61,7 @@ function register_slide_post_type() {
                 'supports'              => array('title', 'thumbnail' ),
 		'capability_type'       => 'page',
 		'show_in_rest'          => true,
+                'menu_icon'             => asset( 'images/menu-icon.png' )
 	);
 	register_post_type( 'slide', $args );
 
@@ -73,16 +74,19 @@ add_action( 'init', 'scslider\register_slide_post_type', 0 );
  */
 function create_slider_tax() {
     
-	register_taxonomy(
-		'slider',
-		'slide',
-		array(
-                    'label' => __( 'Slider Group' ),
-                    'rewrite' => array( 'slug' => 'slide' ),
-                    'hierarchical' => true,
-                )
-		
-	);
+    register_taxonomy(
+            'slider',
+            'slide',
+            array(
+                'label' => __( 'Slider Group' ),
+                'rewrite' => array( 'slug' => 'slide' ),
+                'hierarchical' => true,
+            )
+
+    );
+    
+    do_action( 'scslider_after_tax_registered' );
+    
 }
 add_action( 'init', 'scslider\create_slider_tax' );  
 
@@ -112,7 +116,7 @@ add_action( 'admin_menu', 'scslider\custom_submenu_page' );
  */
 function load_submenu_page() {
     
-    include dirname(__FILE__).'../menupage.php';
+    include root_path() . 'includes/admin-reorder.php';
     
 }
 /**

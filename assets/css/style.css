@@ -170,6 +170,11 @@
     height: 100%;
     width: 100%;
 }
+
+.scslider-wrap {
+    
+}
+
 .scslider-wrap .camera_pag {
     margin-top: -60px;
 }
