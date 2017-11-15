@@ -369,99 +369,117 @@ class scslider_info_metabox {
         echo '<table class="form-table">';
 
             echo '<div></br>';
+            
+                echo '<div class="scslider-title-settings">';
 
-            echo '<label for="scslider_title_color">Title Color</label></br>';
-            echo '<input type="text" value="' . esc_attr( $scslider_title_color ) . '" id="scslider_title_color" name="scslider_title_color" data-default-color="#ffffff" /></br></br>';
+                    echo '<label class="scslider-admin-title">Title</label></br></br>';
 
-            echo '<label for="scslider_title_size">Title Font Size</label></br>';
-            echo '<select name="scslider_title_size" id="scslider_title_size">';
+                    echo '<label for="scslider_title_color">Title Color</label></br>';
+                    echo '<input type="text" value="' . esc_attr( $scslider_title_color ) . '" id="scslider_title_color" name="scslider_title_color" data-default-color="#ffffff" /></br></br>';
 
-                foreach( $scslider_font_sizes as $key => $value ) {
+                    echo '<label for="scslider_title_size">Title Font Size</label></br>';
+                    echo '<select name="scslider_title_size" id="scslider_title_size">';
 
-                    echo '<option value="' . esc_attr( $key ) . '" ';
-                    echo $scslider_title_size == $key ? 'selected' : '' ;
-                    echo ' >';
-                    echo esc_attr( $value ) . '</option>';
+                        foreach( $scslider_font_sizes as $key => $value ) {
 
-                }
-            echo '</select></br></br>';
+                            echo '<option value="' . esc_attr( $key ) . '" ';
+                            echo $scslider_title_size == $key ? 'selected' : '' ;
+                            echo ' >';
+                            echo esc_attr( $value ) . '</option>';
 
-            echo '<label for="scslider_title_trans">Title Transistion</label></br>';
-            echo '<select name="scslider_title_trans" id="scslider_title_trans">';
+                        }
+                    echo '</select></br></br>';
 
-                foreach( $scslider_load_transitions as $key => $value ) {
+                    echo '<label for="scslider_title_trans">Title Transistion</label></br>';
+                    echo '<select name="scslider_title_trans" id="scslider_title_trans">';
 
-                    echo '<option value="' . esc_attr( $key ) . '" ';
-                    echo $scslider_title_trans == $key ? 'selected' : '' ;
-                    echo ' >';
-                    echo esc_attr( $value ) . '</option>';
+                        foreach( $scslider_load_transitions as $key => $value ) {
 
-                }
-            echo '</select></br></br>';
+                            echo '<option value="' . esc_attr( $key ) . '" ';
+                            echo $scslider_title_trans == $key ? 'selected' : '' ;
+                            echo ' >';
+                            echo esc_attr( $value ) . '</option>';
 
-            echo '<label for="scslider_subtitle">Subtitle</label>';
-            echo '<input type="text" id="scslider_subtitle" name="scslider_subtitle" value="' . esc_attr( $scslider_subtitle ) . '" />';
+                        }
+                    echo '</select></br></br>';
 
-            echo '<label for="scslider_subtitle_color">Subtitle Color</label></br>';
-            echo '<input type="text" value="' . esc_attr( $scslider_subtitle_color ) . '" id="scslider_subtitle_color" name="scslider_subtitle_color" data-default-color="#ffffff" /></br></br>';
+                echo '</div>';
 
-            echo '<label for="scslider_subtitle_size">Subtitle Font Size</label></br>';
-            echo '<select name="scslider_subtitle_size" id="scslider_subtitle_size">';
+                echo '<div class="scslider-subtitle-settings">';
 
-                foreach( $scslider_font_sizes as $key => $value ) {
+                    echo '<label class="scslider-admin-title">Subtitle</label></br></br>';
 
-                    echo '<option value="' . esc_attr( $key ) . '" ';
-                    echo $scslider_subtitle_size == $key ? 'selected' : '' ;
-                    echo ' >';
-                    echo esc_attr( $value ) . '</option>';
+                    echo '<label for="scslider_subtitle">Subtitle Text</label>';
+                    echo '<input type="text" id="scslider_subtitle" name="scslider_subtitle" value="' . esc_attr( $scslider_subtitle ) . '" />';
 
-                }
-            echo '</select></br></br>';
+                    echo '<label for="scslider_subtitle_color">Subtitle Color</label></br>';
+                    echo '<input type="text" value="' . esc_attr( $scslider_subtitle_color ) . '" id="scslider_subtitle_color" name="scslider_subtitle_color" data-default-color="#ffffff" /></br></br>';
 
-            echo '<label for="scslider_subtitle_trans">Subtitle Transistion</label></br>';
-            echo '<select name="scslider_subtitle_trans" id="scslider_subtitle_trans">';
+                    echo '<label for="scslider_subtitle_size">Subtitle Font Size</label></br>';
+                    echo '<select name="scslider_subtitle_size" id="scslider_subtitle_size">';
 
-                foreach( $scslider_load_transitions as $key => $value ) {
+                        foreach( $scslider_font_sizes as $key => $value ) {
 
-                    echo '<option value="' . esc_attr( $key ) . '" ';
-                    echo $scslider_subtitle_trans == $key ? 'selected' : '' ;
-                    echo ' >';
-                    echo esc_attr( $value ) . '</option>';
+                            echo '<option value="' . esc_attr( $key ) . '" ';
+                            echo $scslider_subtitle_size == $key ? 'selected' : '' ;
+                            echo ' >';
+                            echo esc_attr( $value ) . '</option>';
 
-                }
-            echo '</select></br></br>';
+                        }
+                    echo '</select></br></br>';
 
-            echo '<label for="scslider_content">Content</label>';
-            echo '<textarea id="scslider_content" name="scslider_content">' . esc_attr( $scslider_content ) . '</textarea></br></br>';
+                    echo '<label for="scslider_subtitle_trans">Subtitle Transistion</label></br>';
+                    echo '<select name="scslider_subtitle_trans" id="scslider_subtitle_trans">';
 
-            echo '<label for="scslider_content_color">Content Color</label></br>';
-            echo '<input type="text" value="' . esc_attr( $scslider_content_color ) . '" id="scslider_content_color" name="scslider_content_color" data-default-color="#ffffff" /></br></br>';
+                        foreach( $scslider_load_transitions as $key => $value ) {
 
-            echo '<label for="scslider_content_size">Content Font Size</label></br>';
-            echo '<select name="scslider_content_size" id="scslider_content_size">';
+                            echo '<option value="' . esc_attr( $key ) . '" ';
+                            echo $scslider_subtitle_trans == $key ? 'selected' : '' ;
+                            echo ' >';
+                            echo esc_attr( $value ) . '</option>';
 
-                foreach( $scslider_font_sizes as $key => $value ) {
+                        }
+                    echo '</select></br></br>';
 
-                    echo '<option value="' . esc_attr( $key ) . '" ';
-                    echo $scslider_content_size == $key ? 'selected' : '' ;
-                    echo ' >';
-                    echo esc_attr( $value ) . '</option>';
+                echo '</div>';
 
-                }
-            echo '</select></br></br>';
+                echo '<div class="scslider-content-settings">';
 
-            echo '<label for="scslider_content_trans">Content Transistion</label></br>';
-            echo '<select name="scslider_content_trans" id="scslider_content_trans">';
+                    echo '<label class="scslider-admin-title">Content</label></br></br>';
 
-                foreach( $scslider_load_transitions as $key => $value ) {
+                    echo '<label for="scslider_content">Content Text</label>';
+                    echo '<textarea id="scslider_content" name="scslider_content">' . esc_attr( $scslider_content ) . '</textarea></br></br>';
 
-                    echo '<option value="' . esc_attr( $key ) . '" ';
-                    echo $scslider_content_trans == $key ? 'selected' : '' ;
-                    echo ' >';
-                    echo esc_attr( $value ) . '</option>';
+                    echo '<label for="scslider_content_color">Content Color</label></br>';
+                    echo '<input type="text" value="' . esc_attr( $scslider_content_color ) . '" id="scslider_content_color" name="scslider_content_color" data-default-color="#ffffff" /></br></br>';
 
-                }
-            echo '</select></br></br>';
+                    echo '<label for="scslider_content_size">Content Font Size</label></br>';
+                    echo '<select name="scslider_content_size" id="scslider_content_size">';
+
+                        foreach( $scslider_font_sizes as $key => $value ) {
+
+                            echo '<option value="' . esc_attr( $key ) . '" ';
+                            echo $scslider_content_size == $key ? 'selected' : '' ;
+                            echo ' >';
+                            echo esc_attr( $value ) . '</option>';
+
+                        }
+                    echo '</select></br></br>';
+
+                    echo '<label for="scslider_content_trans">Content Transistion</label></br>';
+                    echo '<select name="scslider_content_trans" id="scslider_content_trans">';
+
+                        foreach( $scslider_load_transitions as $key => $value ) {
+
+                            echo '<option value="' . esc_attr( $key ) . '" ';
+                            echo $scslider_content_trans == $key ? 'selected' : '' ;
+                            echo ' >';
+                            echo esc_attr( $value ) . '</option>';
+
+                        }
+                    echo '</select></br></br>';
+
+                echo '</div>';
 
             echo '</div>';
 
@@ -809,56 +827,68 @@ class scslider_cta_metabox {
         echo '<table class="form-table">';
 
             echo '<div></br>';
+            
+                echo '<div class="scslider-button1-settings">';
 
-            echo '<label for="scslider_button1_text">Button 1 Text</label></br>';
-            echo '<input type="text" id="scslider_button1_text" name="scslider_button1_text" value="' . esc_attr( $scslider_button1_text ) . '" /></br></br>';
+                        echo '<label class="scslider-admin-title">Button 1 Settings</label></br></br>';
 
-            echo '<label for="scslider_button1_url">Button 1 URL</label></br>';
-            echo '<input type="text" id="scslider_button1_url" name="scslider_button1_url" value="' . esc_url_raw( $scslider_button1_url ) . '" /></br></br>';
+                        echo '<label for="scslider_button1_text">Button 1 Text</label></br>';
+                        echo '<input type="text" id="scslider_button1_text" name="scslider_button1_text" value="' . esc_attr( $scslider_button1_text ) . '" /></br></br>';
 
-            echo '<label for="scslider_button1_text_color">Button 1 Text Color</label></br>';
-            echo '<input type="text" value="' . esc_attr( $scslider_button1_text_color ) . '" id="scslider_button1_text_color" name="scslider_button1_text_color" data-default-color="#ffffff" /></br></br>';
+                        echo '<label for="scslider_button1_url">Button 1 URL</label></br>';
+                        echo '<input type="text" id="scslider_button1_url" name="scslider_button1_url" value="' . esc_url_raw( $scslider_button1_url ) . '" /></br></br>';
 
-            echo '<label for="scslider_button1_color">Button 1 Color</label></br>';
-            echo '<input type="text" value="' . esc_attr( $scslider_button1_color ) . '" id="scslider_button1_color" name="scslider_button1_color" data-default-color="#ffffff" /></br></br>';
+                        echo '<label for="scslider_button1_text_color">Button 1 Text Color</label></br>';
+                        echo '<input type="text" value="' . esc_attr( $scslider_button1_text_color ) . '" id="scslider_button1_text_color" name="scslider_button1_text_color" data-default-color="#ffffff" /></br></br>';
 
-            echo '<label for="scslider_button1_trans">Button 1 Transistion</label></br>';
-            echo '<select name="scslider_button1_trans" id="scslider_button1_trans">';
+                        echo '<label for="scslider_button1_color">Button 1 Color</label></br>';
+                        echo '<input type="text" value="' . esc_attr( $scslider_button1_color ) . '" id="scslider_button1_color" name="scslider_button1_color" data-default-color="#ffffff" /></br></br>';
 
-                foreach( $scslider_load_transitions as $key => $value ) {
+                        echo '<label for="scslider_button1_trans">Button 1 Transistion</label></br>';
+                        echo '<select name="scslider_button1_trans" id="scslider_button1_trans">';
 
-                    echo '<option value="' . esc_attr( $key ) . '" ';
-                    echo $scslider_button1_trans == $key ? 'selected' : '' ;
-                    echo ' >';
-                    echo esc_attr( $value ) . '</option>';
+                            foreach( $scslider_load_transitions as $key => $value ) {
 
-                }
-            echo '</select></br></br>';
+                                echo '<option value="' . esc_attr( $key ) . '" ';
+                                echo $scslider_button1_trans == $key ? 'selected' : '' ;
+                                echo ' >';
+                                echo esc_attr( $value ) . '</option>';
 
-            echo '<label for="scslider_button2_text">Button 2 Text</label></br>';
-            echo '<input type="text" id="scslider_button2_text" name="scslider_button2_text" value="' . esc_attr( $scslider_button2_text ) . '" /></br></br>';
+                            }
+                        echo '</select></br></br>';
 
-            echo '<label for="scslider_button2_url">Button 2 URL</label></br>';
-            echo '<input type="text" id="scslider_button2_url" name="scslider_button2_url" value="' . esc_url_raw( $scslider_button2_url ) . '" /></br></br>';
+                echo '</div>';
+                
+                echo '<div class="scslider-button2-settings">';
 
-            echo '<label for="scslider_button2_text_color">Button 2 Text Color</label></br>';
-            echo '<input type="text" value="' . esc_attr( $scslider_button2_text_color ) . '" id="scslider_button2_text_color" name="scslider_button2_text_color" data-default-color="#ffffff" /></br></br>';
+                    echo '<label class="scslider-admin-title">Button 2 Settings</label></br></br>';
 
-            echo '<label for="scslider_button2_color">Button 2 Color</label></br>';
-            echo '<input type="text" value="' . esc_attr( $scslider_button2_color ) . '" id="scslider_button2_color" name="scslider_button2_color" data-default-color="#ffffff" /></br></br>';
+                    echo '<label for="scslider_button2_text">Button 2 Text</label></br>';
+                    echo '<input type="text" id="scslider_button2_text" name="scslider_button2_text" value="' . esc_attr( $scslider_button2_text ) . '" /></br></br>';
 
-            echo '<label for="scslider_button2_trans">Button 2 Transistion</label></br>';
-            echo '<select name="scslider_button2_trans" id="scslider_button2_trans">';
+                    echo '<label for="scslider_button2_url">Button 2 URL</label></br>';
+                    echo '<input type="text" id="scslider_button2_url" name="scslider_button2_url" value="' . esc_url_raw( $scslider_button2_url ) . '" /></br></br>';
 
-                foreach( $scslider_load_transitions as $key => $value ) {
+                    echo '<label for="scslider_button2_text_color">Button 2 Text Color</label></br>';
+                    echo '<input type="text" value="' . esc_attr( $scslider_button2_text_color ) . '" id="scslider_button2_text_color" name="scslider_button2_text_color" data-default-color="#ffffff" /></br></br>';
 
-                    echo '<option value="' . esc_attr( $key ) . '" ';
-                    echo $scslider_button2_trans == $key ? 'selected' : '' ;
-                    echo ' >';
-                    echo esc_attr( $value ) . '</option>';
+                    echo '<label for="scslider_button2_color">Button 2 Color</label></br>';
+                    echo '<input type="text" value="' . esc_attr( $scslider_button2_color ) . '" id="scslider_button2_color" name="scslider_button2_color" data-default-color="#ffffff" /></br></br>';
 
-                }
-            echo '</select></br></br>';
+                    echo '<label for="scslider_button2_trans">Button 2 Transistion</label></br>';
+                    echo '<select name="scslider_button2_trans" id="scslider_button2_trans">';
+
+                        foreach( $scslider_load_transitions as $key => $value ) {
+
+                            echo '<option value="' . esc_attr( $key ) . '" ';
+                            echo $scslider_button2_trans == $key ? 'selected' : '' ;
+                            echo ' >';
+                            echo esc_attr( $value ) . '</option>';
+
+                        }
+                    echo '</select></br></br>';
+                    
+                echo '</div>';
 
             echo '</div>';
 
@@ -947,14 +977,14 @@ class scslider_overlayer_metabox {
         $scslider_overlayer_opacity = get_post_meta( $post->ID, 'scslider_overlayer_opacity', true );
 
         // Set default values.
-        if( empty( $scslider_overlayer_toggle ) ) $scslider_overlayer_toggle = '';
+        if( empty( $scslider_overlayer_toggle ) ) $scslider_overlayer_toggle = 'off';
         if( empty( $scslider_overlayer_color ) ) $scslider_overlayer_color = '';
         if( empty( $scslider_overlayer_opacity ) ) $scslider_overlayer_opacity = '';
         
         // Form fields. 
         echo '<table class="form-table">';
 
-        echo '<div></br>';
+        echo '<div class="overlayer-settings"></br>';
 
         echo '<label>Display Overlayer?  </label></br></br>';
         
@@ -962,7 +992,7 @@ class scslider_overlayer_metabox {
                                name="scslider_overlayer_toggle"
                                class="scslider_overlayer_toggle"
                                value="on" 
-                               type="radio" ' . checked( 'on', $scslider_overlayer_toggle, false ) . '/> On ';
+                               type="radio" ' . checked( 'on', $scslider_overlayer_toggle, false ) . '/> On';
         
         echo '              <input 
                                name="scslider_overlayer_toggle"
@@ -999,8 +1029,7 @@ class scslider_overlayer_metabox {
         if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
                 return;
         // Sanitize user input.       
-        $scslider_overlayer_toggle_new = isset( $_POST[ 'scslider_overlayer_toggle' ] ) ?  $_POST[ 'scslider_overlayer_toggle' ] : '';
-        
+        $scslider_overlayer_toggle_new = isset( $_POST[ 'scslider_overlayer_toggle' ] ) ?  $_POST[ 'scslider_overlayer_toggle' ] : 'off';
         $scslider_overlayer_color_new = isset( $_POST[ 'scslider_overlayer_color' ] ) ?  $_POST[ 'scslider_overlayer_color' ] : '';
         $scslider_overlayer_opacity_new = isset( $_POST[ 'scslider_overlayer_opacity' ] ) ?  $_POST[ 'scslider_overlayer_opacity' ] : '';
 

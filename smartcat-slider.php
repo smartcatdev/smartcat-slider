@@ -233,6 +233,7 @@ function create_demo_slides() {
 
         wp_set_object_terms( $post1_id, $demo_term->term_id, 'slider' );
         
+        update_post_meta( $post1_id, 'order_array', 0 );
         update_post_meta( $post1_id, 'scslider_title_color', '#000000' );
         update_post_meta( $post1_id, 'scslider_title_size', 38 );
         update_post_meta( $post1_id, 'scslider_title_trans', 'scslide-fadeTop' );
@@ -270,6 +271,7 @@ function create_demo_slides() {
         
         wp_set_object_terms( $post2_id, $demo_term->term_id, 'slider' );
         
+        update_post_meta( $post2_id, 'order_array', 1 );
         update_post_meta( $post2_id, 'scslider_title_color', '#fff' );
         update_post_meta( $post2_id, 'scslider_title_size', 38 );
         update_post_meta( $post2_id, 'scslider_title_trans', 'scslide-fadeTop' );

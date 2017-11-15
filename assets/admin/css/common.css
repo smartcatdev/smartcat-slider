@@ -164,6 +164,50 @@ a.post-edit-link {
 }
 .movie-icon {
     display: block;
-    margin: auto;
-    font-size: 150px;
+    line-height: 150px;
+    font-size: 135px;
+    width: 100%;
+}
+.scslider-admin-title {
+    font-size: 20px !important;   
+    font-weight: 600;
+    cursor: default;
+}
+.scslider-title-settings {
+    display: inline-block;
+    float: left;
+    width: 46%;
+    padding: 15px;
+}
+.scslider-subtitle-settings {
+    float: left;
+    width: 46%;
+    display: inline-block;
+    padding: 15px;
+    border-left: 1px solid #cacaca;
+}
+.scslider-content-settings {
+    float: left;
+    width: 90%;
+    display: inline-block;
+    padding: 15px;
+}
+.scslider-button1-settings, .scslider-button2-settings {
+    float: left;
+    width: 46%;
+    padding: 15px;
+}
+.scslider-button2-settings {
+    border-left: 1px solid #cacaca;
+}
+.overlayer-settings {
+    padding: 15px;
+}
+@media screen and ( max-width:767px ) {
+    .single-slide {
+        width: 100%;
+    }
+    .movie-icon {
+        font-size: 100px;
+    }
 }
