@@ -199,7 +199,6 @@ function add_preview_scripts( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'scslider\add_preview_scripts', 10, 1 );
 
-
 /**
  * Creates 2 demonstration slides and a single slider category
  * @since 1.0.0

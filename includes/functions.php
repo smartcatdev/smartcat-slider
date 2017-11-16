@@ -87,8 +87,6 @@ function create_slider_tax() {
 
     do_action( 'scslide_tax_registered' );
     
-//    update_option( Options::TAXONOMY_CREATED, true );
-    
 }
 add_action( 'init', 'scslider\create_slider_tax' );  
 
@@ -808,12 +806,12 @@ class scslider_cta_metabox {
         // Set default values.
         if( empty( $scslider_button1_text ) ) $scslider_button1_text = '';
         if( empty( $scslider_button1_url ) ) $scslider_button1_url = '';
-        if( empty( $scslider_button1_text_color ) ) $scslider_button1_text_color = '#000000';
-        if( empty( $scslider_button1_color ) ) $scslider_button1_color = '#ffffff';
+        if( empty( $scslider_button1_text_color ) ) $scslider_button1_text_color = '#fff';
+        if( empty( $scslider_button1_color ) ) $scslider_button1_color = '#1c1c1c';
         if( empty( $scslider_button2_text ) ) $scslider_button2_text = '';
         if( empty( $scslider_button2_url ) ) $scslider_button2_url = '';
-        if( empty( $scslider_button2_text_color ) ) $scslider_button2_text_color = '#000000';
-        if( empty( $scslider_button2_color ) ) $scslider_button2_color = '#ffffff';
+        if( empty( $scslider_button2_text_color ) ) $scslider_button2_text_color = '#fff';
+        if( empty( $scslider_button2_color ) ) $scslider_button2_color = '#1c1c1c';
         if( empty( $scslider_button1_trans ) ) $scslider_button1_trans = 'scslide-fadeIn';
         if( empty( $scslider_button2_trans ) ) $scslider_button2_trans = 'scslide-fadeIn';
 
@@ -910,12 +908,12 @@ class scslider_cta_metabox {
         // Sanitize user input.
         $scslider_button1_text_new = isset( $_POST[ 'scslider_button1_text' ] ) ?  $_POST[ 'scslider_button1_text' ] : '';
         $scslider_button1_url_new = isset( $_POST[ 'scslider_button1_url' ] ) ?  $_POST[ 'scslider_button1_url' ] : '';
-        $scslider_button1_text_color_new = isset( $_POST[ 'scslider_button1_text_color' ] ) ?  $_POST[ 'scslider_button1_text_color' ] : '#000000';
-        $scslider_button1_color_new = isset( $_POST[ 'scslider_button1_color' ] ) ?  $_POST[ 'scslider_button1_color' ] : '#ffffff';
+        $scslider_button1_text_color_new = isset( $_POST[ 'scslider_button1_text_color' ] ) ?  $_POST[ 'scslider_button1_text_color' ] : '#fff';
+        $scslider_button1_color_new = isset( $_POST[ 'scslider_button1_color' ] ) ?  $_POST[ 'scslider_button1_color' ] : '#1c1c1c';
         $scslider_button2_text_new = isset( $_POST[ 'scslider_button2_text' ] ) ?  $_POST[ 'scslider_button2_text' ] : '';
         $scslider_button2_url_new = isset( $_POST[ 'scslider_button2_url' ] ) ?  $_POST[ 'scslider_button2_url' ] : '';
-        $scslider_button2_text_color_new = isset( $_POST[ 'scslider_button2_text_color' ] ) ?  $_POST[ 'scslider_button2_text_color' ] : '#000000';
-        $scslider_button2_color_new = isset( $_POST[ 'scslider_button2_color' ] ) ?  $_POST[ 'scslider_button2_color' ] : '#ffffff';
+        $scslider_button2_text_color_new = isset( $_POST[ 'scslider_button2_text_color' ] ) ?  $_POST[ 'scslider_button2_text_color' ] : '#fff';
+        $scslider_button2_color_new = isset( $_POST[ 'scslider_button2_color' ] ) ?  $_POST[ 'scslider_button2_color' ] : '#1c1c1c';
         $scslider_button1_trans_new = isset( $_POST[ 'scslider_button1_trans' ] ) ?  $_POST[ 'scslider_button1_trans' ] : 'scslide-fadeIn';
         $scslider_button2_trans_new = isset( $_POST[ 'scslider_button2_trans' ] ) ?  $_POST[ 'scslider_button2_trans' ] : 'scslide-fadeIn';
 
@@ -978,7 +976,7 @@ class scslider_overlayer_metabox {
 
         // Set default values.
         if( empty( $scslider_overlayer_toggle ) ) $scslider_overlayer_toggle = 'off';
-        if( empty( $scslider_overlayer_color ) ) $scslider_overlayer_color = '';
+        if( empty( $scslider_overlayer_color ) ) $scslider_overlayer_color = '#fff';
         if( empty( $scslider_overlayer_opacity ) ) $scslider_overlayer_opacity = '';
         
         // Form fields. 
@@ -1030,7 +1028,7 @@ class scslider_overlayer_metabox {
                 return;
         // Sanitize user input.       
         $scslider_overlayer_toggle_new = isset( $_POST[ 'scslider_overlayer_toggle' ] ) ?  $_POST[ 'scslider_overlayer_toggle' ] : 'off';
-        $scslider_overlayer_color_new = isset( $_POST[ 'scslider_overlayer_color' ] ) ?  $_POST[ 'scslider_overlayer_color' ] : '';
+        $scslider_overlayer_color_new = isset( $_POST[ 'scslider_overlayer_color' ] ) ?  $_POST[ 'scslider_overlayer_color' ] : '#fff';
         $scslider_overlayer_opacity_new = isset( $_POST[ 'scslider_overlayer_opacity' ] ) ?  $_POST[ 'scslider_overlayer_opacity' ] : '';
 
         // Update the meta field in the database.

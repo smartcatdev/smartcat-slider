@@ -1,79 +1,83 @@
 <div class="wrap">
 
-<div class="scslider-admin-page">
+    <div class="scslider-admin-page">
 
-    <div id="scslider-saved">Saved</div>
+        <div id="scslider-saved">Saved</div>
 
-    <h1>Smartcat Sliders</h1>
+        <h1>Smartcat Sliders</h1>
 
-    <?php $terms = get_terms( 'slider' ); ?>
+        <?php $terms = get_terms( 'slider' ); ?>
 
-    <?php $term_ids = wp_list_pluck( $terms, 'term_id' ); ?>
+        <?php $term_ids = wp_list_pluck( $terms, 'term_id' ); ?>
 
-    <?php if( empty( $term_ids ) ) : ?>
-    
-        <?php _e( 'There are no slides belonging to any Slider Group at this time. Create some slides and assign them to a Slider Group', 'scslider' ); ?>
-    
-    <?php endif; ?>
-    
-    <div id="slide-accordion">
+        <?php if( empty( $term_ids ) ) : ?>
 
-        <?php
-        foreach ( $term_ids as $term_id ) {
+            <?php _e( 'There are no slides belonging to any Slider Group at this time. Create some slides and assign them to a Slider Group', 'scslider' ); ?>
 
-            $term_info = get_term( $term_id );
+        <?php endif; ?>
 
-            echo '<h3>';
-            echo '<span class="slides-sorter dashicons dashicons-arrow-right"></span>     ';
-            echo esc_attr( $term_info->name ) . '<a href="#" data-cat-id="' . esc_attr( $term_id ) . '" class="save-slide-order">Save</a>' . '</h3>';
+        <div id="slide-accordion">
 
-            $the_query = new WP_Query( array (
-                'post_type' => 'slide',
-                'order' => 'ASC',
-                'orderby' => 'meta_value_num',
-                'meta_key' => 'order_array',
-                'tax_query' => array (
-                    array (
-                        'taxonomy' => 'slider',
-                        'field' => 'id',
-                        'terms' => $term_id
-                    ) )
-                    ) );
-            ?> 
+            <?php
+            foreach ( $term_ids as $term_id ) {
 
-            <div class="slider-slides">
+                $term_info = get_term( $term_id );
 
-                <ul class="slides-list" id="<?php echo esc_attr( $term_id ); ?>_slides_list">
+                echo '<h3>';
+                echo '<span class="slides-sorter dashicons dashicons-arrow-right"></span>     ';
+                echo esc_attr( $term_info->name ) . '<a href="#" data-cat-id="' . esc_attr( $term_id ) . '" class="save-slide-order">Save</a>' . '</h3>';
 
-                    <?php while ( $the_query->have_posts() ) : ?>
+                $the_query = new WP_Query( array (
+                    'post_type' => 'slide',
+                    'order' => 'ASC',
+                    'orderby' => 'meta_value_num',
+                    'meta_key' => 'order_array',
+                    'tax_query' => array (
+                        array (
+                            'taxonomy' => 'slider',
+                            'field' => 'id',
+                            'terms' => $term_id
+                        ) )
+                        ) );
+                ?> 
 
-                        <?php $the_query->the_post(); ?>
+                <div class="slider-slides">
 
-                        <li class="single-slide" id="<?php the_ID() ?>">
-                            <div class="single-slide-img" 
-                                 style="background-image: url('<?php echo esc_url( get_post_meta( get_the_ID(), 'scslider_media_box', true ) ); ?>')">
+                    <ul class="slides-list" id="<?php echo esc_attr( $term_id ); ?>_slides_list">
 
-                                <?php $src = get_post_meta( get_the_ID(), 'scslider_media_box', true ) ?> 
+                        <?php while ( $the_query->have_posts() ) : ?>
 
-                                <?php if ( substr( $src, -3 ) === 'mp4' ) { ?>
+                            <?php $the_query->the_post(); ?>
 
-                                    <span class="movie-icon dashicons dashicons-video-alt2" height="150px"  />    
+                            <li class="single-slide" id="<?php the_ID() ?>">
+                                
+                                <div class="single-slide-img" 
+                                     style="background-image: url('<?php echo esc_url( get_post_meta( get_the_ID(), 'scslider_media_box', true ) ); ?>')">
 
-                                <?php } ?>
+                                    <?php $src = get_post_meta( get_the_ID(), 'scslider_media_box', true ) ?> 
 
-                            </div>
-                            <div class="single-slide-title"><h4><?php the_title(); ?></h4><?php edit_post_link( "Edit" ); ?></div>
-                        </li>
+                                    <?php if ( substr( $src, -3 ) === 'mp4' ) { ?>
 
-                    <?php endwhile; ?>
+                                        <span class="movie-icon dashicons dashicons-video-alt2" height="150px"  />    
 
-                </ul>
+                                    <?php } ?>
 
-            </div>
+                                </div>
+                                
+                                <div class="single-slide-title"><h4><?php echo get_the_title() == '' ? '(no title)' : get_the_title(); ?></h4><?php edit_post_link( "Edit" ); ?></div>
+                                
+                            </li>
 
-        <?php } ?>
+                        <?php endwhile; ?>
+
+                    </ul>
+
+                </div>
+
+            <?php } ?>
+
+        </div>
 
     </div>
-
-</div>
+    
 </div>

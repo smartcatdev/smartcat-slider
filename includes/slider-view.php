@@ -3,14 +3,13 @@
 function render_slider( $echo = false ) {
     
     if ( $echo !== true ) {
-    
         $args = shortcode_atts( array(
                 'slider' => ''
             ), $echo );
-
     }
     
     $post_id = null;
+    
     if( is_home() ){
         $post_id = get_option( 'page_for_posts' );
     }else {
@@ -120,7 +119,11 @@ function render_single_slide( $post = null, $new_data= null ) { $post = get_post
     $scslider_button1_trans = ( $new_data[ 'button1_trans' ] == null ?  get_post_meta( $post->ID, 'scslider_button1_trans', true ) : $new_data['button1_trans']  ) ;
     $scslider_button2_trans = ( $new_data[ 'button2_trans' ] == null ?  get_post_meta( $post->ID, 'scslider_button2_trans', true ) : $new_data['button2_trans']  ) ;
 
+    //TEMPLATE OPTIONS--------------------------------------------------------------------------------------------------------------------------------------------------
+    
     $scslider_template_dropdown = ( $new_data[ 'template' ] == null ?  get_post_meta( $post->ID, 'scslider_template_dropdown', true ) : $new_data['template']  ) ;
+    
+    //OVERLAYER OPTIONS-------------------------------------------------------------------------------------------------------------------------------------------------
     
     $scslider_overlayer_toggle = ( $new_data[ 'overlayer_toggle' ] == null ?  get_post_meta( $post->ID, 'scslider_overlayer_toggle', true ) : $new_data['overlayer_toggle']  ) ;
     $scslider_overlayer_color = ( $new_data[ 'overlayer_color' ] == null ?  get_post_meta( $post->ID, 'scslider_overlayer_color', true ) : $new_data['overlayer_color']  ) ;
@@ -159,7 +162,7 @@ function render_single_slide( $post = null, $new_data= null ) { $post = get_post
                                                     <?php echo $rgb_overlayer_color[1] ?>,
                                                     <?php echo $rgb_overlayer_color[2] ?>,
                                                     <?php echo $scslider_overlayer_opacity ?>);
-                                                    <?php echo $is_video ? 'z-index:2;' : ''; ?>"></div>
+                            <?php echo $is_video ? 'z-index:2;' : ''; ?>"></div>
 
             <?php } ?>
                                                                            

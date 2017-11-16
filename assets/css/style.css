@@ -25,6 +25,9 @@
     float: right;
     margin-bottom: 5px !important;
 }
+.slide-content-wrapper.standard .slide-content p {
+    margin-top: 10px;
+}
 /*</editor-fold>*/
 /*<editor-fold desc="Stacked Template">*/
 .slide-content-wrapper.stacked {
@@ -136,8 +139,8 @@
     .right .scslider-button-wrapper {
         width: 50% !important;
     }
-    .slide-content-wrapper.standard {
-        width: 50% !important;
+    .slide-content-wrapper.standard .scslider-button-wrapper {
+        margin: 15px 0 30px 0 !important;
     }
 }
 @media screen and ( max-width:767px ){
@@ -204,7 +207,7 @@
     margin-right: 0;
 }
 .slide-content.standard .scslider-button-wrapper {
-    margin: 25px 0 15px 0;
+    margin: 15px 0 0 0;
     float: right;
 }
 .scslide-fadeIn {

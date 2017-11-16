@@ -12,9 +12,6 @@
 .inside .slide-title {
     margin-bottom: 30px;
 }
-.inside .slide-content {
-    bottom: 12px !important;
-}
 .ajax-preview {
     height: 475px;
 }

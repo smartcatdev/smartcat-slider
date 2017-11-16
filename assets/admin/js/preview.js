@@ -41,7 +41,6 @@ jQuery( document ).ready( function ( $ ) {
     $( '#scslider_button2_color' ).wpColorPicker(wpColorPickerOptions);
     $( '#scslider_overlayer_color' ).wpColorPicker(wpColorPickerOptions);
     
-  
     $( '#scslider_media_box' ).change( function() {
         var src = $( '#scslider_media_box' ).val();
         update_template( null, src ) ;
@@ -77,8 +76,6 @@ jQuery( document ).ready( function ( $ ) {
         var button2_trans = $( '#scslider_button2_trans' ).val();
         var overlayer_color = $( '#scslider_overlayer_color' ).val();
         var overlayer_opacity = $( '#scslider_overlayer_opacity' ).val();
-        
-        
         
         if ( src !== undefined ) {
             
